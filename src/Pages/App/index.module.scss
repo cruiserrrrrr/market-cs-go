@@ -1,0 +1,32 @@
+:root {
+    --background-c-m: #131417;
+    --background-color-items: #181a1e;
+
+    --text-color-m: #FFFFFF;
+    --text-color-m-h: #a3a3a3;
+    --text-color-s: #7000E0;
+
+    --color-purple: #ee1ccb;
+    --color-purple-h: #a51890;
+    --color-blue: #74BF46;
+    --color-blue-h: #5B9C36;
+    --color-grey-not-active: #404040;
+}
+
+*,
+::after,
+::before {
+    margin: 0 0;
+    padding: 0 0;
+    box-sizing: border-box;
+
+    font-family: Inter, sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background-c-m);
+}

@@ -1,0 +1,11 @@
+.header {
+    background: var(--background-color-items);
+
+    .wrapper {
+        display: flex;
+
+        ul {
+            display: flex;
+        }
+    }
+}
