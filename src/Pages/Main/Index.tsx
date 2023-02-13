@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Container from "../../Components/Container/index";
-import Button from "../../Components/Button/index";
 import styles from './index.module.scss';
-import Header from "../../Components/Header/Index";
 import Marketitem from "../../Components/MarketItem/index";
 import arrayShuffle from 'array-shuffle';
 
