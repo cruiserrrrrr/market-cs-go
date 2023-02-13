@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../Components/Container/index";
 import Button from "../../Components/Button/index";
 import styles from './index.module.scss';
 import Header from "../../Components/Header/Index";
 import Marketitem from "../../Components/MarketItem/index";
+import arrayShuffle from 'array-shuffle';
+
 
 interface IMain {
 
@@ -13,12 +15,36 @@ const Main = (props: IMain) => {
 
     const { } = props;
 
+    const [getMarketItems, setGetMarketitems] = useState([]);
+
+    useEffect(() => {
+        const dataFetch = async () => {
+            const data = await (
+                await fetch(
+                    "https://634eda1fdf22c2af7b44a30d.mockapi.io/testovoe"
+                )
+            ).json();
+            setGetMarketitems(data);
+        };
+        dataFetch();
+    }, []);
+
+    const shuffled = arrayShuffle(getMarketItems);
+
     return (
         <div className={styles.wrapper}>
-            <Container>
-                <Button iconName="burger" size="medium" value="test" color="purple" handler={() => console.log('click')} uppercase="no" />
-                <Marketitem/>
-            </Container>
+            <div className={styles.items_container}>
+                {shuffled.map((item) => {
+                    return <Marketitem
+                        key={item.id}
+                        name={item.name}
+                        wearAbbreviated={item.wearAbbreviated}
+                        img={item.img}
+                        id={item.id}
+                        price={item.price}
+                    />
+                })}
+            </div>
         </div>
     )
 
