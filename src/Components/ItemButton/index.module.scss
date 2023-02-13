@@ -1,0 +1,12 @@
+.wrapper{
+    border: none;
+    background: transparent;
+    padding: 4px 0;
+    width: 100%;
+    color: var(--text-color-m);
+    transition: .25s;
+    cursor: pointer;
+}
+.wrapper:hover{
+    background: var(--color-purple-h);
+}

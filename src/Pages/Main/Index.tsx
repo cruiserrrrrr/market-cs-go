@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from './index.module.scss';
 import Marketitem from "../../Components/MarketItem/index";
 import arrayShuffle from 'array-shuffle';
+import ItemButton from "../../Components/ItemButton/index";
 
 
 interface IMain {
@@ -33,6 +34,7 @@ const Main = (props: IMain) => {
             <div className={styles.items_container}>
                 {shuffled.map((item) => {
                     return <Marketitem
+                        buttons={<ItemButton value="Add to cart"/>}
                         key={item.id}
                         name={item.name}
                         wearAbbreviated={item.wearAbbreviated}

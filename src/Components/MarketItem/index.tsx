@@ -14,17 +14,18 @@ interface IMarketItem {
     // amount: string;
     // rarity: string;
     // weaponId: string;
-    // category: string; 
+    // category: string;
+    buttons: any;
 
 }
 
 const Marketitem = (props: IMarketItem) => {
-    const {name, img, wearAbbreviated, price, id } = props;
+    const {name, img, wearAbbreviated, price, id, buttons } = props;
 
     return (
         <div className={styles.item_wrapper}>
             <div className={styles.dropdown}>
-                <p>add to cart</p>
+                {buttons}
             </div>
             <Link to={`/item${id}`}>
                 <div className={styles.content}>
