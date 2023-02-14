@@ -14,6 +14,7 @@
         .items_container {
             display: grid;
             width: 100%;
+            padding: 6px 6px;
             flex-wrap: wrap;
             grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
             gap: 6px;

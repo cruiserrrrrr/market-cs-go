@@ -18,6 +18,7 @@ const Main = (props: IMain) => {
         const data = await (
             await fetch(
                 "https://634eda1fdf22c2af7b44a30d.mockapi.io/testovoe"
+                // "https://api.jsonbin.io/v3/b/63ebb648ace6f33a22de5fe3"
             )
         ).json();
         setGetMarketitems(data);
@@ -27,7 +28,7 @@ const Main = (props: IMain) => {
     }, []);
 
     const shuffled = arrayShuffle(getMarketItems);
-
+    console.log(shuffled)
     return (
         <div className={styles.wrapper}>
             <div className={styles.items_wrapper}>

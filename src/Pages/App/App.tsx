@@ -9,7 +9,6 @@ const App = () => {
 
     return (
         <div className={styles.app}>
-            {/* <Main/> */}
             <Header/>
             <Routes>
                 <Route path='/' element={<Main />} />

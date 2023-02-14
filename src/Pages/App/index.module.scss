@@ -23,6 +23,21 @@
     font-family: Inter, sans-serif;
 }
 
+*::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background-color: var(--background-color-items);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--color-purple);
+    border-radius: 6px;
+}
+
+*::selection {
+    background-color: var(--text-color-m);
+}
+
 .app {
     display: flex;
     flex-direction: column;
