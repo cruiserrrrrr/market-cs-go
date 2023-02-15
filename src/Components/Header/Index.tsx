@@ -12,7 +12,8 @@ const Header = () => {
             <div className={styles.wrapper}>
                 <ul>
                     <NavItem to="/" title="market" value="Market"/>
-                    <NavItem to="/usercab" title="usercab" value="usercab" />
+                    <NavItem to="/faq" title="FAQ" value="FAQ" />
+                    <NavItem to="/support" title="Support" value="Support" />
                 </ul>
             </div>
         </div>

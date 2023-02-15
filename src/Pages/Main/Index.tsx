@@ -13,12 +13,14 @@ const Main = (props: IMain) => {
 
     const { } = props;
 
+    document.title = "CS:GO MARKET"
+
     const [getMarketItems, setGetMarketitems] = useState([]);
     const dataFetch = async () => {
         const data = await (
             await fetch(
                 "https://634eda1fdf22c2af7b44a30d.mockapi.io/testovoe"
-                // "https://api.jsonbin.io/v3/b/63ebb648ace6f33a22de5fe3"
+                // "https://api.jsonbin.io/v3/b/63ebb648ace6f33a22de5fe3/record"
             )
         ).json();
         setGetMarketitems(data);
@@ -43,6 +45,11 @@ const Main = (props: IMain) => {
                             id={item.id}
                             price={item.price}
                             rarity={item.rarity}
+                            type={item.type}
+                            wearFull={item.wearFull}
+                            amount={item.amount}
+                            category={item.category}
+                            weaponId={item.weaponId}
                         />
                     })}
                 </div>

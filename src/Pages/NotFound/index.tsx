@@ -3,6 +3,7 @@ import NavItem from "../../Components/NavItem/index";
 import styles from "./index.module.scss";
 
 const NotFound = () => {
+    document.title = "Not found"
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>

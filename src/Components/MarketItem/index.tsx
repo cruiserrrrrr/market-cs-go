@@ -7,20 +7,20 @@ interface IMarketItem {
     name: string;
     id: string;
     img: string;
-    // type: string;
+    type: string;
     wearAbbreviated: string;
-    // wearFull: string;
+    wearFull: string;
     price: string;
-    // amount: string;
+    amount: string;
     rarity: any;
-    // weaponId: string;
-    // category: string;
+    weaponId: string;
+    category: string;
     buttons: any;
 
 }
 
 const Marketitem = (props: IMarketItem) => {
-    const { name, img, wearAbbreviated, price, id, buttons, rarity } = props;
+    const { name, img, wearAbbreviated, price, id, buttons, rarity, type, wearFull, amount, category, weaponId } = props;
 
     return (
         <div className={`${styles.item_wrapper}`}>
@@ -28,7 +28,22 @@ const Marketitem = (props: IMarketItem) => {
                 <div className={styles.dropdown}>
                     {buttons}
                 </div>
-                <Link to={`/item${id}`}>
+                <Link title={name}
+                    to={`/item${id}`}
+                    state={{
+                        name: name,
+                        id: id,
+                        img: img,
+                        type: type,
+                        wearAbbreviated: wearAbbreviated,
+                        wearFull: wearFull,
+                        price: price,
+                        amount: amount,
+                        rarity: rarity,
+                        category: category,
+                        weaponId: weaponId,
+                    }}
+                >
                     <div className={styles.content}>
                         <div className={styles.image}>
                             <img src={img} alt={name} />
