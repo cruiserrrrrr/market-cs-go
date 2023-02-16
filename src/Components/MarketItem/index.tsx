@@ -25,8 +25,10 @@ const Marketitem = (props: IMarketItem) => {
     return (
         <div className={`${styles.item_wrapper}`}>
             <div className={`${styles.container} ${styles[rarity]}`}>
-                <div className={styles.dropdown}>
-                    {buttons}
+                <div className={styles.dropdown_wrapper}>
+                    <div className={styles.dropdown}>
+                        {buttons}
+                    </div>
                 </div>
                 <Link title={name}
                     to={`/item${id}`}

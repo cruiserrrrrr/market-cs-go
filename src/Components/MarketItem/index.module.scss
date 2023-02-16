@@ -2,6 +2,7 @@
     overflow: hidden;
     box-sizing: border-box;
     cursor: pointer;
+    border-radius: 4px;
 
     .container {
         display: flex;
@@ -15,23 +16,32 @@
         background: var(--background-color-items);
         padding: 6px 6px;
 
-        .dropdown {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .dropdown_wrapper {
+            // margin-top: -100%;
             width: 100%;
-            // height: 0;
-            // max-height: 0;
-            margin-top: -100%;
+            position: absolute;
+            // top: -100%;
+            margin-top: -23px;
             top: 0;
             left: 0;
-            background: var(--color-purple);
-            border-radius: 0 0 3px 3px;
-            transition: all .2s ease;
+            height: fit-content;
             z-index: 3;
+            border-radius: 0 0 3px 3px;
+            transition: .2s ease;
             overflow: hidden;
 
+            .dropdown {
+                // position: absolute;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+
+                background: var(--color-purple);
+                // transition: .2s;
+                overflow: hidden;
+
+            }
         }
 
         a {
@@ -173,7 +183,7 @@
         height: 100%;
         top: 0;
         left: 0;
-        background: linear-gradient(180deg,rgb(24,26,30) 0%,rgb(44,47,53) 100%);
+        background: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(44, 47, 53) 100%);
         opacity: .7;
         transition: opacity .2s cubic-bezier(.1, .7, .5, 1), color .2s cubic-bezier(.1, .7, .5, 1);
     }
@@ -182,12 +192,16 @@
 .item_wrapper:hover {
 
     .container {
-        .dropdown {
-            // height: auto;
-            // max-height: 140px;
+        .dropdown_wrapper {
             margin-top: 0;
             top: 0;
             left: 0;
+
+            .dropdown {
+                // height: auto;
+                // max-height: 140px;
+
+            }
         }
 
         a {
