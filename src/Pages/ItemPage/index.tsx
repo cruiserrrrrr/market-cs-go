@@ -4,6 +4,7 @@ import ItemButton from "../../Components/ItemButton/index";
 import Marketitem from "../../Components/MarketItem/index";
 import Button from "../../Components/Button/index";
 import styles from "./index.module.scss";
+import CategoryItem from "../../Components/CategoryItem/index";
 
 interface IItemPage {
 
@@ -15,7 +16,7 @@ const ItemPage = (props: IItemPage) => {
     const { } = props;
 
     const location = useLocation();
-    const { name, id, img, wearAbbreviated, price, rarity, data, wearFull } = location.state;
+    const { name, id, img, wearAbbreviated, price, rarity, data, wearFull, type, category } = location.state;
 
     const [itemId, setItemId] = useState(id);
     const [filtredData, setFiltredData] = useState(data);
@@ -59,8 +60,28 @@ const ItemPage = (props: IItemPage) => {
                     </div>
                 </div>
                 <div className={styles.description}>
-                    {price}
-                    {rarity}
+                    <div className={styles.info}>
+                        <div className={styles.name_description}>
+                            <p className={styles.type}>{type}</p>
+                            <p className={styles.name}>{name}</p>
+                        </div>
+                        <div className={styles.feature}>
+                            <CategoryItem value={rarity} itemRarity={rarity}/>
+                            <CategoryItem value={type} itemRarity="none"/>
+                        </div>
+                        <div className={styles.category}>
+                            <div className={styles.category_item}>
+                                <p className={styles.subtitle}>Category</p>
+                                <p className={styles.title}>{category}</p>
+                            </div>
+                            <div className={styles.category_item}>
+                                <p className={styles.subtitle}>Wear</p>
+                                <p className={styles.title}>{wearAbbreviated} - {wearFull}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div></div>
+                    <div></div>
                 </div>
                 <div className={styles.similar_items}>
                     {/* {data.map((item) => {
@@ -82,12 +103,6 @@ const ItemPage = (props: IItemPage) => {
                         />
                     })} */}
                 </div>
-                {/* {name}
-                {id}
-                <img src={img} alt="" />
-                {wearAbbreviated}
-                {price}
-                {rarity} */}
             </div>
             <div className={styles.img_blob}>
                 <img src={img} alt="" />

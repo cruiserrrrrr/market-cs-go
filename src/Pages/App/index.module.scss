@@ -32,10 +32,14 @@
 *::-webkit-scrollbar-thumb {
     background-color: var(--color-purple);
     border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
 }
 
 *::selection {
-    background-color: var(--text-color-m);
+    background-color: var(--color-purple);
 }
 
 .app {

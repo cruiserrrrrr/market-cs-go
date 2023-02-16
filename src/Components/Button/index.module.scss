@@ -1,10 +1,14 @@
 .wrapper {
-
     color: var(--text-color-m);
     transition: .15s;
     text-transform: uppercase;
+    -webkit-transition: .15s;
+    -moz-transition: .15s;
+    -ms-transition: .15s;
+    -o-transition: .15s;
 
     span {
+
         display: flex;
         align-items: center;
         justify-content: center;

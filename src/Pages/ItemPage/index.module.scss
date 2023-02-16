@@ -14,20 +14,21 @@
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         gap: 0px 0px;
         grid-template-areas:
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items"
-            "image image image description description description description description similar_items similar_items";
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items"
+            "image image image image description description description description similar_items similar_items";
 
         z-index: 2;
 
         .image {
+            width: 540px;
             grid-area: image;
 
             .img_wrapper {
@@ -38,6 +39,10 @@
                 position: relative;
                 background: var(--background-color-items);
                 border-radius: 12px 12px 0 0;
+                -webkit-border-radius: 12px 12px 0 0;
+                -moz-border-radius: 12px 12px 0 0;
+                -ms-border-radius: 12px 12px 0 0;
+                -o-border-radius: 12px 12px 0 0;
 
                 .img_container {
                     background:
@@ -66,16 +71,75 @@
                 display: flex;
                 padding: 27px 27px;
                 border-radius: 0 0 12px 12px;
+                -webkit-border-radius: 0 0 12px 12px;
+                -moz-border-radius: 0 0 12px 12px;
+                -ms-border-radius: 0 0 12px 12px;
+                -o-border-radius: 0 0 12px 12px;
                 align-items: center;
                 justify-content: center;
                 gap: 20px;
                 background: #1e2024;
+
             }
         }
 
         .description {
             margin: 0 20px;
             grid-area: description;
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+
+                .name_description {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    color: var(--text-color-m);
+
+                    .type {
+                        font-size: 16px;
+                        font-weight: 300;
+                        line-height: 24px;
+                        text-transform: uppercase;
+                    }
+
+                    .name {
+                        font-size: 34px;
+                        font-weight: 600;
+                        line-height: 34px;
+                    }
+                }
+
+                .feature {
+                    display: flex;
+                    gap: 20px;
+                }
+
+                .category {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .category_item {
+                        display: flex;
+                        flex-direction: column;
+
+                        .subtitle {
+                            padding: 4px 0;
+                            color: var(--text-color-m);
+                            opacity: .7;
+                        }
+
+                        .title {
+                            border-top: 2px solid var(--text-color-m);
+                            padding: 4px 0;
+                            color: var(--text-color-m);
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
         }
 
         .similar_items {
@@ -100,7 +164,7 @@
         justify-content: center;
         align-items: center;
         z-index: 0;
-        filter: blur(30px);
+        filter: blur(36px);
         overflow: hidden;
         opacity: .4;
 
@@ -108,7 +172,7 @@
             width: 1920px;
             height: 1080px;
             animation-name: animateBlob;
-            animation: 30s ease-in infinite  animateBlob;
+            animation: 30s ease-in infinite animateBlob;
 
         }
     }
