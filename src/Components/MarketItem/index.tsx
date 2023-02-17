@@ -16,11 +16,11 @@ interface IMarketItem {
     weaponId: string;
     category: string;
     buttons: any;
-
+    itemsData: any;
 }
 
 const Marketitem = (props: IMarketItem) => {
-    const { name, img, wearAbbreviated, price, id, buttons, rarity, type, wearFull, amount, category, weaponId } = props;
+    const { name, img, wearAbbreviated, price, id, buttons, rarity, type, wearFull, amount, category, weaponId, itemsData } = props;
 
     return (
         <div className={`${styles.item_wrapper}`}>
@@ -44,6 +44,7 @@ const Marketitem = (props: IMarketItem) => {
                         rarity: rarity,
                         category: category,
                         weaponId: weaponId,
+                        data: itemsData
                     }}
                 >
                     <div className={styles.content}>

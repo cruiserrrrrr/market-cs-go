@@ -4,8 +4,11 @@
     left: 0;
     background: var(--background-color-items);
     z-index: 2;
+
     .wrapper {
+        padding: 0 30px;
         display: flex;
+        align-items: center;
 
         ul {
             display: flex;

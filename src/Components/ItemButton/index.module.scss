@@ -1,11 +1,23 @@
 .wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     background: transparent;
     padding: 4px 0;
     width: 100%;
     color: var(--text-color-m);
+    font-size: 14px;
+    line-height: 14px;
     transition: .2s ease;
-    cursor: pointer;
+    cursor: pointer;   
+
+    svg{
+        fill: #FFFFFF;
+        width: 14px;
+        height: 14px;
+        margin-right: 4px;
+    }
 }
 .wrapper:hover{
     background: var(--color-purple-h);

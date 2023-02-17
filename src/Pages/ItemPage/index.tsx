@@ -5,33 +5,36 @@ import Marketitem from "../../Components/MarketItem/index";
 import Button from "../../Components/Button/index";
 import styles from "./index.module.scss";
 import CategoryItem from "../../Components/CategoryItem/index";
+import arrayShuffle from 'array-shuffle';
+
 
 interface IItemPage {
 
 }
 
-// , id, img, type, wearAbbreviated, wearFull, price, amount, rarity, category, weaponId
 const ItemPage = (props: IItemPage) => {
 
     const { } = props;
 
     const location = useLocation();
-    const { name, id, img, wearAbbreviated, price, rarity, data, wearFull, type, category } = location.state;
+    const { name, id, img, wearAbbreviated, price, rarity, data = [], wearFull, type, category, weaponId, amount } = location.state;
 
-    const [itemId, setItemId] = useState(id);
+    const [itemName, setItemname] = useState('none');
     const [filtredData, setFiltredData] = useState(data);
 
-    document.title = name + " (" + wearFull + ")";
+    document.title = "Buy " + name + " (" + wearFull + ")";
 
-    // useEffect(() => {
-    //     if (itemId !== id) {
-    //         setFiltredData(data.filter((item) => {
-    //             return item.id === itemId;
-    //         }))
-    //     } else {
-    //         setFiltredData(data)
-    //     }
-    // }, [id]);
+    useEffect(() => {
+        if (weaponId !== itemName) {
+            setFiltredData(data.filter((item) => {
+                return item.weaponId === weaponId;
+            }))
+        } else {
+            setFiltredData(data)
+        }
+    }, [weaponId]);
+
+    filtredData.sort(() => Math.random() - 0.5);
 
     return (
         <div className={styles.wrapper}>
@@ -66,8 +69,8 @@ const ItemPage = (props: IItemPage) => {
                             <p className={styles.name}>{name}</p>
                         </div>
                         <div className={styles.feature}>
-                            <CategoryItem value={rarity} itemRarity={rarity}/>
-                            <CategoryItem value={type} itemRarity="none"/>
+                            <CategoryItem value={rarity} itemRarity={rarity} />
+                            <CategoryItem value={type} itemRarity="none" />
                         </div>
                         <div className={styles.category}>
                             <div className={styles.category_item}>
@@ -80,28 +83,62 @@ const ItemPage = (props: IItemPage) => {
                             </div>
                         </div>
                     </div>
-                    <div></div>
-                    <div></div>
+                    <div className={styles.buy_zone}>
+                        <div className={styles.info}>
+                            <p className={styles.price}>{price}₽</p>
+                            <div className={styles.quantity}>
+                                <p>Available Quantity - <span>{amount}</span></p>
+                            </div>
+                        </div>
+                        <div className={styles.button_wrapper}>
+                            <Button value="Buy"
+                                handler={() => console.log('buy')}
+                                color="purple"
+                                size="all_width"
+                                iconName="sett"
+                                uppercase="none"
+                            />
+                            <Button value="Buy by limit"
+                                handler={() => console.log('buy by limit')}
+                                color="blue"
+                                size="all_width"
+                                iconName="sett"
+                                uppercase="none"
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.history}>
+                        <div className={styles.history_item}>
+                            <p className={styles.title}>Appearance history</p>
+                            <p className={styles.item_description}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sequi itaque alias repellat doloremque? Modi voluptates deserunt magni, neque qui libero sed doloribus cum similique facilis odio ipsam numquam laborum.</p>
+                        </div>
+                        <div className={styles.history_item}>
+                            <p className={styles.title}>Pattern description</p>
+                            <p className={styles.item_description}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic culpa asperiores similique ut? Quos, tenetur. Ullam eaque at architecto exercitationem quod nobis delectus corporis ducimus voluptatum! Unde fuga necessitatibus sint!</p>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.similar_items}>
-                    {/* {data.map((item) => {
-                        return <Marketitem
-                            itemsData={data}
-                            buttons={<ItemButton value="Add to cart" />}
-                            key={item.id}
-                            name={item.name}
-                            wearAbbreviated={item.wearAbbreviated}
-                            img={item.img}
-                            id={item.id}
-                            price={item.price}
-                            rarity={item.rarity}
-                            type={item.type}
-                            wearFull={item.wearFull}
-                            amount={item.amount}
-                            category={item.category}
-                            weaponId={item.weaponId}
-                        />
-                    })} */}
+                    <div className={styles.similar_container}>
+                        {filtredData.map((item) => {
+                            return <Marketitem
+                                itemsData={data}
+                                buttons={<ItemButton iconName="plus" value="Add to cart" />}
+                                key={item.id}
+                                name={item.name}
+                                wearAbbreviated={item.wearAbbreviated}
+                                img={item.img}
+                                id={item.id}
+                                price={item.price}
+                                rarity={item.rarity}
+                                type={item.type}
+                                wearFull={item.wearFull}
+                                amount={item.amount}
+                                category={item.category}
+                                weaponId={item.weaponId}
+                            />
+                        })}
+                    </div>
                 </div>
             </div>
             <div className={styles.img_blob}>

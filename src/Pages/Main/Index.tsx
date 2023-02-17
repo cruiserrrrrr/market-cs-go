@@ -37,7 +37,8 @@ const Main = (props: IMain) => {
                 <div className={styles.items_container}>
                     {shuffled.map((item) => {
                         return <Marketitem
-                            buttons={<ItemButton value="Add to cart" />}
+                            buttons={<ItemButton iconName="plus" value="Add to cart" />}
+                            itemsData={shuffled}
                             key={item.id}
                             name={item.name}
                             wearAbbreviated={item.wearAbbreviated}
