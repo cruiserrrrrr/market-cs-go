@@ -1,0 +1,28 @@
+.footer_wrapper {
+    border-top: 1px solid var(--color-purple);
+    width: 100%;
+    margin-top: auto;
+
+    .container {
+        padding: 30px 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas:
+            "creator info links"
+            "creator info links";
+
+        .creator {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            p {
+                margin-top: auto;
+                color: var(--text-color-m);
+                font-size: 14px;
+                font-weight: 300;
+            }
+        }
+    }
+}

@@ -43,17 +43,16 @@
                 -moz-border-radius: 12px 12px 0 0;
                 -ms-border-radius: 12px 12px 0 0;
                 -o-border-radius: 12px 12px 0 0;
-
                 .img_container {
                     background:
-                        linear-gradient(to right, rgba(255, 255, 255, .1) 1px, transparent 1px) 0 0,
-                        linear-gradient(to right, rgba(255, 255, 255, .1) 1px, transparent 1px) 0 100%,
-                        linear-gradient(to left, rgba(255, 255, 255, .1) 1px, transparent 2px) 100% 0,
-                        linear-gradient(to left, rgba(255, 255, 255, .1) 1px, transparent 2px) 100% 100%,
-                        linear-gradient(to bottom, rgba(255, 255, 255, .1) 1px, transparent 1px) 0 0,
-                        linear-gradient(to bottom, rgba(255, 255, 255, .1) 1px, transparent 1px) 100% 0,
-                        linear-gradient(to top, rgba(255, 255, 255, .1) 1px, transparent 2px) 0 100%,
-                        linear-gradient(to top, rgba(255, 255, 255, .1) 1px, transparent 2px) 100% 100%;
+                        linear-gradient(to right, rgba(109, 109, 228, .8) 1px, transparent 1px) 0 0,
+                        linear-gradient(to right, rgba(109, 109, 228, .8) 1px, transparent 1px) 0 100%,
+                        linear-gradient(to left, rgba(109, 109, 228, .8) 1px, transparent 2px) 100% 0,
+                        linear-gradient(to left, rgba(109, 109, 228, .8) 1px, transparent 2px) 100% 100%,
+                        linear-gradient(to bottom, rgba(109, 109, 228, .8) 1px, transparent 1px) 0 0,
+                        linear-gradient(to bottom, rgba(109, 109, 228, .8) 1px, transparent 1px) 100% 0,
+                        linear-gradient(to top, rgba(109, 109, 228, .8) 1px, transparent 2px) 0 100%,
+                        linear-gradient(to top, rgba(109, 109, 228, .8) 1px, transparent 2px) 100% 100%;
                     background-repeat: no-repeat;
                     background-size: 7.5px 7.5px;
                     display: flex;
@@ -152,19 +151,38 @@
                 margin-top: 10px;
 
                 .info {
-                    display: flex;
-                    justify-content: center;
-                    gap: 10px;
+                    width: 100%;
 
-                    .price {
-                        color: var(--text-color-m);
-                        font-size: 48px;
-                        font-weight: 600;
-                    }
-
-                    .quantity {
+                    .container {
                         display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .price {
+                            color: var(--text-color-m);
+                            font-size: 48px;
+                            font-weight: 600;
+                        }
+
+                        .quantity {
+                            display: flex;
+
+                            p {
+                                color: var(--text-color-m);
+                                font-size: 16px;
+                                line-height: 16px;
+                                font-weight: 200;
+
+                                span {
+                                    color: var(--text-color-m);
+                                    font-size: 16px;
+                                    line-height: 16px;
+                                    font-weight: 300;
+                                }
+                            }
+                        }
                     }
+
                 }
 
                 .button_wrapper {
@@ -311,7 +329,7 @@
             width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr 0.8fr 0.2fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 0.8fr 0.2fr 1fr 1fr 1fr ;
             gap: 0px 0px;
             grid-template-areas:
                 "image image image description description description description description description description"
@@ -319,8 +337,6 @@
                 "image image image description description description description description description description"
                 "image image image description description description description description description description"
                 "image image image description description description description description description description"
-                "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
-                "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
                 "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
                 "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
                 "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items";
@@ -335,7 +351,8 @@
                 overflow: scroll;
                 overflow-x: hidden;
                 max-height: 44vh;
-                .similar_container{
+
+                .similar_container {
                     gap: 4px;
                 }
             }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import Footer from '../../Components/Footer/index';
 import Header from '../../Components/Header/Index';
 import ItemPage from '../ItemPage';
 import Main from '../Main/Index';
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path='/*' element={<NotFound />} />
                 <Route path='/item:id' element={<ItemPage/>} />
             </Routes>
+            <Footer/>
         </div>
     );
 }

@@ -1,6 +1,8 @@
 .logo_container {
     cursor: pointer;
-
+    display: flex;
+    position: relative;
+    max-width: 160px;
     .logo {
         text-transform: uppercase;
         text-decoration: none;
@@ -83,7 +85,7 @@
 .logo_container:hover {
 
     .logo {
-        border-bottom: 6px solid #6D6DE4;
+        // border-bottom: 6px solid #6D6DE4;
 
         .first {
             color: var(--text-color-m);

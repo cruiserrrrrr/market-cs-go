@@ -22,7 +22,7 @@ const ItemPage = (props: IItemPage) => {
     const [itemName, setItemname] = useState('none');
     const [filtredData, setFiltredData] = useState(data);
 
-    document.title = "Buy " + name + " (" + wearFull + ")";
+    document.title = name + " (" + wearFull + ")";
 
     useEffect(() => {
         if (weaponId !== itemName) {
@@ -85,9 +85,11 @@ const ItemPage = (props: IItemPage) => {
                     </div>
                     <div className={styles.buy_zone}>
                         <div className={styles.info}>
-                            <p className={styles.price}>{price}₽</p>
-                            <div className={styles.quantity}>
-                                <p>Available Quantity - <span>{amount}</span></p>
+                            <div className={styles.container}>
+                                <p className={styles.price}>{price}₽</p>
+                                <div className={styles.quantity}>
+                                    <p>Available Quantity — <span>{amount}</span></p>
+                                </div>
                             </div>
                         </div>
                         <div className={styles.button_wrapper}>
