@@ -24,7 +24,7 @@ const ItemPage = (props: IItemPage) => {
     const [filtredData, setFiltredData] = useState(data);
     const [loading, setLoading] = useState(false);
 
-    const dataFetch = async () => {
+    const dataProcessing = () => {
         try {
             const timer = setTimeout(() => {
                 data
@@ -35,7 +35,7 @@ const ItemPage = (props: IItemPage) => {
         }
     };
     useEffect(() => {
-        dataFetch();
+        dataProcessing();
     }, []);
 
     useEffect(() => {

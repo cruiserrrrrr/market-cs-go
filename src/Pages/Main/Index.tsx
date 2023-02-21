@@ -7,6 +7,7 @@ import DropDownFilter from "../../Components/DropDownFilter/index";
 import FilterItem from "../../Components/FilterItem/index";
 import axios from "axios";
 import LoadingComponent from "../../Components/LoadingComponent/index";
+import Modal from "../../Components/Modal/index";
 
 
 interface IMain {
@@ -22,6 +23,7 @@ const Main = (props: IMain) => {
     const [getMarketItems, setGetMarketitems] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    // const [onActiveModal, setOnActiveModal] = useState(true);
 
     const dataFetch = async () => {
         try {
@@ -40,7 +42,7 @@ const Main = (props: IMain) => {
     }, []);
 
     const shuffled = arrayShuffle(getMarketItems);
-    
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.items_wrapper}>
@@ -70,6 +72,10 @@ const Main = (props: IMain) => {
                     <LoadingComponent />
                 }
             </div>
+            {/* <Modal activeModal={onActiveModal} setActiveModal={() => setOnActiveModal(true)}>
+                <p>test</p>
+            </Modal>
+            <button onClick={() => setOnActiveModal(false)}>click</button> */}
             <div className={styles.filter}>
                 <div className={styles.container}>
                     <div className={styles.header}>
@@ -86,7 +92,9 @@ const Main = (props: IMain) => {
                         <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
                     </DropDownFilter>
                 </div>
+
             </div>
+
         </div>
     )
 

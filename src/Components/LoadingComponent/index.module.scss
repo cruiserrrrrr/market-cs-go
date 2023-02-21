@@ -3,7 +3,7 @@
     height: 90vh;
     display: flex;
     position: relative;
-
+    z-index: 2;
     .loading_item {
         width: 20%;
         background: var(--color-purple);
