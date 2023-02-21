@@ -29,7 +29,8 @@
             opacity: .3;
             white-space: nowrap;
             animation: animate_title_shadow 5s infinite;
-        }
+            -webkit-animation: animate_title_shadow 5s infinite;
+}
 
         @keyframes animate_title_shadow {
             0% {

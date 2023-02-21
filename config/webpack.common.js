@@ -6,7 +6,6 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const StyleExtract = require("mini-css-extract-plugin")
 const Dotenv = require('dotenv-webpack');
 
-
 module.exports = {
     entry: {
         index: './src/index.tsx',
@@ -88,7 +87,19 @@ module.exports = {
                     'svgo-loader',
                 ],
             },
-
+            {
+                test: /\.(png|jpg|gif)$/i,
+                dependency: { not: ['url'] },
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                        }
+                    },
+                ],
+                type: 'javascript/auto'
+            },
         ],
     },
     plugins: [

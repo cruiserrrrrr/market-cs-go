@@ -15,7 +15,7 @@ interface IMarketItem {
     rarity: any;
     weaponId: string;
     category: string;
-    buttons: any;
+    buttons: JSX.Element;
     itemsData: any;
 }
 

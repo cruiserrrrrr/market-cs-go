@@ -1,0 +1,45 @@
+.filteritem_wrapper {
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+
+    .container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .checkbox {
+            display: none;
+        }
+
+        .checkbox+.custom_checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #4d4d4d;
+            border-radius: 6px;
+            box-sizing: border-box;
+            background-color: #1f1f1f;
+            transition: .25s;
+            -webkit-transition: .25s;
+            -moz-transition: .25s;
+            -ms-transition: .25s;
+            -o-transition: .25s;
+}
+
+        .checkbox:checked+.custom_checkbox {
+            background-size: cover;
+            background-image: url("/src/img/check_mark_purple.png");
+            border: 1px solid var(--color-purple-h);
+            background-color: var(--color-purple);
+        }
+
+        .item_value {
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: 300;
+            color: var(--text-color-m);
+            cursor: pointer;
+
+        }
+    }
+}
