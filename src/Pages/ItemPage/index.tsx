@@ -8,6 +8,7 @@ import CategoryItem from "../../Components/CategoryItem/index";
 import arrayShuffle from 'array-shuffle';
 import LoadingComponent from "../../Components/LoadingComponent/index";
 import axios from "axios";
+import Modal from "../../Components/Modal/index";
 
 interface IItemPage {
 
@@ -17,7 +18,7 @@ const ItemPage = (props: IItemPage) => {
 
     const { } = props;
     const location = useLocation();
-    const { name, id, img, wearAbbreviated, price, rarity, data = [], wearFull, type, category, weaponId, amount } = location.state;
+    const { name, id, img, wearAbbreviated, price, rarity, data = [], wearFull, type, category, weaponId, amount, appearanceHistory, patternDescription, linkInGAme } = location.state;
     document.title = name + " (" + wearFull + ")";
 
     const [itemName, setItemname] = useState('none');
@@ -50,6 +51,8 @@ const ItemPage = (props: IItemPage) => {
 
     filtredData.sort(() => Math.random() - 0.5);
 
+    const [onActiveModal, setOnActiveModal] = useState(true);
+
     return (
         <div className={styles.wrapper}>
             {loading ?
@@ -65,16 +68,18 @@ const ItemPage = (props: IItemPage) => {
                                 handler={() => console.log('add to cart')}
                                 color="purple"
                                 size="medium"
-                                iconName="sett"
+                                iconName="cart"
                                 uppercase="none"
                             />
-                            <Button value="Sell a limit"
-                                handler={() => console.log('sell a limit')}
+                            {/* <Button value="View in game"
+                                handler={() => testHref}
                                 color="blue"
                                 size="medium"
-                                iconName="sett"
+                                iconName="monitor"
                                 uppercase="none"
-                            />
+                                href={linkInGAme}
+                            /> */}
+                            <a href={linkInGAme}>View in game</a>
                         </div>
                     </div>
                     <div className={styles.description}>
@@ -112,26 +117,34 @@ const ItemPage = (props: IItemPage) => {
                                     handler={() => console.log('buy')}
                                     color="purple"
                                     size="all_width"
-                                    iconName="sett"
+                                    iconName="fire"
                                     uppercase="none"
                                 />
                                 <Button value="Buy by limit"
-                                    handler={() => console.log('buy by limit')}
+                                    handler={() => console.log()}
                                     color="blue"
                                     size="all_width"
-                                    iconName="sett"
+                                    iconName="limit"
                                     uppercase="none"
+                                    onClick={() => setOnActiveModal(false)}
                                 />
                             </div>
+                            <Modal activeModal={onActiveModal} setActiveModal={() => setOnActiveModal(true)}>
+                                <p>test </p>
+                            </Modal>
                         </div>
                         <div className={styles.history}>
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Appearance history</p>
-                                <p className={styles.item_description}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sequi itaque alias repellat doloremque? Modi voluptates deserunt magni, neque qui libero sed doloribus cum similique facilis odio ipsam numquam laborum.</p>
+                                <p className={styles.item_description}>
+                                    {appearanceHistory}
+                                </p>
                             </div>
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Pattern description</p>
-                                <p className={styles.item_description}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic culpa asperiores similique ut? Quos, tenetur. Ullam eaque at architecto exercitationem quod nobis delectus corporis ducimus voluptatum! Unde fuga necessitatibus sint!</p>
+                                <p className={styles.item_description}>
+                                    {patternDescription}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -153,6 +166,9 @@ const ItemPage = (props: IItemPage) => {
                                     amount={item.amount}
                                     category={item.category}
                                     weaponId={item.weaponId}
+                                    appearanceHistory={item.appearanceHistory}
+                                    patternDescription={item.patternDescription}
+                                    linkInGAme={item.linkInGAme}
                                 />
                             })}
                         </div>

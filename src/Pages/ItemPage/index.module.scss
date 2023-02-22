@@ -5,7 +5,7 @@
     padding: 20px 20px;
     display: flex;
     gap: 20px;
-    position: relative;
+    // position: relative;
 
     .container {
         width: 100%;
@@ -43,6 +43,7 @@
                 -moz-border-radius: 12px 12px 0 0;
                 -ms-border-radius: 12px 12px 0 0;
                 -o-border-radius: 12px 12px 0 0;
+
                 .img_container {
                     background:
                         linear-gradient(to right, rgba(109, 109, 228, .8) 1px, transparent 1px) 0 0,
@@ -79,6 +80,21 @@
                 gap: 20px;
                 background: #1e2024;
 
+                a {
+                    font-size: 18px;
+                    line-height: 18px;
+                    font-weight: 600;
+                    color: var(--text-color-m);
+                    text-decoration: none;
+                    transition: .2s;
+                    -webkit-transition: .2s;
+                    -moz-transition: .2s;
+                    -ms-transition: .2s;
+                    -o-transition: .2s;
+}
+                a:hover{
+                    color: var(--text-color-m-h);
+                }
             }
         }
 
@@ -323,13 +339,13 @@
         padding: 20px 20px;
         display: flex;
         gap: 20px;
-        position: relative;
+        // position: relative;
 
         .container {
             width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr 0.8fr 0.2fr 1fr 1fr 1fr ;
+            grid-template-rows: 1fr 1fr 1fr 0.8fr 0.2fr 1fr 1fr 1fr;
             gap: 0px 0px;
             grid-template-areas:
                 "image image image description description description description description description description"

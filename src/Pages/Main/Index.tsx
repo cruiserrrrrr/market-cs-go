@@ -23,14 +23,13 @@ const Main = (props: IMain) => {
     const [getMarketItems, setGetMarketitems] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // const [onActiveModal, setOnActiveModal] = useState(true);
 
     const dataFetch = async () => {
         try {
             const data = await axios
-                .get("https://api.jsonbin.io/v3/b/63ebb648ace6f33a22de5fe3")
+                .get("https://api.npoint.io/f563c815fc2a6c62889f")
                 .then(res => {
-                    setGetMarketitems(res.data.record)
+                    setGetMarketitems(res.data)
                 });
             setLoading(true)
         } catch (e) {
@@ -65,6 +64,9 @@ const Main = (props: IMain) => {
                                     amount={item.amount}
                                     category={item.category}
                                     weaponId={item.weaponId}
+                                    appearanceHistory={item.appearanceHistory}
+                                    patternDescription={item.patternDescription}
+                                    linkInGAme={item.linkInGAme}
                                 />
                             })
                         }

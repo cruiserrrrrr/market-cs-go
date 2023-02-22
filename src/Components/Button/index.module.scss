@@ -1,5 +1,4 @@
 .wrapper {
-    color: var(--text-color-m);
     transition: .15s;
     text-transform: uppercase;
     -webkit-transition: .15s;
@@ -12,6 +11,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        text-decoration: none;
+        color: var(--text-color-m);
 
         .btn_icon {
             fill: #FFFFFF;
@@ -54,7 +55,22 @@
 .na:active {
     transform: scale(1);
 }
+.small {
+    width: fit-content;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    padding: 2px 2px;
+    font-size: 8px;
+    line-height: 8px;
 
+    .btn_icon {
+        height: 14px;
+        width: 14px;
+    }
+}
 .narrow {
     border-radius: 4px;
     padding: 8px 12px;

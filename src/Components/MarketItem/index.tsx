@@ -5,22 +5,25 @@ import styles from './index.module.scss';
 
 interface IMarketItem {
     name: string;
-    id: string;
+    id: number;
     img: string;
     type: string;
     wearAbbreviated: string;
     wearFull: string;
-    price: string;
-    amount: string;
+    price: number;
+    amount: number;
     rarity: any;
-    weaponId: string;
+    weaponId: number;
     category: string;
     buttons: JSX.Element;
     itemsData: any;
+    appearanceHistory: string;
+    patternDescription: string;
+    linkInGAme: string;
 }
 
 const Marketitem = (props: IMarketItem) => {
-    const { name, img, wearAbbreviated, price, id, buttons, rarity, type, wearFull, amount, category, weaponId, itemsData } = props;
+    const { name, img, wearAbbreviated, price, id, buttons, rarity, type, wearFull, amount, category, weaponId, itemsData, appearanceHistory, patternDescription, linkInGAme } = props;
 
     return (
         <div className={`${styles.item_wrapper}`}>
@@ -44,7 +47,10 @@ const Marketitem = (props: IMarketItem) => {
                         rarity: rarity,
                         category: category,
                         weaponId: weaponId,
-                        data: itemsData
+                        data: itemsData,
+                        appearanceHistory: appearanceHistory,
+                        patternDescription: patternDescription,
+                        linkInGAme: linkInGAme
                     }}
                 >
                     <div className={styles.content}>
