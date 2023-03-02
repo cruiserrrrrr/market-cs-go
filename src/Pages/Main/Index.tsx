@@ -8,7 +8,7 @@ import FilterItem from "../../Components/FilterItem/index";
 import axios from "axios";
 import LoadingComponent from "../../Components/LoadingComponent/index";
 import Modal from "../../Components/Modal/index";
-
+import filtersData from "../../Components/filters.json"
 
 interface IMain {
 
@@ -20,16 +20,17 @@ const Main = (props: IMain) => {
 
     document.title = "CS:GO MARKET"
 
-    const [getMarketItems, setGetMarketitems] = useState([]);
     const [loading, setLoading] = useState(false);
-
-
+    const [filters, setFilters] = useState({ rarity: [], wearFull: [], type: [] });
+    
+    const [filtredData, setFiltredData] = useState([]);
+    
     const dataFetch = async () => {
         try {
             const data = await axios
                 .get("https://api.npoint.io/f563c815fc2a6c62889f")
                 .then(res => {
-                    setGetMarketitems(res.data)
+                    setFiltredData(arrayShuffle(res.data))
                 });
             setLoading(true)
         } catch (e) {
@@ -40,7 +41,24 @@ const Main = (props: IMain) => {
         dataFetch();
     }, []);
 
-    const shuffled = arrayShuffle(getMarketItems);
+    useEffect(() => {
+        filtredData.map((item) => {
+            console.log(item)
+        })
+    }, [filters]);
+
+    const filterHandler = (name, value) => {
+        const arrCategory = filters[name];
+        const index = arrCategory.indexOf(value);
+        let result;
+
+        if (index >= 0) {
+            result = arrCategory.filter(item => item !== value)
+        } else {
+            result = [...arrCategory, value];
+        }
+        setFilters({ ...filters, [name]: result });
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -48,10 +66,10 @@ const Main = (props: IMain) => {
                 {loading ?
                     <div className={styles.items_container}>
                         {
-                            shuffled.map((item) => {
+                            filtredData.map((item) => {
                                 return <Marketitem
                                     buttons={<ItemButton iconName="plus" value="Add to cart" />}
-                                    itemsData={shuffled}
+                                    itemsData={filtredData}
                                     key={item.id}
                                     name={item.name}
                                     wearAbbreviated={item.wearAbbreviated}
@@ -74,10 +92,6 @@ const Main = (props: IMain) => {
                     <LoadingComponent />
                 }
             </div>
-            {/* <Modal activeModal={onActiveModal} setActiveModal={() => setOnActiveModal(true)}>
-                <p>test</p>
-            </Modal>
-            <button onClick={() => setOnActiveModal(false)}>click</button> */}
             <div className={styles.filter}>
                 <div className={styles.container}>
                     <div className={styles.header}>
@@ -85,18 +99,23 @@ const Main = (props: IMain) => {
                             filter
                         </p>
                     </div>
-                    <DropDownFilter title="filter">
-                        <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
-                        <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
-                        <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
-                        <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
-                        <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
-                        <FilterItem handler={() => console.log('click')} value="test1" iconName="plus" />
+                    <DropDownFilter title="rarity">
+                        {filtersData.rarity.map((element, index) => (
+                            <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
+                        ))}
+                    </DropDownFilter>
+                    <DropDownFilter title="wearFull">
+                        {filtersData.wearFull.map((element, index) => (
+                            <FilterItem onClick={filterHandler} value={element} key={element + index} title="wearFull" />
+                        ))}
+                    </DropDownFilter>
+                    <DropDownFilter title="type">
+                        {filtersData.type.map((element, index) => (
+                            <FilterItem onClick={filterHandler} value={element} key={element + index} title="type" />
+                        ))}
                     </DropDownFilter>
                 </div>
-
             </div>
-
         </div>
     )
 

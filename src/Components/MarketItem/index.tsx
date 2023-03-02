@@ -60,7 +60,7 @@ const Marketitem = (props: IMarketItem) => {
                     </div>
                     <div className={styles.info}>
                         <p className={styles.wear}>{wearAbbreviated}</p>
-                        <p className={styles.price}>{price}₽</p>
+                        <p className={styles.price}>{price}$</p>
                         <p className={styles.name}>{name}</p>
                     </div>
                 </Link>

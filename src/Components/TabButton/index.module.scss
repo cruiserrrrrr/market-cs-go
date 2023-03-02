@@ -1,0 +1,23 @@
+.button {
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-color-m);
+    background: transparent;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+.active_button {
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--color-purple);
+    background: var(--background-color-items);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+
+}

@@ -1,0 +1,26 @@
+{
+    "wearFull": [
+        "contraband",
+        "covert",
+        "mill_spec_grade",
+        "consumer_grade",
+        "restricted",
+        "industrial_grade",
+        "consumer_grade"
+    ],
+    "type": [
+        "Factory New",
+        "Minimal wear",
+        "Field-Tested",
+        "Well-Worn",
+        "Battle-Scarred"
+    ],
+    "rarity": [
+        "rifle",
+        "pistols",
+        "sniper_rifle",
+        "smg",
+        "shotgun",
+        "machinegun"
+    ]
+}

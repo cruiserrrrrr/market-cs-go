@@ -9,9 +9,18 @@
         padding: 0 20px;
         display: flex;
         align-items: center;
-
-        ul {
+        justify-content: space-between;
+        .left_side {
             display: flex;
+            align-items: center;
+            ul {
+                display: flex;
+            }
+        }
+        .right_side{
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     }
 }

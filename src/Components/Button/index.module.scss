@@ -5,6 +5,7 @@
     -moz-transition: .15s;
     -ms-transition: .15s;
     -o-transition: .15s;
+    text-align: center;
 
     span {
 
@@ -46,15 +47,26 @@
     cursor: pointer;
 }
 
-.na {
+.border {
+    border: 1px solid var(--color-purple);
+    background: transparent;
+}
+
+.border:hover {
+    border: 1px solid var(--color-purple-h);
+    cursor: pointer;
+}
+
+.not_active {
     border: none;
     background: var(--color-grey-not-active);
     cursor: not-allowed;
 }
 
-.na:active {
+.not_active:active {
     transform: scale(1);
 }
+
 .small {
     width: fit-content;
     border-radius: 4px;
@@ -71,6 +83,7 @@
         width: 14px;
     }
 }
+
 .narrow {
     border-radius: 4px;
     padding: 8px 12px;
