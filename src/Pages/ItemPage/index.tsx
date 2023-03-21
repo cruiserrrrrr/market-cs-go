@@ -22,12 +22,36 @@ const ItemPage = (props: IItemPage) => {
     const { } = props;
     const location = useLocation();
     const { name, id, img, wearAbbreviated, price, rarity, data = [], wearFull, type, category, weaponId, amount, appearanceHistory, patternDescription, linkInGAme } = location.state;
-    document.title = name + " (" + wearFull + ")";
+
+    
 
     const [itemName, setItemname] = useState('none');
     const [filtredData, setFiltredData] = useState(data);
     const [loading, setLoading] = useState(false);
     const [statusBuy, setStatusBuy] = useState(0);
+    const [onActiveModal, setOnActiveModal] = useState(true);
+    const [item, setItem] = useState({});
+
+    const dataFetch = async () => {
+        try {
+            const data = await axios
+                .get(`http://localhost:3030/allItemsOnSell/${id}`)
+                .then(res => {
+                    setItem(res.data)
+                });
+            setLoading(true)
+        } catch (e) {
+            console.log(e)
+        }
+    };
+    useEffect(() => {
+        dataFetch();
+    }, []);
+
+    console.log(item)
+    useEffect(() => {
+        document.title = item.name + " (" + item.wearFull + ")";
+    }, [])
 
     const dataProcessing = () => {
         try {
@@ -41,25 +65,18 @@ const ItemPage = (props: IItemPage) => {
     };
     useEffect(() => {
         dataProcessing();
+        filtredData.sort(() => Math.random() - 0.5);
     }, []);
 
     useEffect(() => {
         if (weaponId !== itemName) {
             setFiltredData(data.filter((item) => {
-                return item.weaponId === weaponId;
+                return item.name === name;
             }))
         } else {
             setFiltredData(data)
         }
     }, [weaponId]);
-
-    filtredData.sort(() => Math.random() - 0.5);
-
-    const [onActiveModal, setOnActiveModal] = useState(true);
-
-    const TELEGRAM_ID_GROOP = -756966274;
-
-    // ?chat_id=${CHAT_ID}&text=%20Product%20purchased%20${name}%20—%20${price}$
 
     const CHAT_ID = -1001866746317;
     const TOKEN = "5851306296:AAFrPni6Ahnn8yG27fjhnsn5VnlZnjPHanY";
@@ -71,6 +88,7 @@ const ItemPage = (props: IItemPage) => {
         message += `<b>Skin: </b> ${name} (${wearFull})\n`;
         message += `<b>By price: </b> ${price}$\n`;
         message += `<b>Thanks!</b>`;
+        // message += `${img}`;
 
         axios.post(URL, {
             chat_id: CHAT_ID,
@@ -86,19 +104,6 @@ const ItemPage = (props: IItemPage) => {
             })
     };
 
-    // const statusBuy = (price) => {
-    //     if (price > 0) {
-    //         return <p className={styles.price}>NotValue</p>
-
-    //     }
-    //     return <p className={styles.price}>{price}$</p>
-
-    // }
-
-    // useEffect(() => {
-    //     statusBuy
-    // }, [])
-
     return (
         <div className={styles.wrapper}>
             {loading ?
@@ -106,7 +111,7 @@ const ItemPage = (props: IItemPage) => {
                     <div className={styles.image}>
                         <div className={styles.img_wrapper}>
                             <div className={styles.img_container}>
-                                <img src={img} alt="" />
+                                <img src={item.img} alt="" />
                             </div>
                         </div>
                         <div className={styles.image_buttons}>
@@ -131,21 +136,21 @@ const ItemPage = (props: IItemPage) => {
                     <div className={styles.description}>
                         <div className={styles.info}>
                             <div className={styles.name_description}>
-                                <p className={styles.type}>{type}</p>
-                                <p className={styles.name}>{name}</p>
+                                <p className={styles.type}>{item.type}</p>
+                                <p className={styles.name}>{item.name}</p>
                             </div>
                             <div className={styles.feature}>
-                                <CategoryItem value={rarity} itemRarity={rarity} />
-                                <CategoryItem value={type} itemRarity="none" />
+                                <CategoryItem value={rarity} itemRarity={item.rarity} />
+                                <CategoryItem value={item.type} itemRarity="none" />
                             </div>
                             <div className={styles.category}>
                                 <div className={styles.category_item}>
                                     <p className={styles.subtitle}>Category</p>
-                                    <p className={styles.title}>{category}</p>
+                                    <p className={styles.title}>{item.category}</p>
                                 </div>
                                 <div className={styles.category_item}>
                                     <p className={styles.subtitle}>Wear</p>
-                                    <p className={styles.title}>{wearAbbreviated} - {wearFull}</p>
+                                    <p className={styles.title}>{item.wearAbbreviated} - {item.wearFull}</p>
                                 </div>
                             </div>
                         </div>
@@ -155,10 +160,10 @@ const ItemPage = (props: IItemPage) => {
                                     <div className={styles.info}>
                                         <div className={styles.container}>
                                             <p className={styles.price}>
-                                                {price}$
+                                                {item.price}$
                                             </p>
                                             <div className={styles.quantity}>
-                                                <p>Available Quantity — <span>{amount}</span></p>
+                                                <p>Available Quantity — <span>{item.amount}</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -193,13 +198,13 @@ const ItemPage = (props: IItemPage) => {
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Appearance history</p>
                                 <p className={styles.item_description}>
-                                    {appearanceHistory}
+                                    {item.appearanceHistory}
                                 </p>
                             </div>
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Pattern description</p>
                                 <p className={styles.item_description}>
-                                    {patternDescription}
+                                    {item.patternDescription}
                                 </p>
                             </div>
                         </div>
@@ -233,9 +238,9 @@ const ItemPage = (props: IItemPage) => {
                 :
                 <LoadingComponent />
             }
-            <div className={styles.img_blob}>
+            {/* <div className={styles.img_blob}>
                 <img src={img} alt="" />
-            </div>
+            </div> */}
         </div>
     )
 }

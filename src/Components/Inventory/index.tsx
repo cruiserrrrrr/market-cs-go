@@ -5,6 +5,10 @@ import LoadingComponent from "../LoadingComponent";
 import Marketitem from "../MarketItem";
 import InventoryItem from "../InventoryItem";
 import { Link } from "react-router-dom";
+import InventoryCartItem from "../InventoryCartItem";
+import Button from "../Button";
+import Modal from "../Modal";
+import InventoryCart from "../InventoryCart";
 
 interface IInventory {
     expand: () => void;
@@ -19,18 +23,21 @@ const Inventory = (props: IInventory) => {
 
     const [getInventoryItems, setGetInventoryItems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [choiceItems, setChoiceItems] = useState([]);
+    const [isCartActive, setisCartActive] = useState(true);
+    const [dataItems, setDataItems] = useState([]);
 
-    const [isActiveItem, setisActiveItem] = useState(true);
-    const [choiceItems, setChoiceItems] = useState(['t1', 't2']);
-    const [active, setActive] = useState();
 
+
+
+    const onActiveCart = () => setisCartActive(!isCartActive)
 
     const dataFetch = async () => {
         try {
             const data = await axios
-                .get("https://api.jsonbin.io/v3/b/63fe00feace6f33a22e70225")
+                .get("http://localhost:3030/usersList")
                 .then(res => {
-                    setGetInventoryItems(res.data.record)
+                    setGetInventoryItems(res.data)
                 });
             setLoading(true)
         } catch (e) {
@@ -41,15 +48,60 @@ const Inventory = (props: IInventory) => {
         dataFetch();
     }, []);
 
-    const addItem = (index) => {
-        setActive(index);
-        const item = {
-            name: "test",
-        };
-        setChoiceItems(current => [...current, 't3']);
-        console.log(choiceItems);
-        setisActiveItem(!isActiveItem);
+    const addItem = (value) => {
+        setChoiceItems(current => [...current, value]);
     }
+    const deleteItem = (value) => {
+        setChoiceItems(choiceItems.filter(note => note.id !== value.id))
+    }
+    const hueta = (value) => {
+        let itemid = choiceItems.filter(item => item.id === value.id);
+        if (itemid.length) {
+            deleteItem(value)
+        } else {
+            addItem(value)
+        }
+    }
+
+    const postCart = (event) => {
+        event.preventDefault();
+        const postData = choiceItems.forEach(item => axios.post(`https://634eda1fdf22c2af7b44a30d.mockapi.io/userPurchaseItems`, item)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            }));
+        const deleteChoiceItems = choiceItems.forEach(item => axios.delete('https://api.jsonbin.io/v3/b/63fe00feace6f33a22e70225', item)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            }))
+    }
+    // getInventoryItems.find((item) => {
+    //     if (item.userName === "cruiserrrrrr") {
+    //         // return item
+    //         console.log(axios.post(item?.userItemsInventoryList)
+    //             .then(res => {
+    //                 console.log(res);
+    //                 console.log(res.data);
+    //             }))
+    //     }
+    // }
+    const inventoryItems = getInventoryItems.find((item) => {
+        if (item.userName === "cruiserrrrrr") {
+            return item
+        }
+    })
+    console.log(
+        getInventoryItems.find((item) => {
+            if (item.userName === "cruiserrrrrr") {
+                return axios.get('http://localhost:3030/usersList?userName=cruiserrrrrr')
+                    // .then(res => {
+                    //     console.log(res);
+                    //     console.log(res.data);
+                    // })
+            }
+        })
+    )
 
     return (
         <div className={isActive === tabButtonIndex ? styles.inventory_wrapper__active : styles.inventory_wrapper}>
@@ -57,12 +109,10 @@ const Inventory = (props: IInventory) => {
                 {loading ?
                     <div className={styles.items_container}>
                         {
-                            getInventoryItems.map((item) => {
+                            inventoryItems?.userItemsInventoryList.map((item, index) => {
                                 return <InventoryItem
-                                    index={item.id}
-                                    activeItem={active}
-                                    // onChange={() => addItem(item.id)}
-                                    onClick={() => addItem(item.id)}
+                                    key={index}
+                                    onClick={() => hueta(item)}
                                     buttons={
                                         <Link to={`/item${item.id}`}
                                             state={{
@@ -85,7 +135,6 @@ const Inventory = (props: IInventory) => {
                                             View in market
                                         </Link>
                                     }
-                                    key={item.id}
                                     name={item.name}
                                     wearAbbreviated={item.wearAbbreviated}
                                     img={item.img}
@@ -105,14 +154,22 @@ const Inventory = (props: IInventory) => {
                     </div> :
                     <LoadingComponent />
                 }
+                <div className={styles.cart} onClick={onActiveCart}>
+                    <p className={styles.cart_amount}>{choiceItems.length}</p>
+                    <p className={styles.cart_title}>items cart</p>
+                </div>
             </div>
-            <div>
+            {/* <Button value="Close" size="small" color="purple" onClick={onActiveCart} /> */}
+            <Modal activeModal={isCartActive} setActiveModal={setisCartActive}>
                 {
-                    choiceItems.map((element, index) => {
-                        return <p key={index}>{element}</p>
-                    })
+                    choiceItems.length <= 0 ?
+                        <div className={styles.zero_items}>
+                            <p>Please choice items for sale</p>
+                        </div>
+                        :
+                        <InventoryCart dataCart={choiceItems} onClickSend={postCart} />
                 }
-            </div>
+            </Modal>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 interface IMarketItem {
     name: string;
-    id: number;
+    id: string;
     img: string;
     type: string;
     wearAbbreviated: string;

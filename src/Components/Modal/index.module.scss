@@ -9,11 +9,7 @@
     justify-content: center;
     align-items: center;
 
-    transform: scale(0);
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    -o-transform: scale(0);
+
 
     overflow: hidden;
     z-index: -4;
@@ -31,14 +27,14 @@
     .container {
         display: flex;
         position: relative;
+        align-items: center;
         flex-direction: column;
-        width: 200px;
-        height: 200px;
+        min-width: 200px;
+        min-height: 200px;
         padding: 10px 10px;
 
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        background-color: rgba(17, 25, 40, 0.75);
+
+        background-color: var(--background-c-m);
         border-radius: 12px;
         border: 1px solid var(--color-purple);
         -webkit-border-radius: 12px;
@@ -46,6 +42,12 @@
         -ms-border-radius: 12px;
         -o-border-radius: 12px;
         z-index: 21;
+
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
 
         button {
             position: absolute;
@@ -70,36 +72,37 @@
     align-items: center;
 
 
-    transition: .2s ease;
-    -webkit-transition: .2s ease;
-    -moz-transition: .2s ease;
-    -ms-transition: .2s ease;
-    -o-transition: .2s ease;
+
     z-index: 20;
 
     opacity: 1;
     pointer-events: all;
+    overflow: hidden;
 
     .container {
         display: flex;
-        position: relative;
-        flex-direction: column;
-        width: 200px;
-        height: 200px;
-        padding: 10px 10px;
-
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        background-color: rgba(17, 25, 40, 0.75);
-        border-radius: 12px;
+        position: absolute;
+        min-width: 200px;
+        min-height: 200px;
+        max-height: 96vh;
+        // overflow: scroll;
+        overflow-x: hidden;
+        padding: 20px 20px;
+        background-color: var(--background-c-m);
         border: 1px solid var(--color-purple);
-        -webkit-border-radius: 12px;
-        -moz-border-radius: 12px;
-        -ms-border-radius: 12px;
-        -o-border-radius: 12px;
+        border-radius: 12px 0 0 12px;
+        -webkit-border-radius: 12px 0 0 12px;
+        -moz-border-radius: 12px 0 0 12px;
+        -ms-border-radius: 12px 0 0 12px;
+        -o-border-radius: 12px 0 0 12px;
         z-index: 21;
+        transition: .2s ease;
+        -webkit-transition: .2s ease;
+        -moz-transition: .2s ease;
+        -ms-transition: .2s ease;
+        -o-transition: .2s ease;
 
-        button {
+        .button_pos {
             position: absolute;
             top: 10px;
             right: 10px;

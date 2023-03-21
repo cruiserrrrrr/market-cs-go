@@ -1,0 +1,29 @@
+.custom_input {
+    background: var(--background-c-m);
+    color: var(--text-color-m);
+    padding: 6px 12px;
+    max-width: 320px;
+    outline: none;
+    border: 1px solid var(--background-color-items);
+
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+
+    transition: .25s;
+    -webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+
+    font-size: 24px;
+    font-weight: 300;
+    cursor: pointer;
+
+}
+
+.custom_input:focus {
+    border: 1px solid var(--color-purple);
+}

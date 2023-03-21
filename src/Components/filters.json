@@ -1,5 +1,5 @@
 {
-    "wearFull": [
+    "rarity": [
         "contraband",
         "covert",
         "mill_spec_grade",
@@ -8,19 +8,54 @@
         "industrial_grade",
         "consumer_grade"
     ],
-    "type": [
+    "wearFull": [
         "Factory New",
-        "Minimal wear",
+        "Minimal Wear",
         "Field-Tested",
         "Well-Worn",
         "Battle-Scarred"
     ],
-    "rarity": [
+    "type": [
         "rifle",
         "pistols",
         "sniper_rifle",
         "smg",
         "shotgun",
         "machinegun"
+    ],
+    "usersList": [
+        {
+            "userName": "cruiserrrrrr",
+            "userPassword": "csappCruiser",
+            "id": "",
+            "userItemsId": "1",
+            "userItemsList":[
+
+            ]
+        },
+        {
+            "userName": "testUser1",
+            "userPassword": "csappTestpass1",
+            "id": "",
+            "userItemsId": "2",
+            "userItemsList":[
+
+            ]
+        },
+        {
+            "userName": "testUser2",
+            "userPassword": "user2csappPASS",
+            "id": "",
+            "userItemsId": "3",
+            "userItemsList":[
+
+            ]
+        },
+        {
+            "userName": "userAdmin",
+            "userPassword": "adminCsAppMarketASjofbg13",
+            "id": "",
+            "userItemsId": "4"
+        }
     ]
 }

@@ -33,7 +33,8 @@ const InventoryItem = (props: IInventoryItem) => {
         itemsData, appearanceHistory, patternDescription,
         linkInGAme, onChange } = props;
 
-    // const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(true);
+    const onActive = () => setIsActive(!isActive);
     // const activeItem = () => {
     //     // setIsActive(!isActive);
     //     {onClick};
@@ -41,8 +42,8 @@ const InventoryItem = (props: IInventoryItem) => {
 
 
     return (
-        <div className={activeItem === index ? styles.item_wrapper__active : styles.item_wrapper} onClick={onClick}> 
-            <div className={`${styles.container}`}>
+        <div className={isActive ? styles.item_wrapper : styles.item_wrapper__active} onClick={onActive}>
+            <div className={`${styles.container}`} onClick={onClick}>
                 <div className={styles.dropdown_wrapper}>
                     <div className={styles.dropdown}>
                         {buttons}

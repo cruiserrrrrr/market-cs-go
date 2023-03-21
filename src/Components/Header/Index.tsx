@@ -23,6 +23,7 @@ const Header = () => {
                 <div className={styles.right_side}>
                     {/* <Button iconName="monitor" value="Sing In" color="border" size="medium"/> */}
                     <NavItem to="/usercab" title="user cab" value="User Cab" />
+                    <NavItem to="/register" title="Login" value="log In" />
                     <Button iconName="monitor" value="Log in" color="purple" size="medium"/>
                 </div>
             </div>
