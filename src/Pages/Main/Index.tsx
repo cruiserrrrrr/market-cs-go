@@ -9,7 +9,7 @@ import FilterItem from "../../Components/FilterItem/index";
 import axios from "axios";
 import LoadingComponent from "../../Components/LoadingComponent/index";
 import Modal from "../../Components/Modal/index";
-import filtersData from "../../Components/filters.json"
+import filtersData from "../../allData/filters.json"
 import qs from 'qs';
 
 interface IMain {
@@ -46,6 +46,7 @@ const Main = (props: IMain) => {
         setFilters;
         dataFetch();
     }, []);
+
 
     const filterHandler = (name, value) => {
         const arrCategory = filters[name];
@@ -104,7 +105,7 @@ const Main = (props: IMain) => {
                                 filtredData.map((item, index) => {
                                     return <Marketitem
                                         buttons={<ItemButton iconName="plus" value="Add to cart" />}
-                                        itemsData={filtredData}
+                                        // itemsData={filtredData}
                                         key={item.id + index}
                                         name={item.name}
                                         wearAbbreviated={item.wearAbbreviated}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ItemButton from "../../Components/ItemButton/index";
 import Marketitem from "../../Components/MarketItem/index";
 import Button from "../../Components/Button/index";
@@ -9,35 +9,47 @@ import arrayShuffle from 'array-shuffle';
 import LoadingComponent from "../../Components/LoadingComponent/index";
 import axios from "axios";
 import Modal from "../../Components/Modal/index";
-import sendNotification from "../../utility/telegram.js"
-import { render } from "react-dom";
 
 
 interface IItemPage {
 
 }
+interface IItem {
+    name: string;
+    id: string;
+    img: string;
+    type: string;
+    wearAbbreviated: string;
+    wearFull: string;
+    price: number;
+    amount: number;
+    rarity: any;
+    weaponId: number;
+    category: string;
+    buttons: JSX.Element;
+    appearanceHistory: string;
+    patternDescription: string;
+    linkInGAme: string;
+}
 
 const ItemPage = (props: IItemPage) => {
 
+    document.title = "CS:GO MARKET";
     const { } = props;
-    const location = useLocation();
-    const { name, id, img, wearAbbreviated, price, rarity, data = [], wearFull, type, category, weaponId, amount, appearanceHistory, patternDescription, linkInGAme } = location.state;
+    const { id } = useParams();
 
-    
-
-    const [itemName, setItemname] = useState('none');
-    const [filtredData, setFiltredData] = useState(data);
     const [loading, setLoading] = useState(false);
     const [statusBuy, setStatusBuy] = useState(0);
     const [onActiveModal, setOnActiveModal] = useState(true);
-    const [item, setItem] = useState({});
+    const [similarItems, setSimilarItems] = useState([]);
+    const [marketItem, setMamketItem] = useState<IItem>();
 
     const dataFetch = async () => {
         try {
             const data = await axios
                 .get(`http://localhost:3030/allItemsOnSell/${id}`)
                 .then(res => {
-                    setItem(res.data)
+                    setMamketItem(res.data)
                 });
             setLoading(true)
         } catch (e) {
@@ -45,51 +57,35 @@ const ItemPage = (props: IItemPage) => {
         }
     };
     useEffect(() => {
-        dataFetch();
+        dataFetch()
     }, []);
 
-    console.log(item)
-    useEffect(() => {
-        document.title = item.name + " (" + item.wearFull + ")";
-    }, [])
-
-    const dataProcessing = () => {
-        try {
-            const timer = setTimeout(() => {
-                data
-                setLoading(true)
-            }, 100);
-        } catch (e) {
-            console.log(e)
-        }
-    };
-    useEffect(() => {
-        dataProcessing();
-        filtredData.sort(() => Math.random() - 0.5);
-    }, []);
+    const getSimilarItems = async () => {
+        const data = await axios
+            .get("http://localhost:3030/allItemsOnSell")
+            .then(res => {
+                setSimilarItems(res.data)
+            });
+    }
 
     useEffect(() => {
-        if (weaponId !== itemName) {
-            setFiltredData(data.filter((item) => {
-                return item.name === name;
-            }))
-        } else {
-            setFiltredData(data)
-        }
-    }, [weaponId]);
+        getSimilarItems();
+        similarItems.filter(item => {
+            if (item.name === marketItem.name) {
+                return item
+            }
+        })
+    }, [marketItem]);
 
     const CHAT_ID = -1001866746317;
     const TOKEN = "5851306296:AAFrPni6Ahnn8yG27fjhnsn5VnlZnjPHanY";
     const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     const postDataTelegram = () => {
-
         let message = `<b>Purchase made!</b>\n`;
-        message += `<b>Skin: </b> ${name} (${wearFull})\n`;
-        message += `<b>By price: </b> ${price}$\n`;
+        message += `<b>Skin: </b> ${marketItem.name} (${marketItem.wearFull})\n`;
+        message += `<b>By price: </b> ${marketItem.price}$\n`;
         message += `<b>Thanks!</b>`;
-        // message += `${img}`;
-
         axios.post(URL, {
             chat_id: CHAT_ID,
             parse_mode: 'html',
@@ -111,7 +107,7 @@ const ItemPage = (props: IItemPage) => {
                     <div className={styles.image}>
                         <div className={styles.img_wrapper}>
                             <div className={styles.img_container}>
-                                <img src={item.img} alt="" />
+                                <img src={marketItem.img} alt="" />
                             </div>
                         </div>
                         <div className={styles.image_buttons}>
@@ -130,40 +126,41 @@ const ItemPage = (props: IItemPage) => {
                                 uppercase="none"
                                 href={linkInGAme}
                             /> */}
-                            <a href={linkInGAme}>View in game</a>
+                            <a href={marketItem.linkInGAme}>View in game</a>
                         </div>
                     </div>
                     <div className={styles.description}>
                         <div className={styles.info}>
                             <div className={styles.name_description}>
-                                <p className={styles.type}>{item.type}</p>
-                                <p className={styles.name}>{item.name}</p>
+                                <p className={styles.type}>{marketItem.type}</p>
+                                <p className={styles.name}>{marketItem.name}</p>
                             </div>
                             <div className={styles.feature}>
-                                <CategoryItem value={rarity} itemRarity={item.rarity} />
-                                <CategoryItem value={item.type} itemRarity="none" />
+                                <CategoryItem value={marketItem.rarity} itemRarity={marketItem.rarity} />
+                                <CategoryItem value={marketItem.type} itemRarity="none" />
                             </div>
                             <div className={styles.category}>
                                 <div className={styles.category_item}>
                                     <p className={styles.subtitle}>Category</p>
-                                    <p className={styles.title}>{item.category}</p>
+                                    <p className={styles.title}>{marketItem.category}</p>
                                 </div>
                                 <div className={styles.category_item}>
                                     <p className={styles.subtitle}>Wear</p>
-                                    <p className={styles.title}>{item.wearAbbreviated} - {item.wearFull}</p>
+                                    <p className={styles.title}>{marketItem.wearAbbreviated} - {marketItem.wearFull}</p>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.buy_zone}>
-                            {statusBuy < price ?
+                            {/* if user id === sellers user id, show warning block */}
+                            {statusBuy < marketItem.price ?
                                 <div className={styles.buy_zone}>
                                     <div className={styles.info}>
                                         <div className={styles.container}>
                                             <p className={styles.price}>
-                                                {item.price}$
+                                                {marketItem.price}$
                                             </p>
                                             <div className={styles.quantity}>
-                                                <p>Available Quantity — <span>{item.amount}</span></p>
+                                                <p>Available Quantity — <span>{marketItem.amount}</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -198,22 +195,22 @@ const ItemPage = (props: IItemPage) => {
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Appearance history</p>
                                 <p className={styles.item_description}>
-                                    {item.appearanceHistory}
+                                    {marketItem.appearanceHistory}
                                 </p>
                             </div>
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Pattern description</p>
                                 <p className={styles.item_description}>
-                                    {item.patternDescription}
+                                    {marketItem.patternDescription}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div className={styles.similar_items}>
                         <div className={styles.similar_container}>
-                            {filtredData.map((item) => {
+                            {similarItems.map((item) => {
                                 return <Marketitem
-                                    itemsData={data}
+                                    // itemsData={data}
                                     buttons={<ItemButton iconName="plus" value="Add to cart" />}
                                     key={item.id}
                                     name={item.name}

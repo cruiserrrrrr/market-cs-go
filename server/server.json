@@ -5,6 +5,7 @@
       "userPassword": "csappCruiser",
       "id": "2",
       "userItemsId": "1",
+      "userStatus": true,
       "userItemsInventoryList": [
         {
           "sellersId": "1",
@@ -120,6 +121,7 @@
       "userPassword": "csappTestpass1",
       "id": "3",
       "userItemsId": "2",
+      "userStatus": false,
       "userItemsInventoryList": [],
       "userItemsSell": [],
       "userBalance": 1000000,
@@ -131,6 +133,7 @@
       "userPassword": "user2csappPASS",
       "id": "4",
       "userItemsId": "3",
+      "userStatus": false,
       "userItemsInventoryList": [],
       "userItemsSell": [],
       "userBalance": 1000000,
@@ -141,7 +144,8 @@
       "userName": "userAdmin",
       "userPassword": "adminCsAppMarketASjofbg13",
       "id": "1",
-      "userItemsId": "4"
+      "userItemsId": "4",
+      "userStatus": false
     }
   ],
   "allItemsOnSell": [
@@ -2256,6 +2260,33 @@
       "wearAbbreviated": "BS",
       "appearanceHistory": "USP-S | Cyrex was added to the game on November 28, 2016, as part of The Glove Collection, which was released alongside the “Brothers In Arms” update. The skin was created by Nextgenz #Prisma2.",
       "patternDescription": "The design of the skin is made in a futuristic style. The black body of the pistol is adorned with stripes and various geometric shapes made in red and white. The design is complemented with white inscriptions and a small icon of a counter-terrorist. The lower part of the slide and the trigger guard are painted solid white."
+    }
+  ],
+  "faqData": [
+    {
+      "id": "c1b173ec-c07b-4520-9f5a-35825774498c",
+      "title": "The most important information.",
+      "information": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla condimentum velit, ut dapibus metus egestas in. Nam ultrices sapien eget lorem consequat accumsan. Aliquam et neque non urna faucibus ornare. Phasellus et fringilla justo, sit amet accumsan metus. Donec vel dictum tellus, et fermentum massa. Aenean porttitor sed leo id euismod. Integer in convallis turpis. Aenean sed faucibus lacus. Donec auctor tellus at dui efficitur, sed hendrerit leo blandit. Sed vitae gravida enim, sit amet gravida neque. Sed quis ultricies lectus. Sed dictum odio lectus, a blandit lectus ullamcorper at. Donec at rutrum metus."
+    },
+    {
+      "id": "99e00950-95f8-4228-b270-9a3e640e7ded",
+      "title": "How to replenish the balance?",
+      "information": "Nam quis mi eget velit sodales congue nec at enim. Nulla at mattis enim. Phasellus quis nisl venenatis, mollis justo at, iaculis risus. Curabitur id congue leo. Morbi neque sem, aliquet at lacinia sed, pharetra sit amet eros. Mauris commodo quam ac dui malesuada vehicula. Cras non elit pretium, auctor urna sed, aliquet nibh. Duis vel convallis ante."
+    },
+    {
+      "id": "8e19f551-8402-49be-a280-6f8a762594b8",
+      "title": "How to withdraw funds from the balance?",
+      "information": "Curabitur consequat lacus dapibus, euismod orci id, placerat justo. Cras aliquam dictum nisl, quis lobortis lectus sollicitudin convallis. Duis at sem eros. Morbi sollicitudin odio interdum urna elementum, vitae varius sem dignissim. Fusce interdum orci ac nisi porta, ut tincidunt nisi interdum. In eu purus enim. Nullam fermentum tincidunt lectus eu facilisis. Nulla consectetur volutpat dolor lobortis tristique."
+    },
+    {
+      "id": "2618b62c-700d-463c-96c9-cca26fe83fb3",
+      "title": "How to sell skins?",
+      "information": "Vestibulum vel tincidunt est, sed fermentum urna. Fusce interdum risus ut neque malesuada, sit amet facilisis sem fringilla. Donec eu finibus lectus. Duis enim nibh, aliquam eget nisl commodo, ornare laoreet odio. Phasellus ac dui ullamcorper, interdum lectus id, cursus lorem. Etiam suscipit urna non purus ultrices, id aliquet nibh commodo. Aliquam varius erat quis dolor mollis, vel sagittis dolor dictum. Mauris auctor velit leo, quis pharetra nisl accumsan sit amet. Phasellus interdum nulla et consequat lobortis. Quisque eu sapien eget ipsum interdum efficitur. Proin varius vulputate risus, nec egestas elit tincidunt in. Nunc laoreet vel magna vel pretium. In ut rhoncus tellus. Ut et metus augue."
+    },
+    {
+      "id": "74482a4f-ed80-4a96-97e1-0c1923a1faa6",
+      "title": "How to buy skins?",
+      "information": "In maximus metus non velit pellentesque, sed bibendum dui tincidunt. Praesent aliquet velit non magna pulvinar, quis dapibus tortor laoreet. Nam pellentesque dui lacinia nisi fermentum blandit. Vestibulum sed vestibulum tortor. Nulla venenatis mauris vitae elit laoreet, vel posuere sapien volutpat. Sed mattis venenatis dolor, eleifend iaculis diam pellentesque quis. In tempus nunc a lacus ultrices, non mollis diam porta. Duis sit amet quam maximus, congue lorem vel, venenatis neque. Pellentesque vel condimentum dui."
     }
   ]
 }
