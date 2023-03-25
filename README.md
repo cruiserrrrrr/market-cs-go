@@ -15,7 +15,7 @@
 
 ![Иллюстрация к основной странице](https://github.com/cruiserrrrrr/img/blob/cruiserrrrrr/csapp/main.png?raw=true)
 
->В правой части зона фильтров с помощью который можно отсортировать предметы по всем параметрам.
+>В правой части зона фильтров с помощью которых можно отсортировать предметы по всем параметрам.
 
 ![Иллюстрация к основной странице](https://github.com/cruiserrrrrr/img/blob/cruiserrrrrr/csapp/mainf.png?raw=true)
 
