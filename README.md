@@ -1,6 +1,6 @@
 # CS:GO MARKET by cruiserrrrrr
 
->Данное приложение создано на React, TypeScript, WebPack, SCSS. 
+>Данное приложение создано на react, немного redux, typescript, webpack, scss. 
 
 >Ниже будут скриншоты и описания возможностей которые есть на данный момент.
 
