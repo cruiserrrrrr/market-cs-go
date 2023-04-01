@@ -44,13 +44,9 @@
 
 ## Авторизация или регистрация.
 
->Есть форма с полями для ввода данных. Отправить данные можно, но выполнить вход нет.
+>Есть возможность регистрации и авторизации.
 
-![Иллюстрация к login/signup](https://github.com/cruiserrrrrr/img/blob/cruiserrrrrr/csapp/photo_2023-03-22_16-53-35.jpg?raw=true)
-
-
-
-
+![Иллюстрация к login/signup](https://github.com/cruiserrrrrr/img/blob/cruiserrrrrr/csapp/image.psd.jpg?raw=true)
 
 
 
