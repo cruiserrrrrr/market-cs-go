@@ -6,8 +6,9 @@
 /utility
 .pnp.js
 .api.json
-# testing
-/coverage
+/.env
+.firebase
+.database.rules.json
 
 # production
 /build
@@ -23,3 +24,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.firebaserc
+database.rules.json
+README.md

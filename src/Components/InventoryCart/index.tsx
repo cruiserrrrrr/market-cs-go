@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import InventoryCartItem from "../InventoryCartItem";
 import styles from "./index.module.scss";
@@ -11,7 +11,7 @@ interface IInventoryCart {
 const InventoryCart = (props: IInventoryCart) => {
 
     const { dataCart, onClickSend } = props;
-
+    const [priceValue, setPriceValue] = useState()
     return (
         <div className={styles.inventory_cart}>
             <div className={styles.cart_wrapper}>
@@ -23,6 +23,7 @@ const InventoryCart = (props: IInventoryCart) => {
                                 name={item.name}
                                 price={item.price}
                                 img={item.img}
+                                value={priceValue}
                             // onClick={}
                             />
                         )

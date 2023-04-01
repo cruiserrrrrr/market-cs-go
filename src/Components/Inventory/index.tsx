@@ -5,48 +5,53 @@ import LoadingComponent from "../LoadingComponent";
 import Marketitem from "../MarketItem";
 import InventoryItem from "../InventoryItem";
 import { Link } from "react-router-dom";
-import InventoryCartItem from "../InventoryCartItem";
-import Button from "../Button";
 import Modal from "../Modal";
 import InventoryCart from "../InventoryCart";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useAuth } from '../../hooks/useAuth';
 
-interface IInventory {
-    expand: () => void;
-    tabButtonIndex: number;
-    isActive: number;
-}
 
-const Inventory = (props: IInventory) => {
+
+
+const Inventory = () => {
     document.title = "User cab"
 
-    const { tabButtonIndex, expand, isActive } = props;
-
+    const { email } = useAuth();
     const [getInventoryItems, setGetInventoryItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [choiceItems, setChoiceItems] = useState([]);
     const [isCartActive, setisCartActive] = useState(true);
     const [dataItems, setDataItems] = useState([]);
+    const [userInventory, setUserInventory] = useState([]);
+    const [dataFireBase, setDataFireBase] = useState([]);
 
+    const db = getDatabase();
+    const dbRef = ref(db, 'usersList');
 
-
-
-    const onActiveCart = () => setisCartActive(!isCartActive)
-
-    const dataFetch = async () => {
+    useEffect(() => {
         try {
-            const data = await axios
-                .get("http://localhost:3030/usersList")
-                .then(res => {
-                    setGetInventoryItems(res.data)
-                });
-            setLoading(true)
+            onValue(dbRef, (snapshot) => {
+                const data = snapshot.val();
+                setDataFireBase(data)
+                setLoading(true)
+            });
         } catch (e) {
             console.log(e)
         }
-    };
+    }, [])
     useEffect(() => {
-        dataFetch();
-    }, []);
+        setUserInventory(userInventory)
+    },[userInventory])
+
+    useEffect(() => {
+        dataFireBase.filter((item) => {
+            if (item.email === email) {
+                return setUserInventory(item.userItemsInventoryList)
+            }
+        })
+    }, [dataFireBase])
+
+    const onActiveCart = () => setisCartActive(!isCartActive)
 
     const addItem = (value) => {
         setChoiceItems(current => [...current, value]);
@@ -54,7 +59,7 @@ const Inventory = (props: IInventory) => {
     const deleteItem = (value) => {
         setChoiceItems(choiceItems.filter(note => note.id !== value.id))
     }
-    const hueta = (value) => {
+    const addToCart = (value) => {
         let itemid = choiceItems.filter(item => item.id === value.id);
         if (itemid.length) {
             deleteItem(value)
@@ -76,61 +81,42 @@ const Inventory = (props: IInventory) => {
                 console.log(res.data);
             }))
     }
-    // getInventoryItems.find((item) => {
-    //     if (item.userName === "cruiserrrrrr") {
-    //         // return item
-    //         console.log(axios.post(item?.userItemsInventoryList)
-    //             .then(res => {
-    //                 console.log(res);
-    //                 console.log(res.data);
-    //             }))
-    //     }
-    // }
+
     const inventoryItems = getInventoryItems.find((item) => {
-        if (item.userName === "cruiserrrrrr") {
+        if (item.email === "cruiser@gmail.com") {
             return item
         }
     })
-    console.log(
-        getInventoryItems.find((item) => {
-            if (item.userName === "cruiserrrrrr") {
-                return axios.get('http://localhost:3030/usersList?userName=cruiserrrrrr')
-                    // .then(res => {
-                    //     console.log(res);
-                    //     console.log(res.data);
-                    // })
-            }
-        })
-    )
 
     return (
-        <div className={isActive === tabButtonIndex ? styles.inventory_wrapper__active : styles.inventory_wrapper}>
+        <div className={styles.inventory_wrapper}>
+        {/* <div className={styles.inventory_wrapper__active}> */}
             <div className={styles.container}>
                 {loading ?
                     <div className={styles.items_container}>
                         {
-                            inventoryItems?.userItemsInventoryList.map((item, index) => {
+                            userInventory.map((item, index) => {
                                 return <InventoryItem
                                     key={index}
-                                    onClick={() => hueta(item)}
+                                    onClick={() => addToCart(item)}
                                     buttons={
-                                        <Link to={`/item${item.id}`}
+                                        <Link to={`/item/${item.id}`}
                                             state={{
-                                                name: item.name,
+                                                // name: item.name,
                                                 id: item.id,
-                                                img: item.img,
-                                                type: item.type,
-                                                wearAbbreviated: item.wearAbbreviated,
-                                                wearFull: item.wearFull,
-                                                price: 0,
-                                                amount: item.amount,
-                                                rarity: item.rarity,
-                                                category: item.category,
-                                                weaponId: item.weaponId,
-                                                data: item.itemsData,
-                                                appearanceHistory: item.appearanceHistory,
-                                                patternDescription: item.patternDescription,
-                                                linkInGAme: item.linkInGAme
+                                                // img: item.img,
+                                                // type: item.type,
+                                                // wearAbbreviated: item.wearAbbreviated,
+                                                // wearFull: item.wearFull,
+                                                // price: 0,
+                                                // amount: item.amount,
+                                                // rarity: item.rarity,
+                                                // category: item.category,
+                                                // weaponId: item.weaponId,
+                                                // data: item.itemsData,
+                                                // appearanceHistory: item.appearanceHistory,
+                                                // patternDescription: item.patternDescription,
+                                                // linkInGAme: item.linkInGAme
                                             }}>
                                             View in market
                                         </Link>

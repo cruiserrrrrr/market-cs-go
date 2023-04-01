@@ -8,45 +8,48 @@ import DropDownFilter from "../../Components/DropDownFilter/index";
 import FilterItem from "../../Components/FilterItem/index";
 import axios from "axios";
 import LoadingComponent from "../../Components/LoadingComponent/index";
-import Modal from "../../Components/Modal/index";
 import filtersData from "../../allData/filters.json"
 import qs from 'qs';
+import { app } from '../../firebase.js';
+import { getDatabase, ref, child, get, onValue, set } from "firebase/database";
+import { current } from "@reduxjs/toolkit";
+import Button from "../../Components/Button";
 
-interface IMain {
+const Main = () => {
 
-}
-
-const Main = (props: IMain) => {
-
-    const { } = props;
 
     document.title = "CS:GO MARKET"
 
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
     const [filters, setFilters] = useState({ rarity: [], wearFull: [], type: [] });
-    const [filtredData, setFiltredData] = useState([]);
     const navigate = useNavigate();
+    const [dataFireBase, setDataFireBase] = useState([]);
+    const [data, setData] = useState(dataFireBase);
+    const [filtredData, setFiltredData] = useState([]);
+    const [filterActive, setFilterActive] = useState(true);
+
+    const db = getDatabase();
+    const dbRef = ref(db, 'allItemsOnSell');
 
 
-    const dataFetch = async () => {
+    useEffect(() => {
         try {
-            const data = await axios
-                .get("http://localhost:3030/allItemsOnSell")
-                .then(res => {
-                    setData(arrayShuffle(res.data))
-                    setFiltredData(arrayShuffle(res.data))
-                });
-            setLoading(true)
+            onValue(dbRef, (snapshot) => {
+                const data = snapshot.val();
+                setDataFireBase(data)
+                setLoading(true)
+            });
         } catch (e) {
             console.log(e)
         }
-    };
+    }, [])
+    useEffect(() => {
+        setData(dataFireBase)
+    }, [dataFireBase])
+
     useEffect(() => {
         setFilters;
-        dataFetch();
     }, []);
-
 
     const filterHandler = (name, value) => {
         const arrCategory = filters[name];
@@ -68,7 +71,7 @@ const Main = (props: IMain) => {
 
     useEffect(() => {
         setFiltredData(data)
-    }, [])
+    }, [data])
 
     useEffect(() => {
         const filtersLength = Object.values(filters).filter((item) => {
@@ -88,14 +91,18 @@ const Main = (props: IMain) => {
         }
 
     }, [filters]);
+    // const shuffleData = arrayShuffle(filtredData);
+    // console.log(shuffleData)
+    const isFilterActive = () => setFilterActive(!filterActive);
+
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.items_wrapper}>
-                {loading ?
+                {dataFireBase.length > 0 ?
                     <div className={styles.items_container}>
                         {
-                            filtredData.length <= 0 ?
+                            filtredData.length === 0 ?
                                 <div className={styles.data_err}>
                                     <p>
                                         No matching items.
@@ -104,7 +111,7 @@ const Main = (props: IMain) => {
                                 :
                                 filtredData.map((item, index) => {
                                     return <Marketitem
-                                        buttons={<ItemButton iconName="plus" value="Add to cart" />}
+                                        buttons={<ItemButton value="Add to cart" onClick={() => console.log('Add to cart')} />}
                                         // itemsData={filtredData}
                                         key={item.id + index}
                                         name={item.name}
@@ -113,14 +120,6 @@ const Main = (props: IMain) => {
                                         id={item.id}
                                         price={item.price}
                                         rarity={item.rarity}
-                                        type={item.type}
-                                        wearFull={item.wearFull}
-                                        amount={item.amount}
-                                        category={item.category}
-                                        weaponId={item.weaponId}
-                                        appearanceHistory={item.appearanceHistory}
-                                        patternDescription={item.patternDescription}
-                                        linkInGAme={item.linkInGAme}
                                     />
                                 })
                         }
@@ -150,6 +149,35 @@ const Main = (props: IMain) => {
                             <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
                         ))}
                     </DropDownFilter>
+                </div>
+            </div>
+            <div className={styles.on_filter}>
+                <Button iconName="limit" color="purple" size="icon_only" onClick={isFilterActive} />
+            </div>
+            <div className={filterActive ? styles.filter_mobile_hidden : styles.filter_mobile_active} onClick={isFilterActive}>
+                <div className={styles.filter_mobile} onClick={e => e.stopPropagation()}>
+                    <div className={styles.filter_mobile_container}>
+                        <div className={styles.header}>
+                            <p>
+                                filter
+                            </p>
+                        </div>
+                        <DropDownFilter title="type">
+                            {filtersData.type.map((element, index) => (
+                                <FilterItem onClick={filterHandler} value={element} key={element + index} title="type" />
+                            ))}
+                        </DropDownFilter>
+                        <DropDownFilter title="wearFull">
+                            {filtersData.wearFull.map((element, index) => (
+                                <FilterItem onClick={filterHandler} value={element} key={element + index} title="wearFull" />
+                            ))}
+                        </DropDownFilter>
+                        <DropDownFilter title="rarity">
+                            {filtersData.rarity.map((element, index) => (
+                                <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
+                            ))}
+                        </DropDownFilter>
+                    </div>
                 </div>
             </div>
         </div>

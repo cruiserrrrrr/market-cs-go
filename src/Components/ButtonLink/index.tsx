@@ -1,27 +1,28 @@
 import React from "react";
 import Icon from "../Icon";
 import styles from './index.module.scss';
+import { Link } from "react-router-dom";
 
 interface IButton {
-    handler: () => void;
     onClick: (e: any) => void;
     value: string;
     color: string;
     size: string;
     iconName: string;
     uppercase: string;
+    to: string;
 }
 
-const Button = (props: IButton) => {
+const ButtonLink = (props: IButton) => {
 
-    const { handler, value, color, size, iconName, uppercase, onClick,  } = props;
+    const { value, color, size, iconName, uppercase, onClick, to} = props;
 
 
 
     return (
-        <button
+        <Link
+            to={to}
             onClick={onClick}
-            onChange={handler}
             className={`${styles.wrapper} ${styles[color]} ${styles[size]} ${styles[uppercase]}`}
 
         >
@@ -29,8 +30,8 @@ const Button = (props: IButton) => {
                 <Icon name={iconName} className={styles.btn_icon} />
                 {value}
             </span>
-        </button>
+        </Link>
     )
 }
 
-export default Button;
+export default ButtonLink;

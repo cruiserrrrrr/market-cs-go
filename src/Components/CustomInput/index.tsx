@@ -5,7 +5,7 @@ interface ICustomInput {
     placeholder: string;
     type: string;
     onChange: (event) => void;
-    value: string;
+    value: any;
 }
 
 const CustomInput = (props: ICustomInput) => {

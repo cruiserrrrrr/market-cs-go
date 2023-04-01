@@ -28,6 +28,7 @@
                 flex-direction: column;
                 background: var(--background-color-items);
                 border-radius: 10px;
+                gap: 10px;
                 -webkit-border-radius: 10px;
                 -moz-border-radius: 10px;
                 -ms-border-radius: 10px;
@@ -54,7 +55,6 @@
                 }
 
                 p {
-                    margin-top: 10px;
                     font-size: 18px;
                     font-weight: 300;
                     color: var(--text-color-m);

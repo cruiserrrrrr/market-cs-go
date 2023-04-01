@@ -1,9 +1,11 @@
-import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button/index";
 import CustomInput from "../../Components/CustomInput/index";
 import styles from './index.module.scss';
-
+import { useDispatch } from "react-redux";
+import { setUser, removeUser } from '../../store/slices/userSlice'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, ActionCodeOperation } from "firebase/auth";
 
 
 interface IRegisterPage {
@@ -15,132 +17,104 @@ const RegisterPage = (props: IRegisterPage) => {
     const { } = props;
     const [usersDataFetch, setUsersDataFetch] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [nameUser, setNameUser] = useState('');
-    const [passwordUser, setPasswordUser] = useState('');
+    const [nameUserLogIn, setNameUserLogIn] = useState('');
+    const [passwordUserLogIn, setPasswordUserLogIn] = useState('');
+    const [nameUserSignUp, setNameUserSignUp] = useState('');
+    const [passwordUserSignUp, setPasswordUserSignUp] = useState('');
+    const [activeForm, setActiveForm] = useState(true);
+    const [fireBaseData, setFireBaseData] = useState([]);
 
-    const dataFetch = async () => {
-        try {
-            const data = await axios
-                .get("http://localhost:3030/usersList")
-                .then(res => {
-                    setUsersDataFetch(res.data)
-                });
-            setLoading(true)
-        } catch (e) {
-            console.log(e)
-        }
+
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const isActiveForm = (e) => {
+        e.preventDefault();
+        setActiveForm(!activeForm);
     };
 
-    useEffect(() => {
-        // usersDataFetch;
-        dataFetch();
-    }, [])
-
-
-    const logIn = (e) => {
+    const logIn = (e, email, password) => {
         e.preventDefault();
+        const auth = getAuth();
 
-        let info = {
-            "userName": nameUser,
-            "userPassword": passwordUser
-        };
-
-        const search = usersDataFetch.filter(item => {
-            if ((item.userName === info.userName) && (item.userPassword === info.userPassword)) {
-                return console.log(item)
-            } else {
-                return console.log(false)
-            }
-        })
-
-        // console.log(usersDataFetch.find(useCallback(isUserInfo)))
+        signInWithEmailAndPassword(auth, email, password)
+            // .then(console.log)
+            // .catch(console.error)
+            .then(({ user }) => {
+                console.log(user);
+                dispatch(setUser({
+                    email: user.email,
+                    id: user.uid,
+                    token: user.accessToken,
+                }))
+                navigate("/");
+            })
+            .catch(console.error)
 
     }
-    // const [nameItem, setNameItem] = useState('');
-    // const [imgItem, setImgItem] = useState('');
-    // const [priceItem, setPriceItem] = useState(Number);
-    // const [amountItem, setAmountItem] = useState(Number);
-    // const [rarityItem, setRarityItem] = useState('');
-    // const [wearFullItem, setWearFullItem] = useState('');
-    // const [linkInGAmeItem, setLinkInGAmeItem] = useState('');
-    // const [wearAbbreviatedItem, setWearAbbreviatedItem] = useState('');
-    // const [appearanceHistoryItem, setAppearanceHistoryItem] = useState('');
-    // const [patternDescriptionItem, setPatternDescriptionItem] = useState('');
+    const singUp = (e, email, password) => {
 
+        e.preventDefault();
+        const auth = getAuth();
 
-    // const addItem = (e) => {
-    //     e.preventDefault();
-    //     let info = {
-    //         "id": Math.floor(Math.random() * 100),
-    //         "img": imgItem,
-    //         "name": nameItem,
-    //         "type": "rifle",
-    //         "price": priceItem,
-    //         "amount": amountItem,
-    //         "rarity": rarityItem,
-    //         "category": "common",
-    //         "weaponId": 12,
-    //         "wearFull": wearFullItem,
-    //         "linkInGAme": linkInGAmeItem,
-    //         "wearAbbreviated": wearAbbreviatedItem,
-    //         "appearanceHistory": appearanceHistoryItem,
-    //         "patternDescription": patternDescriptionItem
-    //     };
-    //     axios.post(`http://localhost:3030/allItemsOnSell`, {
-    //         "id": (((1+Math.random())*0x10000)|0).toString(16).substring(1),
-    //         "img": imgItem,
-    //         "name": nameItem,
-    //         "type": "pistol",
-    //         "price": priceItem,
-    //         "amount": amountItem,
-    //         "rarity": rarityItem,
-    //         "category": "common",
-    //         "weaponId": 5,
-    //         "wearFull": wearFullItem,
-    //         "linkInGAme": linkInGAmeItem,
-    //         "wearAbbreviated": wearAbbreviatedItem,
-    //         "appearanceHistory": appearanceHistoryItem,
-    //         "patternDescription": patternDescriptionItem
-    //     })
-    //         .then(res => {
-    //             console.log(res);
-    //             console.log(res.data);
-    //         })
-    // }
-
+        createUserWithEmailAndPassword(auth, email, password)
+            // .then(console.log)
+            // .catch(console.error)
+            .then(({ user }) => {
+                console.log(user);
+                dispatch(setUser({
+                    email: user.email,
+                    id: user.uid,
+                    token: user.accessToken,
+                }))
+                navigate("/");
+            })
+            .catch(console.error)
+    }
     return (
-        <div className={styles.register_wrapper}>
-            <div className={styles.register_container}>
-                <h2>Login form.</h2>
-                <form className={styles.register_form}>
-
-                    <CustomInput placeholder="name" type="text" value={nameUser} onChange={(event) => setNameUser(event.target.value)} />
-                    <CustomInput placeholder="pass" type="password" value={passwordUser} onChange={(event) => setPasswordUser(event.target.value)} />
-                    {/* <CustomInput placeholder="img" type="text" value={imgItem} onChange={(event) => setImgItem(event.target.value)} />
-                    <CustomInput placeholder="name" type="text" value={nameItem} onChange={(event) => setNameItem(event.target.value)} />
-                    <CustomInput placeholder="price" type="number" value={priceItem} onChange={(event) => setPriceItem(event.target.value)} />
-                    <CustomInput placeholder="amount" type="number" value={amountItem} onChange={(event) => setAmountItem(event.target.value)} />
-                    <CustomInput placeholder="rarity" type="text" value={rarityItem} onChange={(event) => setRarityItem(event.target.value)} />
-                    <CustomInput placeholder="wearFull" type="text" value={wearFullItem} onChange={(event) => setWearFullItem(event.target.value)} />
-                    <CustomInput placeholder="linkInGAme" type="text" value={linkInGAmeItem} onChange={(event) => setLinkInGAmeItem(event.target.value)} />
-                    <CustomInput placeholder="wearAbbreviated" type="text" value={wearAbbreviatedItem} onChange={(event) => setWearAbbreviatedItem(event.target.value)} />
-                    <CustomInput placeholder="appearanceHistory" type="text" value={appearanceHistoryItem} onChange={(event) => setAppearanceHistoryItem(event.target.value)} />
-                    <CustomInput placeholder="patternDescription" type="text" value={patternDescriptionItem} onChange={(event) => setPatternDescriptionItem(event.target.value)} /> */}
-                    <div className={styles.messege}>
-                        <Button
-                            value="add item"
-                            color="purple"
-                            size="medium"
-                            onClick={logIn}
-                            iconName="monitor"
-                        />
-                    </div>
-                </form>
-                {/* <iframe frameborder="0" allowfullscreen width="1520" height="955" src="https://goodgame.ru/player?166994"></iframe>
-                <iframe frameborder="0" allowfullscreen width="400" height="955" src="https://goodgame.ru/chat/ToToToToToTo/"></iframe> */}
-            </div>
-        </div>
-    )
+            <div className={styles.authorization_wrapper}>
+                <div className={activeForm ? styles.register_container : styles.register_container_hidden}>
+                    <h2>Login.</h2>
+                    <form className={styles.register_form}>
+                        <CustomInput placeholder="name" type="text" value={nameUserLogIn} onChange={(event) => setNameUserLogIn(event.target.value)} />
+                        <CustomInput placeholder="pass" type="password" value={passwordUserLogIn} onChange={(event) => setPasswordUserLogIn(event.target.value)} />
+                        <div className={styles.messege}>
+                            <Button
+                                value="Log In"
+                                color="purple"
+                                size="medium"
+                                onClick={(e) => logIn(e, nameUserLogIn, passwordUserLogIn)}
+                                iconName="monitor"
+                            />
+                        </div>
+                        <div className={styles.switch_form}>
+                            <p>Already have an account? Then</p>
+                            <Button color="none_background" value="Sign Up" iconName="none" size="text_only" onClick={isActiveForm} />
+                        </div>
+                    </form>
+                </div>
+                <div className={activeForm ? styles.login_container_hidden : styles.login_container}>
+                    <h2>Sing Up.</h2>
+                    <form className={styles.register_form}>
+                        <CustomInput placeholder="name" type="text" value={nameUserSignUp} onChange={(event) => setNameUserSignUp(event.target.value)} />
+                        <CustomInput placeholder="pass" type="password" value={passwordUserSignUp} onChange={(event) => setPasswordUserSignUp(event.target.value)} />
+                        <div className={styles.messege}>
+                            <Button
+                                value="Sing Up"
+                                color="purple"
+                                size="medium"
+                                onClick={(e) => singUp(e, nameUserSignUp, passwordUserSignUp)}
+                                iconName="monitor"
+                            />
+                        </div>
+                        <div className={styles.switch_form}>
+                            <p>Not registered yet? Then</p>
+                            <Button color="none_background" value="Log in" iconName="none" size="text_only" onClick={isActiveForm} />
+                        </div>
+                    </form>
+                </div>
+            </div >
+        )
 }
 
 export default RegisterPage;

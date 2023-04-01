@@ -1,0 +1,75 @@
+.signup_wrapper {
+    max-height: 100vh;
+    overflow: hidden;
+
+    .signup_container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+
+        .video {
+            width: 80%;
+            height: 100%;
+        }
+
+        .chat {
+            width: 20%;
+            height: 100%;
+        }
+
+        h2 {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--text-color-m);
+        }
+
+        .signup_form {
+            display: flex;
+            padding: 40px 20px;
+            background: var(--background-color-items);
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+
+            .pass_messege {
+                margin-top: -6px;
+                color: var(--text-color-m);
+                font-size: 12px;
+                font-weight: 300;
+                opacity: .7;
+            }
+
+            .messege {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .switch_form {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+                margin-top: 10px;
+
+                p {
+                    color: var(--text-color-m);
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+            }
+        }
+    }
+}

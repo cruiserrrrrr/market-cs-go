@@ -1,56 +1,76 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
+import { getDatabase, ref, onValue } from "firebase/database";
+import Marketitem from "../MarketItem";
+import LoadingComponent from "../LoadingComponent";
+import Button from "../Button";
+import ItemButton from "../ItemButton";
+import { useAuth } from '../../hooks/useAuth';
 
-interface IPurchaseRequests {
-    expand: () => void;
-    tabButtonIndex: number;
-    isActive: number;
-}
 
-const PurchaseRequests = (props: IPurchaseRequests) => {
-    document.title = "User cab"
 
-    const { tabButtonIndex, expand, isActive } = props;
+
+const PurchaseRequests = () => {
+    
+    document.title = "User cab";
+    const { email } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [dataItems, setDataItems] = useState([]);
+    const [userItemsSell, setUserItemsSell] = useState([]);
+    const [dataFireBase, setDataFireBase] = useState([]);
 
-    const dataFetch = async () => {
+    const db = getDatabase();
+    const dbRef = ref(db, 'usersList');
+
+    useEffect(() => {
         try {
-            const data = await axios
-                .get("http://localhost:3030/usersList")
-                .then(res => {
-                    setDataItems(res.data)
-                });
-            setLoading(true)
+            onValue(dbRef, (snapshot) => {
+                const data = snapshot.val();
+                setDataFireBase(data)
+                setLoading(true)
+            });
         } catch (e) {
             console.log(e)
         }
-    };
+    }, [])
+
     useEffect(() => {
-        dataFetch();
-    }, []);
+        setUserItemsSell(userItemsSell)
+    }, [userItemsSell])
 
-
-    const inventoryItems = dataItems.find((item) => {
-        if (item.userName === "cruiserrrrrr") {
-            return item
-        }
-    })
-
+    useEffect(() => {
+        dataFireBase.filter((item) => {
+            if (item.email === email) {
+                return setUserItemsSell(item.userItemsSell)
+            }
+        })
+    }, [dataFireBase])
 
     return (
-        <div className={isActive === tabButtonIndex ? styles.purshase_wrapper__active : styles.purshase_wrapper}>
+        <div className={styles.purshase_wrapper}>
+            {/* <div className={styles.purshase_wrapper__active}> */}
             <h1>Purchase Requests</h1>
-            {/* {
-                inventoryItems.map((item, index) => {
-                    return <div key={index}>
-                        <p>{item.name}</p>
-                        <p>{item.id}</p>
-                        <p>{item.wearFull}</p>
-                    </div>
-                })
-            } */}
+            {loading ?
+                <div className={styles.items_wrapper}>
+                    {
+                        userItemsSell.map((item, index) => (
+                            <Marketitem
+                                buttons={<ItemButton value="Remove from sale" onClick={() => console.log('Remove from sale')} />}
+                                // itemsData={filtredData}
+                                key={item.id + index}
+                                id={item.id}
+                                name={item.name}
+                                wearAbbreviated={item.wearAbbreviated}
+                                img={item.img}
+                                price={item.price}
+                                rarity={item.rarity}
+                            />
+                        ))
+                    }
+                </div>
+                :
+                <LoadingComponent />
+            }
         </div>
     )
 }

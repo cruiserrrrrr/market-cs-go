@@ -10,8 +10,8 @@
     --color-purple-h: #4c4cdd;
     // --color-purple: #ee1ccb;
     // --color-purple-h: #a51890;
-    --color-blue: #bf4664;
-    --color-blue-h: #86374b;
+    --color-red: #bf4664;
+    --color-red-h: #86374b;
     --color-grey-not-active: #404040;
 }
 
@@ -41,7 +41,7 @@
 }
 
 *::selection {
-    background-color: var(--color-purple);
+    background-color: rgba(109, 109, 228, .5);
 }
 
 .app {

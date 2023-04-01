@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const StyleExtract = require("mini-css-extract-plugin")
 const Dotenv = require('dotenv-webpack');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -107,6 +108,15 @@ module.exports = {
             title: 'testovoeDanilaNuzhdov',
             template: "src/index.html",
             publicPath: '/'
+        }),
+        new Dotenv,
+        new webpack.DefinePlugin({
+            process: {env: {}}
+        }),
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("development"),
+            },
         }),
         new MiniCssExtractPlugin,
         new SpriteLoaderPlugin(),

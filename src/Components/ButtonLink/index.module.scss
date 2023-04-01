@@ -1,0 +1,258 @@
+.wrapper {
+    transition: .15s;
+    text-transform: uppercase;
+    -webkit-transition: .15s;
+    -moz-transition: .15s;
+    -ms-transition: .15s;
+    -o-transition: .15s;
+    text-align: center;
+    text-decoration: none;
+
+    span {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 300;
+
+        .btn_icon {
+            fill: #FFFFFF;
+        }
+    }
+}
+
+.wrapper:active {
+    transform: scale(0.96);
+}
+
+.purple {
+    border: none;
+    background: var(--color-purple);
+
+    span {
+        color: var(--text-color-m);
+    }
+}
+
+.purple:hover {
+    border: none;
+    background: var(--color-purple-h);
+    cursor: pointer;
+}
+
+.blue {
+    border: none;
+    background: var(--color-red);
+    color: var(--text-color-m);
+
+    span {
+        color: var(--text-color-m);
+    }
+}
+
+.blue:hover {
+    border: none;
+    background: var(--color-red-h);
+    cursor: pointer;
+}
+
+.border {
+    border: 1px solid var(--color-purple);
+    background: transparent;
+    color: var(--text-color-m);
+}
+
+.border:hover {
+    border: 1px solid var(--color-purple-h);
+    cursor: pointer;
+}
+
+.circle_small {
+    width: fit-content;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    padding: 6px 6px;
+
+    span {
+        font-size: 14px;
+        line-height: 14px;
+
+        .btn_icon {
+            height: 20px;
+            width: 20px;
+        }
+    }
+}
+.circle_medium {
+    width: fit-content;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    padding: 8px 8px;
+
+    span {
+        font-size: 18px;
+        line-height: 18px;
+
+        .btn_icon {
+            height: 24px;
+            width: 24px;
+        }
+    }
+}
+.circle_large {
+    width: fit-content;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    padding: 12px 12px;
+
+    span {
+        font-size: 24px;
+        line-height: 24px;
+
+        .btn_icon {
+            height: 30px;
+            width: 30px;
+        }
+    }
+}
+.not_active {
+    border: none;
+    background: var(--color-grey-not-active);
+    color: var(--text-color-m);
+    cursor: not-allowed;
+}
+
+.not_active:active {
+    transform: scale(1);
+}
+
+.none_background {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    opacity: .8;
+    color: var(--color-purple);
+}
+
+.none_background:hover {
+    opacity: 1;
+    color: var(--color-purple-h);
+}
+
+.text_only {
+    width: fit-content;
+    padding: 0 0;
+
+    span {
+        font-size: 14px;
+        line-height: 14px;
+
+        .btn_icon {
+            width: 0;
+            height: 0;
+        }
+    }
+}
+
+.small {
+    width: fit-content;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    padding: 2px 2px;
+
+    span {
+        font-size: 8px;
+        line-height: 8px;
+
+        .btn_icon {
+            height: 14px;
+            width: 14px;
+        }
+    }
+
+}
+
+.narrow {
+    border-radius: 4px;
+    padding: 8px 12px;
+
+    span {
+        font-size: 12px;
+        line-height: 12px;
+
+        .btn_icon {
+            height: 12px;
+            width: 12px;
+            margin-right: 4px;
+        }
+    }
+}
+
+.medium {
+    border-radius: 6px;
+    padding: 10px 22px;
+
+    span {
+        font-size: 14px;
+        line-height: 14px;
+
+        .btn_icon {
+            height: 14px;
+            width: 14px;
+            margin-right: 4px;
+        }
+    }
+}
+
+.large {
+    border-radius: 8px;
+    padding: 12px 32px;
+
+    span {
+        font-size: 18px;
+        line-height: 18px;
+
+        .btn_icon {
+            height: 18px;
+            width: 18px;
+            margin-right: 4px;
+        }
+    }
+}
+
+.all_width {
+    border-radius: 8px;
+    padding: 12px 12px;
+    width: 100%;
+
+    span {
+        font-size: 18px;
+        line-height: 18px;
+
+        .btn_icon {
+            height: 18px;
+            width: 18px;
+            margin-right: 4px;
+        }
+    }
+}
+
+.uppercase_yes {
+    text-transform: uppercase;
+}
+
+.uppercase_no {
+    text-transform: none;
+}

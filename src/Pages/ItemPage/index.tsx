@@ -9,6 +9,9 @@ import arrayShuffle from 'array-shuffle';
 import LoadingComponent from "../../Components/LoadingComponent/index";
 import axios from "axios";
 import Modal from "../../Components/Modal/index";
+import { getDatabase, ref, onValue, } from "firebase/database";
+import ButtonLink from "../../Components/ButtonLink";
+
 
 
 interface IItemPage {
@@ -35,53 +38,54 @@ interface IItem {
 const ItemPage = (props: IItemPage) => {
 
     document.title = "CS:GO MARKET";
-    const { } = props;
     const { id } = useParams();
 
     const [loading, setLoading] = useState(false);
     const [statusBuy, setStatusBuy] = useState(0);
     const [onActiveModal, setOnActiveModal] = useState(true);
-    const [similarItems, setSimilarItems] = useState([]);
+    const [itemsList, setItemsList] = useState([]);
     const [marketItem, setMamketItem] = useState<IItem>();
+    const [test, setTest] = useState();
+    const [testTest, setTestTest] = useState(test);
+    const [dataFireBase, setDataFireBase] = useState([]);
+    const [data, setData] = useState(dataFireBase);
 
-    const dataFetch = async () => {
+    const db = getDatabase();
+    const dbRef = ref(db, 'allItemsOnSell/');
+
+    useEffect(() => {
         try {
-            const data = await axios
-                .get(`http://localhost:3030/allItemsOnSell/${id}`)
-                .then(res => {
-                    setMamketItem(res.data)
-                });
-            setLoading(true)
+            onValue(dbRef, (snapshot) => {
+                const data = snapshot.val();
+                setDataFireBase(data);
+                const item = data.find(item => item.id === id);
+                setMamketItem(item)
+                setLoading(true);
+            });
         } catch (e) {
             console.log(e)
         }
-    };
+    }, [])
     useEffect(() => {
-        dataFetch()
-    }, []);
+        setData(dataFireBase)
+    }, [dataFireBase])
 
-    const getSimilarItems = async () => {
-        const data = await axios
-            .get("http://localhost:3030/allItemsOnSell")
-            .then(res => {
-                setSimilarItems(res.data)
-            });
-    }
-
+    // const item = data.find(item => item.id === id); 
     useEffect(() => {
-        getSimilarItems();
-        similarItems.filter(item => {
-            if (item.name === marketItem.name) {
-                return item
-            }
-        })
-    }, [marketItem]);
+        setMamketItem
+    }, [])
+
+    console.log(marketItem)
+    // console.log(Object.keys(marketItem))
+
+    const similarItems = data.filter(item => item.name === marketItem.name);
 
     const CHAT_ID = -1001866746317;
     const TOKEN = "5851306296:AAFrPni6Ahnn8yG27fjhnsn5VnlZnjPHanY";
     const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     const postDataTelegram = () => {
+
         let message = `<b>Purchase made!</b>\n`;
         message += `<b>Skin: </b> ${marketItem.name} (${marketItem.wearFull})\n`;
         message += `<b>By price: </b> ${marketItem.price}$\n`;
@@ -112,21 +116,20 @@ const ItemPage = (props: IItemPage) => {
                         </div>
                         <div className={styles.image_buttons}>
                             <Button value="Add to cart"
-                                handler={() => console.log('add to cart')}
+                                onClick={() => console.log('add to cart')}
                                 color="purple"
                                 size="medium"
                                 iconName="cart"
                                 uppercase="none"
                             />
-                            {/* <Button value="View in game"
-                                handler={() => testHref}
+                            <ButtonLink
+                                value="View in game"
+                                to={marketItem.linkInGAme}
                                 color="blue"
                                 size="medium"
                                 iconName="monitor"
                                 uppercase="none"
-                                href={linkInGAme}
-                            /> */}
-                            <a href={marketItem.linkInGAme}>View in game</a>
+                            />
                         </div>
                     </div>
                     <div className={styles.description}>
@@ -155,7 +158,7 @@ const ItemPage = (props: IItemPage) => {
                             {statusBuy < marketItem.price ?
                                 <div className={styles.buy_zone}>
                                     <div className={styles.info}>
-                                        <div className={styles.container}>
+                                        <div className={styles.info_container}>
                                             <p className={styles.price}>
                                                 {marketItem.price}$
                                             </p>
@@ -211,7 +214,7 @@ const ItemPage = (props: IItemPage) => {
                             {similarItems.map((item) => {
                                 return <Marketitem
                                     // itemsData={data}
-                                    buttons={<ItemButton iconName="plus" value="Add to cart" />}
+                                    buttons={<ItemButton value="Add to cart" />}
                                     key={item.id}
                                     name={item.name}
                                     wearAbbreviated={item.wearAbbreviated}
@@ -219,14 +222,6 @@ const ItemPage = (props: IItemPage) => {
                                     id={item.id}
                                     price={item.price}
                                     rarity={item.rarity}
-                                    type={item.type}
-                                    wearFull={item.wearFull}
-                                    amount={item.amount}
-                                    category={item.category}
-                                    weaponId={item.weaponId}
-                                    appearanceHistory={item.appearanceHistory}
-                                    patternDescription={item.patternDescription}
-                                    linkInGAme={item.linkInGAme}
                                 />
                             })}
                         </div>

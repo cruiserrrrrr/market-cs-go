@@ -34,23 +34,23 @@ const Marketitem = (props: IMarketItem) => {
                     </div>
                 </div>
                 <Link title={name}
-                    to={`/item${id}`}
+                    to={`/item/${id}`}
                     state={{
-                        name: name,
+                        // name: name,
                         id: id,
-                        img: img,
-                        type: type,
-                        wearAbbreviated: wearAbbreviated,
-                        wearFull: wearFull,
-                        price: price,
-                        amount: amount,
-                        rarity: rarity,
-                        category: category,
-                        weaponId: weaponId,
-                        data: itemsData,
-                        appearanceHistory: appearanceHistory,
-                        patternDescription: patternDescription,
-                        linkInGAme: linkInGAme
+                        // img: img,
+                        // type: type,
+                        // wearAbbreviated: wearAbbreviated,
+                        // wearFull: wearFull,
+                        // price: price,
+                        // amount: amount,
+                        // rarity: rarity,
+                        // category: category,
+                        // weaponId: weaponId,
+                        // data: itemsData,
+                        // appearanceHistory: appearanceHistory,
+                        // patternDescription: patternDescription,
+                        // linkInGAme: linkInGAme
                     }}
                 >
                     <div className={styles.content}>

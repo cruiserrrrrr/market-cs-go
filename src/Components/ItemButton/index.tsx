@@ -4,15 +4,14 @@ import styles from "./index.module.scss";
 
 interface IItemButton{
     value: string;
-    iconName: string;
+    onClick: () => void;
 }
 
 const ItemButton = (props: IItemButton) => {
-    const {value, iconName} = props;
+    const {value, onClick} = props;
 
     return(
-        <button className={styles.wrapper}>
-            <Icon name={iconName}/>
+        <button className={styles.wrapper} onClick={onClick}>
             {value}
         </button>
     )

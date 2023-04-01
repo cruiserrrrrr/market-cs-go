@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "../Button";
+import CustomInput from "../CustomInput";
 import styles from './index.module.scss';
 
 interface IInventoryCartItem {
@@ -7,18 +8,21 @@ interface IInventoryCartItem {
     price: number;
     img: string;
     onClick: () => void;
+    onChange: (event) => void;
+    value: number;
 }
 
 const InventoryCartItem = (props: IInventoryCartItem) => {
 
-    const { name, price, img, onClick } = props;
-    const defaultCommision = (price / 100) * 5;
-
+    const { name, price, img, onClick, onChange, value } = props;
+    const defaultCommision = (price/100) * 5;
+    const [totalCost, setTotalCost] = useState();
+    const [priceValue, setPriceValue] = useState(price)
 
     const commisionSell = (price) => {
-        return price - defaultCommision
+        return setTotalCost(price)
     }
-
+    console.log(defaultCommision)
     return (
         <div className={styles.item_wrapper}>
             <div className={styles.container}>
@@ -29,11 +33,10 @@ const InventoryCartItem = (props: IInventoryCartItem) => {
                     <p className={styles.name}>{name}</p>
                     <div>
                         <label htmlFor=""></label>
-                        <input type="number" placeholder=""/>
+                        <CustomInput value={priceValue.toFixed(2)} type="number" placeholder="item price" onChange={(event) => setPriceValue(event.target.value)}/>
                     </div>
                     <div>
-                        <p>{price}</p>
-                        <p>{(price - defaultCommision).toFixed(2)}</p>
+                        <p>{(priceValue - defaultCommision).toFixed(2)}</p>
                     </div>
                 </div>
             </div>

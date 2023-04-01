@@ -1,7 +1,7 @@
-.register_wrapper {
+.authorization_wrapper {
     max-height: 100vh;
-    width: 100vw;
     overflow: hidden;
+
     .register_container {
         width: 100%;
         height: 100vh;
@@ -11,14 +11,17 @@
         flex-direction: column;
         gap: 10px;
         overflow: hidden;
-        .video{
+
+        .video {
             width: 80%;
             height: 100%;
         }
-        .chat{
+
+        .chat {
             width: 20%;
             height: 100%;
         }
+
         h2 {
             font-size: 48px;
             font-weight: 600;
@@ -44,31 +47,89 @@
                 margin-top: 20px;
             }
 
-            .red {
+            .switch_form {
                 width: 100%;
-                height: 30px;
-                background: red;
-                opacity: .4;
-                transition: 2s;
-                -webkit-transition: 2s;
-                -moz-transition: 2s;
-                -ms-transition: 2s;
-                -o-transition: 2s;
-            }
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+                margin-top: 10px;
 
-            .blue {
-                width: 100%;
-                height: 30px;
-                background: blue;
-                opacity: .4;
-                transition: 2s;
-                -webkit-transition: 2s;
-                -moz-transition: 2s;
-                -ms-transition: 2s;
-                -o-transition: 2s;
+                p {
+                    color: var(--text-color-m);
+                    font-size: 14px;
+                    line-height: 14px;
+                }
             }
         }
 
 
+    }
+    .register_container_hidden{
+        display: none;
+    }
+    .login_container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+
+        .video {
+            width: 80%;
+            height: 100%;
+        }
+
+        .chat {
+            width: 20%;
+            height: 100%;
+        }
+
+        h2 {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--text-color-m);
+        }
+
+        .register_form {
+            display: flex;
+            padding: 40px 20px;
+            background: var(--background-color-items);
+            flex-direction: column;
+            gap: 10px;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+
+            .messege {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            .switch_form {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+                margin-top: 10px;
+
+                p {
+                    color: var(--text-color-m);
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+            }
+        }
+    }
+    .login_container_hidden{
+        display: none;
     }
 }

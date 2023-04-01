@@ -13,7 +13,7 @@
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        color: var(--text-color-m);
+
 
         .btn_icon {
             fill: #FFFFFF;
@@ -28,6 +28,10 @@
 .purple {
     border: none;
     background: var(--color-purple);
+
+    span {
+        color: var(--text-color-m);
+    }
 }
 
 .purple:hover {
@@ -38,18 +42,24 @@
 
 .blue {
     border: none;
-    background: var(--color-blue);
+    background: var(--color-red);
+    color: var(--text-color-m);
+
+    span {
+        color: var(--text-color-m);
+    }
 }
 
 .blue:hover {
     border: none;
-    background: var(--color-blue-h);
+    background: var(--color-red-h);
     cursor: pointer;
 }
 
 .border {
     border: 1px solid var(--color-purple);
     background: transparent;
+    color: var(--text-color-m);
 }
 
 .border:hover {
@@ -60,11 +70,52 @@
 .not_active {
     border: none;
     background: var(--color-grey-not-active);
+    color: var(--text-color-m);
     cursor: not-allowed;
 }
 
 .not_active:active {
     transform: scale(1);
+}
+
+.none_background {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    opacity: .8;
+    color: var(--color-purple);
+}
+
+.none_background:hover {
+    opacity: 1;
+    color: var(--color-purple-h);
+}
+
+.text_only {
+    width: fit-content;
+    padding: 0 0;
+    font-size: 14px;
+    line-height: 14px;
+
+    .btn_icon {
+        width: 0;
+        height: 0;
+    }
+}
+
+.icon_only {
+    border-radius: 4px;
+    width: fit-content;
+    padding: 4px 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+
+    .btn_icon {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 .small {

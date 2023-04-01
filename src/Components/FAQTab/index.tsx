@@ -13,7 +13,7 @@ const FAQTAb = (props: IFAQTab) => {
     
     return (
         <div className={isActive === tabButtonIndex ? styles.tab__active : styles.tab_hidden}>
-            <p>{value}</p>
+            <p className={styles.info}>{value}</p>
         </div>
     )
 }
