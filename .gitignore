@@ -27,3 +27,5 @@ yarn-error.log*
 .firebaserc
 database.rules.json
 README.md
+src/api.json
+server/server.json

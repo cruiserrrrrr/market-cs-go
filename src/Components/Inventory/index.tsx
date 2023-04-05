@@ -7,7 +7,7 @@ import InventoryItem from "../InventoryItem";
 import { Link } from "react-router-dom";
 import Modal from "../Modal";
 import InventoryCart from "../InventoryCart";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 import { useAuth } from '../../hooks/useAuth';
 
 
@@ -17,39 +17,36 @@ const Inventory = () => {
     document.title = "User cab"
 
     const { email } = useAuth();
-    const [getInventoryItems, setGetInventoryItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [choiceItems, setChoiceItems] = useState([]);
     const [isCartActive, setisCartActive] = useState(true);
-    const [dataItems, setDataItems] = useState([]);
     const [userInventory, setUserInventory] = useState([]);
-    const [dataFireBase, setDataFireBase] = useState([]);
+    const [userInfo, setUserInfo] = useState()
 
-    const db = getDatabase();
-    const dbRef = ref(db, 'usersList');
-
+    const [dataUsers, setDataUsers] = useState([]);
+    const getDataItems = async () => {
+        await axios.get(`https://api.npoint.io/f563c815fc2a6c62889f/usersList`)
+            .then(res => {
+                setDataUsers(res.data);
+            })
+        setLoading(true)
+    }
     useEffect(() => {
-        try {
-            onValue(dbRef, (snapshot) => {
-                const data = snapshot.val();
-                setDataFireBase(data)
-                setLoading(true)
-            });
-        } catch (e) {
-            console.log(e)
-        }
+        getDataItems()
     }, [])
-    useEffect(() => {
-        setUserInventory(userInventory)
-    },[userInventory])
 
     useEffect(() => {
-        dataFireBase.filter((item) => {
+        dataUsers.filter((item) => {
             if (item.email === email) {
-                return setUserInventory(item.userItemsInventoryList)
+                setUserInventory(item.userItemsInventoryList)
+                setUserInfo(item)
             }
         })
-    }, [dataFireBase])
+    }, [dataUsers])
+
+    useEffect(() => {
+        setUserInventory(userInventory)
+    }, [userInventory])
 
     const onActiveCart = () => setisCartActive(!isCartActive)
 
@@ -67,30 +64,37 @@ const Inventory = () => {
             addItem(value)
         }
     }
+    const postCart = () => {
 
-    const postCart = (event) => {
-        event.preventDefault();
-        const postData = choiceItems.forEach(item => axios.post(`https://634eda1fdf22c2af7b44a30d.mockapi.io/userPurchaseItems`, item)
+        let item = {
+            id: "b79d634f-51d9-40b8-b489-c4539a51asd3dd",
+            img: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-jq5WYh8j3KqnUjlRd4cJ5nqfC9Inz3VHtrRJrNmj6d4XEdlBqZw7R-VTqxr-6hJS-uJjAm3FnsnQi-z-DyGAd0sdD",
+            name: "USP-S | Cyrex",
+            type: "pistols",
+            price: 121.99,
+            amount: 39,
+            rarity: "restricted",
+            category: "common",
+            weaponId: 5,
+            wearFull: "Field-Tested",
+            linkInGAme: "steam://rungame/730/76561202255233023/+csgo_econ_action_preview%20M4319554305323658803A29170484908D10110164371447953705",
+            wearAbbreviated: "FT",
+            appearanceHistory: "USP-S | Cyrex was added to the game on November 28, 2016, as part of The Glove Collection, which was released alongside the “Brothers In Arms” update. The skin was created by Nextgenz #Prisma2.",
+            patternDescription: "The design of the skin is made in a futuristic style. The black body of the pistol is adorned with stripes and various geometric shapes made in red and white. The design is complemented with white inscriptions and a small icon of a counter-terrorist. The lower part of the slide and the trigger guard are painted solid white."
+
+        };
+        axios.post(`https://api.jsonbin.io/v3/b/642c9e41ebd26539d0a4960b`, { item })
             .then(res => {
-                console.log(res);
-                console.log(res.data);
-            }));
-        const deleteChoiceItems = choiceItems.forEach(item => axios.delete('https://api.jsonbin.io/v3/b/63fe00feace6f33a22e70225', item)
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            }))
+                console.log(res.data.recod);
+            })
+            .catch(error => console.log(error))
+        // console.log('post card')
     }
 
-    const inventoryItems = getInventoryItems.find((item) => {
-        if (item.email === "cruiser@gmail.com") {
-            return item
-        }
-    })
 
     return (
         <div className={styles.inventory_wrapper}>
-        {/* <div className={styles.inventory_wrapper__active}> */}
+            {/* <div className={styles.inventory_wrapper__active}> */}
             <div className={styles.container}>
                 {loading ?
                     <div className={styles.items_container}>
@@ -102,21 +106,7 @@ const Inventory = () => {
                                     buttons={
                                         <Link to={`/item/${item.id}`}
                                             state={{
-                                                // name: item.name,
                                                 id: item.id,
-                                                // img: item.img,
-                                                // type: item.type,
-                                                // wearAbbreviated: item.wearAbbreviated,
-                                                // wearFull: item.wearFull,
-                                                // price: 0,
-                                                // amount: item.amount,
-                                                // rarity: item.rarity,
-                                                // category: item.category,
-                                                // weaponId: item.weaponId,
-                                                // data: item.itemsData,
-                                                // appearanceHistory: item.appearanceHistory,
-                                                // patternDescription: item.patternDescription,
-                                                // linkInGAme: item.linkInGAme
                                             }}>
                                             View in market
                                         </Link>
@@ -153,7 +143,7 @@ const Inventory = () => {
                             <p>Please choice items for sale</p>
                         </div>
                         :
-                        <InventoryCart dataCart={choiceItems} onClickSend={postCart} />
+                        <InventoryCart getDataCart={choiceItems} onClickSend={postCart} />
                 }
             </Modal>
         </div>

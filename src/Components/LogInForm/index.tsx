@@ -7,16 +7,16 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router";
 import CustomInput from "../CustomInput";
 import Button from "../Button";
-
+import { useAuth } from "../../hooks/useAuth";
 
 const LogInForm = () => {
-    document.title ="Log In"
+    document.title = "Log In"
     const [nameUserLogIn, setNameUserLogIn] = useState('');
     const [passwordUserLogIn, setPasswordUserLogIn] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const { isAuth } = useAuth();
     const logIn = (e, email, password) => {
         e.preventDefault();
         const auth = getAuth();
@@ -30,10 +30,9 @@ const LogInForm = () => {
                 }))
                 navigate("/usercab");
             })
-            // .catch(console.error)
-
     }
 
+    
     return (
         <div className={styles.login_wrapper}>
             <div className={styles.login_container}>

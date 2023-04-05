@@ -70,14 +70,9 @@ const ItemPage = (props: IItemPage) => {
         setData(dataFireBase)
     }, [dataFireBase])
 
-    // const item = data.find(item => item.id === id); 
     useEffect(() => {
         setMamketItem
     }, [])
-
-    console.log(marketItem)
-    // console.log(Object.keys(marketItem))
-
     const similarItems = data.filter(item => item.name === marketItem.name);
 
     const CHAT_ID = -1001866746317;

@@ -8,6 +8,8 @@ import { setUser, } from '../../store/slices/userSlice'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import CustomInput from "../CustomInput";
 import Button from "../Button";
+import { getDatabase, ref, set, update } from "firebase/database";
+import { useAuth } from "../../hooks/useAuth";
 
 const SignUpForm = () => {
 
@@ -16,9 +18,11 @@ const SignUpForm = () => {
     const [passwordUserSignUp, setPasswordUserSignUp] = useState('');
     const [signUpError, setSignUpError] = useState('');
 
+    const db = getDatabase();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { isAuth } = useAuth();
 
     const singUp = (e, email, password) => {
         e.preventDefault();
@@ -31,14 +35,8 @@ const SignUpForm = () => {
                     id: user.uid,
                     token: user.accessToken,
                 }))
-                navigate("/login");
+                navigate("/usercab");
             })
-            // .catch(console.error)
-            // .catch(error => {
-            //     const errorCode = error.code;
-            //     setSignUpError(error.message);
-            //     console.error
-            // })
     }
 
     return (

@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import InventoryCartItem from "../InventoryCartItem";
 import styles from "./index.module.scss";
 
 interface IInventoryCart {
-    dataCart: Array;
+    getDataCart: Array;
     onClickSend: (event: any) => void;
 }
 
 const InventoryCart = (props: IInventoryCart) => {
 
-    const { dataCart, onClickSend } = props;
+    const { getDataCart, onClickSend } = props;
+    const [dataCart, setDataCart] = useState(getDataCart)
     const [priceValue, setPriceValue] = useState()
+
+    const deleteAllItems = () => {
+        dataCart.lenght = 0
+    }
+
+    useEffect(() => {
+        setDataCart(getDataCart)
+    },[getDataCart])
+
     return (
         <div className={styles.inventory_cart}>
             <div className={styles.cart_wrapper}>
@@ -31,7 +41,7 @@ const InventoryCart = (props: IInventoryCart) => {
                 </div>
                 <div className={styles.sale_wrapper}>
                     <div className={styles.buttons_continer}>
-                        <Button value="Delete all items" color="border" size="medium" iconName="none" />
+                        <Button value="Delete all items" color="border" size="medium" iconName="none" onClick={deleteAllItems}/>
                         <Button value="Put up for sale" color="purple" size="medium" iconName="none" onClick={onClickSend}/>
                     </div>
                 </div>

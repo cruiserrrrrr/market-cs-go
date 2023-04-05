@@ -5,7 +5,7 @@
     padding: 20px 20px;
     display: flex;
     // gap: 20px;
-
+    flex: 1;
     .items_wrapper {
         width: 100%;
         max-height: 90vh;
@@ -92,6 +92,7 @@
         display: flex;
         position: relative;
         // gap: 20px;
+        flex: 1;
 
         .items_wrapper {
             width: 100%;
@@ -105,7 +106,7 @@
                 width: 100%;
                 padding: 6px 6px;
                 flex-wrap: wrap;
-                grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
                 gap: 6px;
 
                 .data_err {

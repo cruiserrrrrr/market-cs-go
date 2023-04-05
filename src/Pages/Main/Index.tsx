@@ -14,6 +14,8 @@ import { app } from '../../firebase.js';
 import { getDatabase, ref, child, get, onValue, set } from "firebase/database";
 import { current } from "@reduxjs/toolkit";
 import Button from "../../Components/Button";
+import apiData from "../../api.json"
+
 
 const Main = () => {
 
@@ -23,32 +25,49 @@ const Main = () => {
     const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState({ rarity: [], wearFull: [], type: [] });
     const navigate = useNavigate();
-    const [dataFireBase, setDataFireBase] = useState([]);
-    const [data, setData] = useState(dataFireBase);
+    // const [dataFireBase, setDataFireBase] = useState([]);
+    const [data, setData] = useState([]);
     const [filtredData, setFiltredData] = useState([]);
     const [filterActive, setFilterActive] = useState(true);
 
-    const db = getDatabase();
-    const dbRef = ref(db, 'allItemsOnSell');
+    // const db = getDatabase();
+    // const dbRef = ref(db, 'allItemsOnSell');
 
+    const [getItemsDataFirst, setGetItemsDataFirst] = useState([]);
+    const [getItemsDataSecond, setGetItemsDataSecond] = useState([]);
+    const [getItemsDataThird, setGetItemsThird] = useState([]);
+    const [dataItems, setDataItems] = useState([]);
+
+
+    const getDataItems = async () => {
+        await axios.get(`https://api.jsonbin.io/v3/b/642c9db0ebd26539d0a495ce`)
+            .then(res => {
+                setGetItemsDataFirst(res.data.record);
+            })
+        await axios.get(`https://api.jsonbin.io/v3/b/642c9deeebd26539d0a495ed`)
+            .then(res => {
+                setGetItemsDataSecond(res.data.record);
+            })
+        await axios.get(`https://api.jsonbin.io/v3/b/642c9e41ebd26539d0a4960b`)
+            .then(res => {
+                setGetItemsThird(res.data.record);
+            })
+        setLoading(true)
+    }
 
     useEffect(() => {
-        try {
-            onValue(dbRef, (snapshot) => {
-                const data = snapshot.val();
-                setDataFireBase(data)
-                setLoading(true)
-            });
-        } catch (e) {
-            console.log(e)
-        }
+        getDataItems();
     }, [])
-    useEffect(() => {
-        setData(dataFireBase)
-    }, [dataFireBase])
 
     useEffect(() => {
-        setFilters;
+        const mergedArrays = getItemsDataFirst.concat(getItemsDataSecond, getItemsDataThird);
+        setDataItems(mergedArrays)
+    }, [getItemsDataThird])
+
+    console.log(dataItems);
+
+    useEffect(() => {
+        setFilters
     }, []);
 
     const filterHandler = (name, value) => {
@@ -70,15 +89,15 @@ const Main = () => {
     }
 
     useEffect(() => {
-        setFiltredData(data)
-    }, [data])
+        setFiltredData(dataItems)
+    }, [dataItems])
 
     useEffect(() => {
         const filtersLength = Object.values(filters).filter((item) => {
             return item.length
         }).length;
         if (filtersLength) {
-            const filterType = data.filter((item) => {
+            const filterType = dataItems.filter((item) => {
                 if (filtersLength === Object.keys(filters).filter((filterItem) => (
                     filters[filterItem].includes(item[filterItem])
                 )).length) {
@@ -87,19 +106,18 @@ const Main = () => {
             })
             return setFiltredData(filterType)
         } else {
-            setFiltredData(data)
+            setFiltredData(dataItems)
         }
 
     }, [filters]);
-    // const shuffleData = arrayShuffle(filtredData);
-    // console.log(shuffleData)
     const isFilterActive = () => setFilterActive(!filterActive);
 
+    const shaffleData = filtredData.sort(() => Math.random() - 0.5);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.items_wrapper}>
-                {dataFireBase.length > 0 ?
+                {dataItems.length > 0 ?
                     <div className={styles.items_container}>
                         {
                             filtredData.length === 0 ?
@@ -109,7 +127,7 @@ const Main = () => {
                                     </p>
                                 </div>
                                 :
-                                filtredData.map((item, index) => {
+                                shaffleData.map((item, index) => {
                                     return <Marketitem
                                         buttons={<ItemButton value="Add to cart" onClick={() => console.log('Add to cart')} />}
                                         // itemsData={filtredData}
@@ -154,33 +172,38 @@ const Main = () => {
             <div className={styles.on_filter}>
                 <Button iconName="limit" color="purple" size="icon_only" onClick={isFilterActive} />
             </div>
-            <div className={filterActive ? styles.filter_mobile_hidden : styles.filter_mobile_active} onClick={isFilterActive}>
-                <div className={styles.filter_mobile} onClick={e => e.stopPropagation()}>
-                    <div className={styles.filter_mobile_container}>
-                        <div className={styles.header}>
-                            <p>
-                                filter
-                            </p>
+            {
+                window.innerWidth > 620 ?
+                    <></>
+                    :
+                    <div className={filterActive ? styles.filter_mobile_hidden : styles.filter_mobile_active} onClick={isFilterActive}>
+                        <div className={styles.filter_mobile} onClick={e => e.stopPropagation()}>
+                            <div className={styles.filter_mobile_container}>
+                                <div className={styles.header}>
+                                    <p>
+                                        filter
+                                    </p>
+                                </div>
+                                <DropDownFilter title="type">
+                                    {filtersData.type.map((element, index) => (
+                                        <FilterItem onClick={filterHandler} value={element} key={element + index} title="type" />
+                                    ))}
+                                </DropDownFilter>
+                                <DropDownFilter title="wearFull">
+                                    {filtersData.wearFull.map((element, index) => (
+                                        <FilterItem onClick={filterHandler} value={element} key={element + index} title="wearFull" />
+                                    ))}
+                                </DropDownFilter>
+                                <DropDownFilter title="rarity">
+                                    {filtersData.rarity.map((element, index) => (
+                                        <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
+                                    ))}
+                                </DropDownFilter>
+                            </div>
                         </div>
-                        <DropDownFilter title="type">
-                            {filtersData.type.map((element, index) => (
-                                <FilterItem onClick={filterHandler} value={element} key={element + index} title="type" />
-                            ))}
-                        </DropDownFilter>
-                        <DropDownFilter title="wearFull">
-                            {filtersData.wearFull.map((element, index) => (
-                                <FilterItem onClick={filterHandler} value={element} key={element + index} title="wearFull" />
-                            ))}
-                        </DropDownFilter>
-                        <DropDownFilter title="rarity">
-                            {filtersData.rarity.map((element, index) => (
-                                <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
-                            ))}
-                        </DropDownFilter>
                     </div>
-                </div>
-            </div>
-        </div>
+            }
+        </div >
     )
 
 }

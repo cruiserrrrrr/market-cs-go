@@ -43,7 +43,9 @@
 *::selection {
     background-color: rgba(109, 109, 228, .5);
 }
-
+body{
+    background: var(--background-c-m);
+}
 .app {
     display: flex;
     flex-direction: column;

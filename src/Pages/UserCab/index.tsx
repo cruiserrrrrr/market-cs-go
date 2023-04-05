@@ -8,8 +8,9 @@ import { useDispatch } from 'react-redux';
 import Button from "../../Components/Button/index";
 import { removeUser } from "../../store/slices/userSlice";
 import LoadingComponent from "../../Components/LoadingComponent/index";
-import { getDatabase, ref, onValue } from "firebase/database";
+// import { getDatabase, ref, onValue } from "firebase/database";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 interface IUserCab {
 
@@ -22,35 +23,57 @@ const UserCab = (props: IUserCab) => {
     const dispath = useDispatch();
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState({});
-    const [dataFireBase, setDataFireBase] = useState([]);
+    // const [dataFireBase, setDataFireBase] = useState([]);
+    const [activeSidebar, setActiveSidebar] = useState(true);
+    const [windowWidth, setWindowWidth] = useState(!!(window.innerWidth > 610))
+    const [dataItems, setDataItems] = useState([]);
+
+    const isActiveSidebar = () => setActiveSidebar(!activeSidebar)
+
     const navigate = useNavigate();
 
-    const db = getDatabase();
-    const dbRef = ref(db, 'usersList');
+    const getDataItems = async () => {
+        await axios.get(`https://api.npoint.io/f563c815fc2a6c62889f/usersList`)
+            .then(res => {
+                setDataItems(res.data);
+            })
+        setLoading(true)
+    }
     useEffect(() => {
-        try {
-            onValue(dbRef, (snapshot) => {
-                const data = snapshot.val();
-                setDataFireBase(data)
-                setLoading(true)
-            });
-        } catch (e) {
-            console.log(e)
-        }
+        getDataItems()
     }, [])
+    console.log(dataItems)
+
+    // const db = getDatabase();
+    // const dbRef = ref(db, 'usersList');
+    // useEffect(() => {
+    //     try {
+    //         onValue(dbRef, (snapshot) => {
+    //             const data = snapshot.val();
+    //             setDataFireBase(data)
+    //             setLoading(true)
+    //         });
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }, [])
 
     useEffect(() => {
-        dataFireBase.filter((item) => {
+        dataItems.filter((item) => {
             if (item.email === email) {
                 return setUser(item)
             }
         })
-    }, [dataFireBase])
+    }, [dataItems])
 
     const logout = () => {
         dispath(removeUser());
         navigate('/login');
     }
+    useEffect(() => {
+        setWindowWidth(windowWidth)
+        console.log(windowWidth)
+    }, [windowWidth])
 
     return (
         <div className={styles.usercab_wrapper}>
@@ -59,7 +82,7 @@ const UserCab = (props: IUserCab) => {
                     {
                         loading ?
                             <>
-                                <div className={styles.sidebar}>
+                                <div className={activeSidebar ? styles.sidebar : styles.sidebar_active}>
                                     <div className={styles.profile_info}>
                                         <div className={styles.profile_info}>
                                             <div className={styles.profile_icon}>
@@ -67,22 +90,28 @@ const UserCab = (props: IUserCab) => {
                                             </div>
                                             <p className={styles.username}>{email}</p>
                                             <p className={styles.username}>Balance: {user.userBalance}$</p>
-                                            <Button color="purple" size="medium" value="logout" onClick={logout} />
+                                            <Button color="purple" size="icon_only" iconName="logout" onClick={logout} />
                                         </div>
-                                        <div>
 
-                                        </div>
                                     </div>
                                     <ul className={styles.tabs_buttons}>
-                                        <NavItem to='/usercab/' value="Inventory" title="Inventory" />
-                                        <NavItem to='operationsHistory' value="OperationsHistory" title="OperationsHistory" />
-                                        <NavItem to='purchaseRequests' value="PurchaseRequests" title="PurchaseRequests" />
-                                        <NavItem to='itemsForSale' value="ItemsForSale" title="ItemsForSale" />
+                                        <NavItem sizeIcon="icon_medium" iconName="close" to='/usercab/' value="Inventory" title="Inventory" />
+                                        <NavItem sizeIcon="icon_medium" iconName="close" to='operationsHistory' value="OperationsHistory" title="OperationsHistory" />
+                                        <NavItem sizeIcon="icon_medium" iconName="close" to='purchaseRequests' value="PurchaseRequests" title="PurchaseRequests" />
+                                        <NavItem sizeIcon="icon_medium" iconName="close" to='itemsForSale' value="ItemsForSale" title="ItemsForSale" />
                                     </ul>
+                                    {windowWidth < !!620 ?
+                                        <></>
+                                        :
+                                        <div className={activeSidebar ? styles.sidebar_control__inside_active : styles.sidebar_control__inside}>
+                                            <Button color="purple" size="icon_only" iconName="sidebar_icon" onClick={isActiveSidebar} />
+                                        </div>
+                                    }
                                 </div>
                                 <div className={styles.tabs_container}>
                                     <Outlet />
                                 </div>
+
                             </>
                             :
                             <LoadingComponent />
@@ -91,6 +120,13 @@ const UserCab = (props: IUserCab) => {
                 :
                 <Navigate to="/register" />
             }
+            {/* {window.innerWidth > 610 ?
+                <></>
+                :
+                <div className={activeSidebar ? styles.sidebar_control__active : styles.sidebar_control}>
+                    <Button color="purple" size="icon_only" iconName="sidebar_icon" onClick={isActiveSidebar} />
+                </div>
+            } */}
         </div>
     )
 }

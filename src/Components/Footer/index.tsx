@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 
 const Footer = () => {
     return(
-        <div className={styles.footer_wrapper}>
+        <footer className={styles.footer_wrapper}>
             <div className={styles.container}>
                 <div className={styles.creator}>
                     <MainLogo/>
@@ -16,7 +16,7 @@ const Footer = () => {
 
                 </ul>
             </div>
-        </div>
+        </footer>
     )
 }
 

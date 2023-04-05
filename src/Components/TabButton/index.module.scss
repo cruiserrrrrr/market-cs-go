@@ -46,3 +46,36 @@
         border-right: 2px solid var(--background-color-items);
     }
 }
+
+@media (max-width: 768px) {
+    .button {
+        padding: 5px 15px;
+        font-size: 12px;
+        font-weight: 300;
+        color: var(--text-color-m);
+        background: var(--background-c-m);
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-right: 2px solid var(--background-c-m);
+    }
+
+    .active_button {
+        padding: 5px 15px;
+        font-size: 12px;
+        font-weight: 300;
+        color: var(--text-color-m);
+        background: var(--background-color-items);
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        animation: 4s linear 0s infinite alternate active;
+        -webkit-animation: 4s linear 0s infinite alternate active;
+        border-right: 2px solid var(--background-color-items);
+        border-radius: 6px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        -ms-border-radius: 6px;
+
+    }
+}
