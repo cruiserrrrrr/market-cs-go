@@ -1,0 +1,111 @@
+.modal_wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+
+    overflow: hidden;
+    z-index: -4;
+
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+
+    opacity: 0;
+    pointer-events: none;
+
+
+    .container {
+        display: flex;
+        position: relative;
+        align-items: center;
+        flex-direction: column;
+        min-width: 200px;
+        min-height: 200px;
+        padding: 10px 10px;
+
+
+        background-color: var(--background-c-m);
+        border-radius: 12px;
+        border: 1px solid var(--color-purple);
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+        -ms-border-radius: 12px;
+        -o-border-radius: 12px;
+        z-index: 21;
+
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+
+        button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    }
+}
+
+.modal_wrapper_active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(19, 20, 23, .5);
+    z-index: 20;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+
+    z-index: 20;
+
+    opacity: 1;
+    pointer-events: all;
+    overflow: hidden;
+
+    .container {
+        display: flex;
+        position: absolute;
+        min-width: 200px;
+        min-height: 200px;
+        max-height: 96vh;
+        // overflow: scroll;
+        overflow-x: hidden;
+        padding: 20px 20px;
+        background-color: var(--background-c-m);
+        border: 1px solid var(--color-purple);
+        border-radius: 12px 0 0 12px;
+        -webkit-border-radius: 12px 0 0 12px;
+        -moz-border-radius: 12px 0 0 12px;
+        -ms-border-radius: 12px 0 0 12px;
+        -o-border-radius: 12px 0 0 12px;
+        z-index: 21;
+        transition: .2s ease;
+        -webkit-transition: .2s ease;
+        -moz-transition: .2s ease;
+        -ms-transition: .2s ease;
+        -o-transition: .2s ease;
+
+        .button_pos {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    }
+}

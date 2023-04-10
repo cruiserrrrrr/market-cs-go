@@ -16,17 +16,37 @@
         font-weight: 600;
         font-size: 16px;
         line-height: 16px;
-        color: var(--white-color);
+        color: var(--text-color-m);
 
         cursor: pointer;
         overflow: hidden;
         transition: .15s;
         text-decoration: none;
 
+        .icon_none {
+            width: 0;
+            height: 0;
+        }
+
+        .icon_small {
+            width: 6px;
+            height: 6px;
+        }
+
+        .icon_medium {
+            width: 14px;
+            height: 14px;
+        }
+
+        .icon_large {
+            width: 18px;
+            height: 18px;
+        }
+
     }
 
     .link:hover {
-        color: var();
+        color: var(--text-color-m-h);
     }
 
     .active_link {

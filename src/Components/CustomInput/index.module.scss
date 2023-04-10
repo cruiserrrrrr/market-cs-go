@@ -1,11 +1,10 @@
 .custom_input {
-    background-color: var(--color-primary);
-    color: var(--white-color);
+    background: var(--background-c-m);
+    color: var(--text-color-m);
     padding: 6px 12px;
-    width: 100%;
     max-width: 320px;
     outline: none;
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--background-color-items);
 
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -25,11 +24,6 @@
 
 }
 
-.custom_input::placeholder {
-    color: var(--white-color);
-    opacity: .6;
-}
-
 .custom_input:focus {
-    border: 1px solid var(--white-color);
+    border: 1px solid var(--color-purple);
 }

@@ -27,6 +27,7 @@ const ButtonLink = (props: IButton) => {
 
         >
             <span >
+                <Icon name={iconName} className={styles.btn_icon} />
                 {value}
             </span>
         </Link>

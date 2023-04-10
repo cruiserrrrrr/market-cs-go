@@ -1,0 +1,82 @@
+.dropdown_wrapper {
+    max-width: 180px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--text-color-m);
+            text-transform: uppercase;
+        }
+
+        .icon {
+            fill: #FFFFFF;
+            width: 8px;
+            height: 8px;
+            transition: .2s ease;
+            -webkit-transition: .2s ease;
+            -moz-transition: .2s ease;
+            -ms-transition: .2s ease;
+            -o-transition: .2s ease;
+            margin-bottom: 2px;
+        }
+
+        .icon_active {
+            fill: #FFFFFF;
+            width: 8px;
+            height: 8px;
+            transform: rotate(-180deg);
+            -webkit-transform: rotate(-180deg);
+            -moz-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            -o-transform: rotate(-180deg);
+            transition: .25s ease;
+            -webkit-transition: .25s ease;
+            -moz-transition: .25s ease;
+            -ms-transition: .25s ease;
+            -o-transition: .25s ease;
+            margin-bottom: 2px;
+        }
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        gap: 6px;
+        //height: auto;
+        max-height: 0px;
+        overflow: hidden;
+        color: var(--text-color-m);
+        transition: max-height .25s ease;
+        -webkit-transition: max-height .25s ease;
+        -moz-transition: max-height .25s ease;
+        -ms-transition: max-height .25s ease;
+        -o-transition: max-height .25s ease;
+    }
+
+    .container_active {
+        //height: auto;
+        max-height: 300px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        gap: 6px;
+        color: var(--text-color-m);
+        overflow: hidden;
+        transition: max-height .25s ease;
+        -webkit-transition: max-height .25s ease;
+        -moz-transition: max-height .25s ease;
+        -ms-transition: max-height .25s ease;
+        -o-transition: max-height .25s ease;
+        padding-bottom: 10px;
+    }
+}

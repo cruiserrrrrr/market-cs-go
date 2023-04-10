@@ -1,226 +1,211 @@
-import React, { useState, useEffect, useRef } from "react";
-import TodosItem from "../../Components/TodosItem/index";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from './index.module.scss';
-import { useAuth } from "../../hooks/useAuth";
+import Marketitem from "../../Components/MarketItem/index";
+import arrayShuffle from 'array-shuffle';
+import ItemButton from "../../Components/ItemButton/index";
+import DropDownFilter from "../../Components/DropDownFilter/index";
+import FilterItem from "../../Components/FilterItem/index";
 import axios from "axios";
-import Button from "../../Components/Button/index";
-import CustomInput from "../../Components/CustomInput";
-import BaseToast from "../../Components/BaseToast";
-import LoadingComponent from "../../Components/LoadingComponent";
+import LoadingComponent from "../../Components/LoadingComponent/index";
+import filtersData from "../../allData/filters.json"
+import qs from 'qs';
+import { app } from '../../firebase.js';
+import { getDatabase, ref, child, get, onValue, set } from "firebase/database";
+import { current } from "@reduxjs/toolkit";
+import Button from "../../Components/Button";
+import apiData from "../../api.json"
 
 
 const Main = () => {
 
-    document.title = "You todos";
 
-    const { email } = useAuth();
-    const [todoList, setTodoList] = useState([]);
-    const [todoValue, setTodoValue] = useState('');
-    const [isToastShown, setIsToastShown] = useState(false);
-    const [toastStatus, setToastStatus] = useState('');
-    const [toastValue, setToastValue] = useState('');
-    const [updatedData, setUpdatedData] = useState('')
-    const [loading, setLoading] = useState(false)
+    document.title = "CS:GO MARKET"
 
+    const [loading, setLoading] = useState(false);
+    const [filters, setFilters] = useState({ rarity: [], wearFull: [], type: [] });
+    const navigate = useNavigate();
+    // const [dataFireBase, setDataFireBase] = useState([]);
+    const [data, setData] = useState([]);
+    const [filtredData, setFiltredData] = useState([]);
+    const [filterActive, setFilterActive] = useState(true);
 
-    const closeToastTimer = useRef();
+    // const db = getDatabase();
+    // const dbRef = ref(db, 'allItemsOnSell');
 
-    const getTodo = async (loaded) => {
-        const serverError = 'error';
-        const valueBad = 'Server error';
-        try {
-            const data = await axios.get(`https://todos-80as.onrender.com/todosList`)
-                .then(res => setTodoList(res.data))
-        } catch (error) {
-            setToastStatus(serverError)
-            setToastValue(valueBad)
-            showToast();
-            console.log(error.response.data)
-        }
-        setLoading(loaded)
-    }
+    const [getItemsDataFirst, setGetItemsDataFirst] = useState([]);
+    const [getItemsDataSecond, setGetItemsDataSecond] = useState([]);
+    const [getItemsDataThird, setGetItemsThird] = useState([]);
+    const [dataItems, setDataItems] = useState([]);
 
 
-
-    const todoCreate = async (e, todo) => {
-        e.preventDefault();
-        const createSuccess = 'success';
-        const valueSuccess = 'Task added';
-        const createBad = 'error';
-        const valueBad = 'Error added';
-
-        try {
-            const data = await axios.post("https://todos-80as.onrender.com/todosList", {
-                creatorEmail: email,
-                case: todo,
-                todoStatus: false
+    const getDataItems = async () => {
+        await axios.get(`https://api.jsonbin.io/v3/b/642c9db0ebd26539d0a495ce`)
+            .then(res => {
+                setGetItemsDataFirst(res.data.record);
             })
-            setToastStatus(createSuccess)
-            setToastValue(valueSuccess)
-            showToast();
-        } catch (error) {
-            setToastStatus(createBad)
-            setToastValue(valueBad)
-            showToast();
-            console.error(error)
-        }
-        setTodoValue('');
-    }
-    const todoUpdate = async (e, id, todo, status) => {
-        e.preventDefault();
-        const updateSuccess = 'Case updated';
-        const updateOk = 'success';
-        const updateBad = 'error';
-        const valueBad = 'Update error';
-
-        try {
-            const data = await axios.put(`https://todos-80as.onrender.com/todosList/${id}`, {
-                creatorEmail: email,
-                case: todo,
-                todoStatus: status
+        await axios.get(`https://api.jsonbin.io/v3/b/642c9deeebd26539d0a495ed`)
+            .then(res => {
+                setGetItemsDataSecond(res.data.record);
             })
-            setToastStatus(updateOk)
-            setToastValue(updateSuccess)
-            showToast();
-        } catch (error) {
-            setToastStatus(updateBad)
-            setToastValue(valueBad)
-            showToast();
-        }
+        await axios.get(`https://api.jsonbin.io/v3/b/642c9e41ebd26539d0a4960b`)
+            .then(res => {
+                setGetItemsThird(res.data.record);
+            })
+        setLoading(true)
     }
-    const todoChangeStatus = async (e, id, todo, status) => {
-        e.preventDefault();
-        const updateSuccess = 'Case updated';
-        const updateOk = 'success';
-        const updateBad = 'error';
-        const valueBad = 'Update error';
 
-        if (status === true) {
-            try {
-                const data = await axios.put(`https://todos-80as.onrender.com/todosList/${id}`, {
-                    creatorEmail: email,
-                    case: todo,
-                    todoStatus: false
-                })
-                setToastStatus(updateOk)
-                setToastValue(updateSuccess)
-                showToast();
-            } catch (error) {
-                setToastStatus(updateBad)
-                setToastValue(valueBad)
-                showToast();
-            }
-        } else {
-            try {
-                const data = await axios.put(`https://todos-80as.onrender.com/todosList/${id}`, {
-                    creatorEmail: email,
-                    case: todo,
-                    todoStatus: true
-                })
-                setToastStatus(updateOk)
-                setToastValue(updateSuccess)
-                showToast();
-            } catch (error) {
-                setToastStatus(updateBad)
-                setToastValue(valueBad)
-                showToast();
-            }
-        }
-    }
-    const deleteTodo = async (e, id) => {
-        e.preventDefault();
-        const todoDeleted = 'Todo deleted';
-        const deleteOk = 'success';
-        const deleteBad = 'error';
-        const valueBad = 'Error delete';
-
-        try {
-            const data = await axios.delete(`https://todos-80as.onrender.com/todosList/${id}`);
-            setToastStatus(deleteOk)
-            setToastValue(todoDeleted)
-            showToast();
-        } catch (error) {
-            setToastStatus(deleteBad)
-            setToastValue(valueBad)
-            showToast();
-        }
-    }
     useEffect(() => {
-        getTodo(true)
-    }, [todoList])
-    useEffect(() => {
-        setTodoList
+        getDataItems();
     }, [])
 
+    useEffect(() => {
+        const mergedArrays = getItemsDataFirst.concat(getItemsDataSecond, getItemsDataThird);
+        setDataItems(mergedArrays)
+    }, [getItemsDataThird])
 
-    const showToast = () => {
-        setIsToastShown(true);
-        closeToastTimer.current = window.setTimeout(hideToast, 3000)
-    }
-    const hideToast = () => {
-        setIsToastShown(false)
-    }
-    const filtredTodo = todoList.filter(item => item.creatorEmail === email);
+    console.log(dataItems);
 
+    useEffect(() => {
+        setFilters
+    }, []);
+
+    const filterHandler = (name, value) => {
+        const arrCategory = filters[name];
+        const index = arrCategory.indexOf(value);
+        let result;
+
+        if (index >= 0) {
+            result = arrCategory.filter(item => item !== value)
+        } else {
+            result = [...arrCategory, value];
+        }
+        setFilters({ ...filters, [name]: result });
+
+        const queryString = qs.stringify({
+            sortProperty: filters
+        })
+        navigate(`?${queryString}`)
+    }
+
+    useEffect(() => {
+        setFiltredData(dataItems)
+    }, [dataItems])
+
+    useEffect(() => {
+        const filtersLength = Object.values(filters).filter((item) => {
+            return item.length
+        }).length;
+        if (filtersLength) {
+            const filterType = dataItems.filter((item) => {
+                if (filtersLength === Object.keys(filters).filter((filterItem) => (
+                    filters[filterItem].includes(item[filterItem])
+                )).length) {
+                    return item
+                }
+            })
+            return setFiltredData(filterType)
+        } else {
+            setFiltredData(dataItems)
+        }
+
+    }, [filters]);
+    const isFilterActive = () => setFilterActive(!filterActive);
+
+    const shaffleData = filtredData.sort(() => Math.random() - 0.5);
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.container}>
-                {
-                    loading ?
-                        <>
-                            <div className={styles.create_todo}>
-                                <form>
-                                    <CustomInput
-                                        placeholder="You todos =)"
-                                        type="text"
-                                        value={todoValue}
-                                        onChange={(e) => setTodoValue(e.target.value)}
-                                    />
-                                    <Button
-                                        iconName="plus"
-                                        color="primary"
-                                        size="icon_only"
-                                        onClick={(e) => todoCreate(e, todoValue)}
-                                    />
-                                </form>
-                            </div>
-                            {filtredTodo.length <= 0 ?
-                                <>
-                                    <div className={styles.warning}>
-                                        <p>{`You don't have any entries yet =)`}</p>
-                                    </div>
-                                </>
+            <div className={styles.items_wrapper}>
+                {dataItems.length > 0 ?
+                    <div className={styles.items_container}>
+                        {
+                            filtredData.length === 0 ?
+                                <div className={styles.data_err}>
+                                    <p>
+                                        No matching items.
+                                    </p>
+                                </div>
                                 :
-                                <>
-                                    <div className={styles.todos_container}>
-                                        {
-                                            filtredTodo.map((item) => (
-                                                <TodosItem
-                                                    key={item.id}
-                                                    statusTodos={item.todoStatus}
-                                                    todos={item.case}
-                                                    deleteTodo={(e) => deleteTodo(e, item.id)}
-                                                    compliteTodo={(e) => todoChangeStatus(e, item.id, item.case, item.todoStatus)}
-                                                    update={(e) => todoUpdate(e, item.id, updatedData, item.todoStatus)}
-                                                    textAreaValue={updatedData}
-                                                    onChangeText={(e) => setUpdatedData(e.target.value)}
-                                                />
-                                            ))
-                                        }
-                                    </div>
-                                </>
-                            }
-                        </>
-                        :
-                        <LoadingComponent />
+                                shaffleData.map((item, index) => {
+                                    return <Marketitem
+                                        buttons={<ItemButton value="Add to cart" onClick={() => console.log('Add to cart')} />}
+                                        // itemsData={filtredData}
+                                        key={item.id + index}
+                                        name={item.name}
+                                        wearAbbreviated={item.wearAbbreviated}
+                                        img={item.img}
+                                        id={item.id}
+                                        price={item.price}
+                                        rarity={item.rarity}
+                                    />
+                                })
+                        }
+                    </div> :
+                    <LoadingComponent />
                 }
             </div>
+            <div className={styles.filter}>
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <p>
+                            filter
+                        </p>
+                    </div>
+                    <DropDownFilter title="type">
+                        {filtersData.type.map((element, index) => (
+                            <FilterItem onClick={filterHandler} value={element} key={element + index} title="type" />
+                        ))}
+                    </DropDownFilter>
+                    <DropDownFilter title="wearFull">
+                        {filtersData.wearFull.map((element, index) => (
+                            <FilterItem onClick={filterHandler} value={element} key={element + index} title="wearFull" />
+                        ))}
+                    </DropDownFilter>
+                    <DropDownFilter title="rarity">
+                        {filtersData.rarity.map((element, index) => (
+                            <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
+                        ))}
+                    </DropDownFilter>
+                </div>
+            </div>
+            <div className={styles.on_filter}>
+                <Button iconName="limit" color="purple" size="icon_only" onClick={isFilterActive} />
+            </div>
             {
-                isToastShown && <BaseToast type={toastStatus} value={toastValue} onClick={hideToast} />
+                window.innerWidth > 620 ?
+                    <></>
+                    :
+                    <div className={filterActive ? styles.filter_mobile_hidden : styles.filter_mobile_active} onClick={isFilterActive}>
+                        <div className={styles.filter_mobile} onClick={e => e.stopPropagation()}>
+                            <div className={styles.filter_mobile_container}>
+                                <div className={styles.header}>
+                                    <p>
+                                        filter
+                                    </p>
+                                </div>
+                                <DropDownFilter title="type">
+                                    {filtersData.type.map((element, index) => (
+                                        <FilterItem onClick={filterHandler} value={element} key={element + index} title="type" />
+                                    ))}
+                                </DropDownFilter>
+                                <DropDownFilter title="wearFull">
+                                    {filtersData.wearFull.map((element, index) => (
+                                        <FilterItem onClick={filterHandler} value={element} key={element + index} title="wearFull" />
+                                    ))}
+                                </DropDownFilter>
+                                <DropDownFilter title="rarity">
+                                    {filtersData.rarity.map((element, index) => (
+                                        <FilterItem onClick={filterHandler} value={element} key={element + index} title="rarity" />
+                                    ))}
+                                </DropDownFilter>
+                            </div>
+                        </div>
+                    </div>
             }
-        </div>
+        </div >
     )
+
 }
 
 export default Main;

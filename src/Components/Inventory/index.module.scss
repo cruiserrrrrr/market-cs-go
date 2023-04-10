@@ -1,0 +1,101 @@
+.inventory_wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 600;
+    // position: relative;
+
+    .container {
+        display: flex;
+        width: 100%;
+        position: relative;
+
+        .items_container {
+            display: grid;
+            width: 100%;
+            padding: 6px 6px;
+            flex-wrap: wrap;
+            grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+            gap: 6px;
+        }
+
+        .cart {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--color-purple);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 30px;
+            border-radius: 0 0 0 30px;
+            -webkit-border-radius: 0 0 0 30px;
+            -moz-border-radius: 0 0 0 30px;
+            -ms-border-radius: 0 0 0 30px;
+            -o-border-radius: 0 0 0 30px;
+            transition: .25s;
+            -webkit-transition: .25s;
+            -moz-transition: .25s;
+            -ms-transition: .25s;
+            -o-transition: .25s;
+            z-index: 4;
+
+            .cart_amount {
+                font-size: 18px;
+                font-weight: 300;
+                color: var(--text-color-m);
+            }
+
+            .cart_title {
+                font-size: 18px;
+                font-weight: 300;
+                color: var(--text-color-m);
+            }
+        }
+
+        .cart:hover {
+            cursor: pointer;
+            background: var(--color-purple-h);
+        }
+
+    }
+
+    div {
+        .zero_items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+    }
+}
+@media (max-width: 620px) {
+    .inventory_wrapper {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        color: #FFFFFF;
+        font-size: 12px;
+        font-weight: 600;
+        // position: relative;
+    
+        .container {
+            display: flex;
+            width: 100%;
+            position: relative;
+    
+            .items_container {
+                display: grid;
+                width: 100%;
+                padding: 6px 6px;
+                flex-wrap: wrap;
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 6px;
+            }
+        }
+    }
+}
