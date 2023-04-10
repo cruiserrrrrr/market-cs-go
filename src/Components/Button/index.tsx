@@ -9,21 +9,17 @@ interface IButton {
     color: string;
     size: string;
     iconName: string;
-    uppercase: string;
 }
 
 const Button = (props: IButton) => {
 
-    const { handler, value, color, size, iconName, uppercase, onClick,  } = props;
-
-
+    const { handler, value, color, size, iconName,  onClick} = props;
 
     return (
         <button
             onClick={onClick}
             onChange={handler}
-            className={`${styles.wrapper} ${styles[color]} ${styles[size]} ${styles[uppercase]}`}
-
+            className={`${styles.wrapper} ${styles[color]} ${styles[size]}`}
         >
             <span >
                 <Icon name={iconName} className={styles.btn_icon} />

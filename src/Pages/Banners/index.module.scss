@@ -1,0 +1,96 @@
+.banners_wrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container {
+        width: 100%;
+        height: 100%;
+        padding: 76px 20px 20px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+
+            p {
+                text-align: left;
+                font-size: 60px;
+                line-height: 60px;
+                font-weight: 900;
+                color: var(--white-color);
+                opacity: .8;
+                text-transform: uppercase;
+
+            }
+        }
+
+    }
+}
+
+@media (max-width: 1150px) {
+    .banners_wrapper {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .container {
+            width: 100%;
+            height: 100%;
+            padding: 106px 20px 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+
+                p {
+                    text-align: left;
+                    font-size: 60px;
+                    line-height: 60px;
+                    font-weight: 900;
+                    color: var(--white-color);
+                    opacity: .8;
+                    text-transform: uppercase;
+
+                }
+            }
+
+            .content:hover {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                transition: .25s;
+                -webkit-transition: .25s;
+                -moz-transition: .25s;
+                -ms-transition: .25s;
+                -o-transition: .25s;
+                
+                p {
+                    text-align: left;
+                    font-size: 30px;
+                    line-height: 30px;
+                    font-weight: 900;
+                    color: var(--white-color);
+                    opacity: 1;
+                    text-transform: uppercase;
+    
+                }
+            }
+
+        }
+    }
+}

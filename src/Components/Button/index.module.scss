@@ -1,4 +1,5 @@
 .wrapper {
+    display: inline-block;
     transition: .15s;
     text-transform: uppercase;
     -webkit-transition: .15s;
@@ -21,62 +22,76 @@
     }
 }
 
-.wrapper:active {
-    transform: scale(0.96);
+.primary {
+    border: none;
+    background: var(--color-primary);
+
+    span {
+        color: var(--white-color);
+    }
 }
 
-.purple {
+.primary:hover {
     border: none;
-    background: var(--color-purple);
+    background: var(--color-primary-hover);
+    cursor: pointer;
+}
+
+.basic {
+    border: none;
+    background: var(--color-basic);
+    color: var(--white-color);
 
     span {
         color: var(--text-color-m);
     }
 }
 
-.purple:hover {
+.basic:hover {
     border: none;
-    background: var(--color-purple-h);
+    background: var(--color-basic-hover);
+    cursor: pointer;
+}
+.green {
+    border: none;
+    background: var(--color-green);
+    color: var(--white-color);
+
+    span {
+        color: var(--text-color-m);
+    }
+}
+
+.green:hover {
+    border: none;
+    background: var(--color-green-hover);
     cursor: pointer;
 }
 
-.blue {
+.red {
     border: none;
     background: var(--color-red);
-    color: var(--text-color-m);
+    color: var(--white-color);
 
     span {
-        color: var(--text-color-m);
+        color: var(--white-color);
     }
 }
 
-.blue:hover {
+.red:hover {
     border: none;
-    background: var(--color-red-h);
+    background: var(--color-red-hover);
     cursor: pointer;
 }
 
-.border {
-    border: 1px solid var(--color-purple);
-    background: transparent;
-    color: var(--text-color-m);
-}
-
-.border:hover {
-    border: 1px solid var(--color-purple-h);
-    cursor: pointer;
-}
 
 .not_active {
     border: none;
-    background: var(--color-grey-not-active);
-    color: var(--text-color-m);
+    background: var(--color-grey);
+    color: var(--white-color);
     cursor: not-allowed;
 }
 
-.not_active:active {
-    transform: scale(1);
-}
 
 .none_background {
     border: none;
@@ -93,6 +108,7 @@
 
 .text_only {
     width: fit-content;
+    max-height: 14px;
     padding: 0 0;
     font-size: 14px;
     line-height: 14px;
@@ -103,23 +119,41 @@
     }
 }
 
-.icon_only {
-    border-radius: 4px;
+.icon_only_circle {
     width: fit-content;
-    padding: 4px 4px;
+    max-height: 36px;
+    padding: 8px 8px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+
+    .btn_icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.icon_only {
+    width: fit-content;
+    max-height: 36px;
+    padding: 8px 8px;
+    border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
 
     .btn_icon {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
     }
 }
 
 .small {
     width: fit-content;
+    max-height: 12px;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -130,51 +164,58 @@
     line-height: 8px;
 
     .btn_icon {
-        height: 14px;
-        width: 14px;
+        height: 0px;
+        width: 0px;
+        margin-right: 0px;
     }
 }
 
 .narrow {
+    max-height: 28px;
     border-radius: 4px;
     padding: 8px 12px;
     font-size: 12px;
     line-height: 12px;
 
     .btn_icon {
-        height: 12px;
-        width: 12px;
-        margin-right: 4px;
+        height: 0px;
+        width: 0px;
+        margin-right: 0px;
     }
 }
 
 .medium {
+    width: fit-content;
+    max-height: 34px;
     border-radius: 6px;
     padding: 10px 22px;
     font-size: 14px;
     line-height: 14px;
 
     .btn_icon {
-        height: 14px;
-        width: 14px;
-        margin-right: 4px;
+        height: 0px;
+        width: 0px;
+        margin-right: 0px;
     }
 }
 
 .large {
+    width: fit-content;
+    max-height: 42px;
     border-radius: 8px;
     padding: 12px 32px;
     font-size: 18px;
     line-height: 18px;
 
     .btn_icon {
-        height: 18px;
-        width: 18px;
-        margin-right: 4px;
+        height: 0px;
+        width: 0px;
+        margin-right: 0px;
     }
 }
 
 .all_width {
+    max-height: 42px;
     border-radius: 8px;
     padding: 12px 12px;
     width: 100%;
@@ -182,16 +223,8 @@
     line-height: 18px;
 
     .btn_icon {
-        height: 18px;
-        width: 18px;
-        margin-right: 4px;
+        height: 0px;
+        width: 0px;
+        margin-right: 0px;
     }
-}
-
-.uppercase_yes {
-    text-transform: uppercase;
-}
-
-.uppercase_no {
-    text-transform: none;
 }
