@@ -21,7 +21,8 @@ const InventoryCart = (props: IInventoryCart) => {
     useEffect(() => {
         setDataCart(getDataCart)
     },[getDataCart])
-
+    console.log(dataCart)
+    
     return (
         <div className={styles.inventory_cart}>
             <div className={styles.cart_wrapper}>

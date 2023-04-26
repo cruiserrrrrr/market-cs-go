@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./index.module.scss"
 import { Triangle } from 'react-loader-spinner';
-import Icon from "../Icon";
 
 const LoadingComponent = () => {
     return (

@@ -64,8 +64,8 @@
         font-weight: 600;
         font-size: 16px;
         line-height: 16px;
-        color: var(--color-purple);
-
+        color: var(--text-color-m);
+        text-shadow: var(--text-shadow-purple);
         cursor: pointer;
         transition: .15;
         overflow: hidden;
@@ -160,8 +160,8 @@
             font-weight: 600;
             font-size: 12px;
             line-height: 12px;
-            color: var(--color-purple);
-
+            color: var(--text-color-m);
+            text-shadow: var(--text-shadow-purple);
             cursor: pointer;
             transition: .15;
             overflow: hidden;

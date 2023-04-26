@@ -1,12 +1,10 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { getDatabase, ref, onValue } from "firebase/database";
 import Marketitem from "../MarketItem";
 import LoadingComponent from "../LoadingComponent";
-import Button from "../Button";
 import ItemButton from "../ItemButton";
 import { useAuth } from '../../hooks/useAuth';
+import { getData } from "../../request/getData";
 
 
 
@@ -17,43 +15,27 @@ const PurchaseRequests = () => {
     const { email } = useAuth();
     const [loading, setLoading] = useState(false);
     const [userItemsSell, setUserItemsSell] = useState([]);
-    const [dataFireBase, setDataFireBase] = useState([]);
-
-    const db = getDatabase();
-    const dbRef = ref(db, 'usersList');
-
-    useEffect(() => {
+    
+    const getItems = async () => {
         try {
-            onValue(dbRef, (snapshot) => {
-                const data = snapshot.val();
-                setDataFireBase(data)
-                setLoading(true)
-            });
+            getData('https://634eda1fdf22c2af7b44a30d.mockapi.io/allUsersItemsOnSell', setUserItemsSell, setLoading)
         } catch (e) {
             console.log(e)
         }
-    }, [])
-
+    }
     useEffect(() => {
-        setUserItemsSell(userItemsSell)
-    }, [userItemsSell])
+        getItems()
+    },[])
 
-    useEffect(() => {
-        dataFireBase.filter((item) => {
-            if (item.email === email) {
-                return setUserItemsSell(item.userItemsSell)
-            }
-        })
-    }, [dataFireBase])
+    const filteredItems = userItemsSell.filter(item => item.sellerEmail === email && item.typeItem === "sell")
 
     return (
         <div className={styles.purshase_wrapper}>
-            {/* <div className={styles.purshase_wrapper__active}> */}
             <h1>Purchase Requests</h1>
             {loading ?
                 <div className={styles.items_wrapper}>
                     {
-                        userItemsSell.map((item, index) => (
+                        filteredItems.map((item, index) => (
                             <Marketitem
                                 buttons={<ItemButton value="Remove from sale" onClick={() => console.log('Remove from sale')} />}
                                 // itemsData={filtredData}

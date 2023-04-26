@@ -2,20 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './index.module.scss';
 import Marketitem from "../../Components/MarketItem/index";
-import arrayShuffle from 'array-shuffle';
 import ItemButton from "../../Components/ItemButton/index";
 import DropDownFilter from "../../Components/DropDownFilter/index";
 import FilterItem from "../../Components/FilterItem/index";
-import axios from "axios";
 import LoadingComponent from "../../Components/LoadingComponent/index";
 import filtersData from "../../allData/filters.json"
 import qs from 'qs';
-import { app } from '../../firebase.js';
-import { getDatabase, ref, child, get, onValue, set } from "firebase/database";
-import { current } from "@reduxjs/toolkit";
 import Button from "../../Components/Button";
-import apiData from "../../api.json"
-
+import { getData } from "../../request/getData";
+import array from '../../api.json'
 
 const Main = () => {
 
@@ -25,34 +20,24 @@ const Main = () => {
     const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState({ rarity: [], wearFull: [], type: [] });
     const navigate = useNavigate();
-    // const [dataFireBase, setDataFireBase] = useState([]);
     const [data, setData] = useState([]);
     const [filtredData, setFiltredData] = useState([]);
     const [filterActive, setFilterActive] = useState(true);
-
-    // const db = getDatabase();
-    // const dbRef = ref(db, 'allItemsOnSell');
-
-    const [getItemsDataFirst, setGetItemsDataFirst] = useState([]);
-    const [getItemsDataSecond, setGetItemsDataSecond] = useState([]);
-    const [getItemsDataThird, setGetItemsThird] = useState([]);
     const [dataItems, setDataItems] = useState([]);
+    const [loadItems, setLoadItem] = useState(150);
 
+    useEffect(() => {
+        setLoadItem(loadItems)
+    }, [loadItems])
 
     const getDataItems = async () => {
-        await axios.get(`https://api.jsonbin.io/v3/b/642c9db0ebd26539d0a495ce`)
-            .then(res => {
-                setGetItemsDataFirst(res.data.record);
-            })
-        await axios.get(`https://api.jsonbin.io/v3/b/642c9deeebd26539d0a495ed`)
-            .then(res => {
-                setGetItemsDataSecond(res.data.record);
-            })
-        await axios.get(`https://api.jsonbin.io/v3/b/642c9e41ebd26539d0a4960b`)
-            .then(res => {
-                setGetItemsThird(res.data.record);
-            })
-        setLoading(true)
+        getData(`https://cs-app-database.onrender.com/allItemsOnSell?_limit=${loadItems}`, setDataItems, setLoading)
+    }
+
+    const loadmore = (event) => {
+        event.preventDefault();
+        setLoadItem(loadItems + 25);
+        getDataItems()
     }
 
     useEffect(() => {
@@ -60,11 +45,9 @@ const Main = () => {
     }, [])
 
     useEffect(() => {
-        const mergedArrays = getItemsDataFirst.concat(getItemsDataSecond, getItemsDataThird);
-        setDataItems(mergedArrays)
-    }, [getItemsDataThird])
+        setDataItems
+    }, [])
 
-    console.log(dataItems);
 
     useEffect(() => {
         setFilters
@@ -112,8 +95,6 @@ const Main = () => {
     }, [filters]);
     const isFilterActive = () => setFilterActive(!filterActive);
 
-    const shaffleData = filtredData.sort(() => Math.random() - 0.5);
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.items_wrapper}>
@@ -127,10 +108,9 @@ const Main = () => {
                                     </p>
                                 </div>
                                 :
-                                shaffleData.map((item, index) => {
+                                filtredData.map((item, index) => {
                                     return <Marketitem
                                         buttons={<ItemButton value="Add to cart" onClick={() => console.log('Add to cart')} />}
-                                        // itemsData={filtredData}
                                         key={item.id + index}
                                         name={item.name}
                                         wearAbbreviated={item.wearAbbreviated}
@@ -173,7 +153,7 @@ const Main = () => {
                 <Button iconName="limit" color="purple" size="icon_only" onClick={isFilterActive} />
             </div>
             {
-                window.innerWidth > 620 ?
+                window.innerWidth > 768 ?
                     <></>
                     :
                     <div className={filterActive ? styles.filter_mobile_hidden : styles.filter_mobile_active} onClick={isFilterActive}>

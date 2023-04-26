@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "../Button";
 import CustomInput from "../CustomInput";
 import styles from './index.module.scss';
 
@@ -22,7 +21,8 @@ const InventoryCartItem = (props: IInventoryCartItem) => {
     const commisionSell = (price) => {
         return setTotalCost(price)
     }
-    console.log(defaultCommision)
+
+    const endPrice = priceValue - defaultCommision;
     return (
         <div className={styles.item_wrapper}>
             <div className={styles.container}>
@@ -33,10 +33,10 @@ const InventoryCartItem = (props: IInventoryCartItem) => {
                     <p className={styles.name}>{name}</p>
                     <div>
                         <label htmlFor=""></label>
-                        <CustomInput value={priceValue.toFixed(2)} type="number" placeholder="item price" onChange={(event) => setPriceValue(event.target.value)}/>
+                        <CustomInput value={Number(priceValue).toFixed(2)} type="number" placeholder="item price" onChange={(event) => setPriceValue(event.target.value)}/>
                     </div>
                     <div>
-                        <p>{(priceValue - defaultCommision).toFixed(2)}</p>
+                        <p>{endPrice.toFixed(2)}</p>
                     </div>
                 </div>
             </div>

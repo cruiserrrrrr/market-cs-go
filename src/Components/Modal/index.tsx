@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../Button";
 import styles from "./index.module.scss";
 
@@ -16,14 +16,14 @@ const Modal = (props: IModal) => {
         <div className={activeModal ? styles.modal_wrapper : styles.modal_wrapper_active} onClick={setActiveModal}>
             <div className={styles.container} onClick={e => e.stopPropagation()}>
                 {children}
-            </div>
-            <div className={styles.button_pos}>
-                <Button
-                    color="purple"
-                    size="small"
-                    iconName="close"
-                    onClick={setActiveModal}
-                />
+                <div className={styles.button_pos}>
+                    <Button
+                        color="purple"
+                        size="small"
+                        iconName="close"
+                        onClick={setActiveModal}
+                    />
+                </div>
             </div>
         </div>
     )

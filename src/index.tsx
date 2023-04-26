@@ -7,9 +7,6 @@ import { store, persistor } from './store';
 import './firebase.js';
 import { PersistGate } from 'redux-persist/integration/react';
 import LoadingComponent from './Components/LoadingComponent';
-// import * as firebase from 'firebase/app'
-
-// firebase.initializeApp();
 
 declare global {
     interface Window {

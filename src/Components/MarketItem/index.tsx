@@ -7,23 +7,14 @@ interface IMarketItem {
     name: string;
     id: string;
     img: string;
-    type: string;
     wearAbbreviated: string;
-    wearFull: string;
     price: number;
-    amount: number;
     rarity: any;
-    weaponId: number;
-    category: string;
     buttons: JSX.Element;
-    itemsData: any;
-    appearanceHistory: string;
-    patternDescription: string;
-    linkInGAme: string;
 }
 
 const Marketitem = (props: IMarketItem) => {
-    const { name, img, wearAbbreviated, price, id, buttons, rarity, type, wearFull, amount, category, weaponId, itemsData, appearanceHistory, patternDescription, linkInGAme } = props;
+    const { name, img, wearAbbreviated, price, id, buttons, rarity} = props;
 
     return (
         <div className={`${styles.item_wrapper}`}>
@@ -36,21 +27,7 @@ const Marketitem = (props: IMarketItem) => {
                 <Link title={name}
                     to={`/item/${id}`}
                     state={{
-                        // name: name,
                         id: id,
-                        // img: img,
-                        // type: type,
-                        // wearAbbreviated: wearAbbreviated,
-                        // wearFull: wearFull,
-                        // price: price,
-                        // amount: amount,
-                        // rarity: rarity,
-                        // category: category,
-                        // weaponId: weaponId,
-                        // data: itemsData,
-                        // appearanceHistory: appearanceHistory,
-                        // patternDescription: patternDescription,
-                        // linkInGAme: linkInGAme
                     }}
                 >
                     <div className={styles.content}>

@@ -9,14 +9,11 @@ interface INavitem {
     to: string;
     title: string;
     onClick: () => void;
-    iconName: string;
-    iconClass: string;
-    sizeIcon: string;
 }
 
 const NavItem = (props: INavitem) => {
 
-    const { value, to, title, onClick, iconName, iconClass, sizeIcon } = props;
+    const { value, to, title, onClick } = props;
 
     const [onExpand, setOnExpand] = useState(true);
     const expand = () => setOnExpand(!onExpand);
@@ -24,7 +21,6 @@ const NavItem = (props: INavitem) => {
     return (
         <li className={styles.item_wrapper}>
             <NavLink title={title} end className={({ isActive }) => isActive ? styles.active_link : styles.link} to={to} onChange={expand} onClick={onClick}>
-                {/* <Icon name={iconName} className={`${iconClass} ${styles[sizeIcon]}`} /> */}
                 {value}
             </NavLink>
         </li>

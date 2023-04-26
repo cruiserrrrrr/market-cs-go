@@ -1,12 +1,9 @@
 .header {
-    position: static;
-    top: 0;
-    left: 0;
     background: var(--background-color-items);
     z-index: 2;
 
     .wrapper {
-        padding: 0 20px;
+        padding: 0 20px 0 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -42,11 +39,17 @@
     }
 }
 
+.sticky {
+    position: sticky;
+    top: 0px;
+    z-index: 6;
+}
+.normal{
+    position: relative;
+}
 @media (max-width: 710px) {
     .header {
-        position: static;
-        top: 0;
-        left: 0;
+
         background: var(--background-color-items);
         z-index: 6;
 
@@ -76,7 +79,9 @@
                     padding: 6px 0;
 
                     .nav {
+                        margin-left: auto;
                         display: flex;
+                        align-items: center;
                         gap: 8px;
                     }
                 }
@@ -106,17 +111,19 @@
                     .close_burger {
                         position: absolute;
                         top: 10px;
-                        right: 10px;
+                        right: 20px;
                     }
 
                     .nav_container {
                         display: flex;
                         flex-direction: column;
                         width: 100%;
+                        gap: 20px;
 
                         .auth_wrapper {
                             width: 100%;
                             display: flex;
+                            justify-content: center;
                             gap: 10px;
                         }
                     }

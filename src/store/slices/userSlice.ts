@@ -4,7 +4,9 @@ const initialState = {
     email: null,
     token: null,
     id: null,
-    // type: null,
+    telegramToken: null,
+    userBalance: null,
+    tgNoticeStatus: null,
 };
 
 const userSlice = createSlice({
@@ -15,13 +17,17 @@ const userSlice = createSlice({
             state.email = action.payload.email;
             state.token = action.payload.token;
             state.id = action.payload.id;
-            // state.type = action.payload.type;
+            state.telegramToken = action.payload.telegramToken;
+            state.userBalance = action.payload.userBalance;
+            state.tgNoticeStatus = action.payload.tgNoticeStatus;
         },
         removeUser(state) {
             state.email = null;
             state.token = null;
             state.id = null;
-            // state.type = null;
+            state.telegramToken = null;
+            state.userBalance = null;
+            state.tgNoticeStatus = null;
         },
     },
 });

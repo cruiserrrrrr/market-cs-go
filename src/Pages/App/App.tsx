@@ -7,7 +7,6 @@ import Main from '../Main/Index';
 import NotFound from '../NotFound';
 import styles from './index.module.scss'
 import UserCab from '../UserCab';
-import RegisterPage from '../RegisterPage';
 import FAQPage from '../FAQPage';
 import Inventory from "../../Components/Inventory/index";
 import OperationsHistory from "../../Components/OperationsHistory";
@@ -35,7 +34,6 @@ const App = () => {
                 <Route path='/signup' element={<SignUpForm />} />
                 <Route path='/faq' element={<FAQPage />} />
             </Routes>
-            <Footer />
         </div >
     )
 }
