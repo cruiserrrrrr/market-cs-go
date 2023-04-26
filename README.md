@@ -1,7 +1,7 @@
 # CS:GO MARKET by cruiserrrrrr
 
 Покликать можно тут => https://cruiser-cs-app.web.app/. Каждый день я что-то исправляю, улучшаю, добавляю. 
->Данное приложение создано на react, немного redux, typescript, webpack, scss. 
+>Данное приложение создано на react, typescript, webpack, scss, немного redux. 
 
 >Ниже будут скриншоты и описания возможностей которые есть на данный момент.
 
