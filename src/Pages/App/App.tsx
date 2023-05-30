@@ -14,6 +14,7 @@ import PurchaseRequests from "../../Components/PurchaseRequests";
 import ItemsForSale from "../../Components/ItemsForSale";
 import LogInForm from '../../Components/LogInForm';
 import SignUpForm from '../../Components/SingUpForm';
+import BalancePage from '../BalancePage';
 
 const App = () => {
 
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path='/login' element={<LogInForm />} />
                 <Route path='/signup' element={<SignUpForm />} />
                 <Route path='/faq' element={<FAQPage />} />
+                <Route path='/balance' element={<BalancePage />} />
             </Routes>
         </div >
     )

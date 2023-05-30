@@ -10,7 +10,7 @@ interface IFilterItem {
 
 const FilterItem = (props: IFilterItem) => {
 
-    const { value, onClick, title } = props;
+    const { value = '', onClick = () => { }, title = '' } = props;
     const [inputChecked, setInputChecked] = useState(false);
 
     const handleChange = () => {
@@ -22,7 +22,7 @@ const FilterItem = (props: IFilterItem) => {
     return (
         <div className={styles.filteritem_wrapper}>
             <div className={styles.container} onClick={handleChange}>
-                <input className={styles.checkbox} type="checkbox" onChange={()=>{}} checked={inputChecked} />
+                <input className={styles.checkbox} type="checkbox" onChange={() => { }} checked={inputChecked} />
                 <div className={styles.custom_checkbox}></div>
                 <label className={styles.item_value}>{value}</label>
             </div>

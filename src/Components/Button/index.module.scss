@@ -202,3 +202,47 @@
 .uppercase_no {
     text-transform: none;
 }
+@media (max-width: 375px) {
+    .medium {
+        height: fit-content;
+        border-radius: 6px;
+        padding: 10px 16px;
+        font-size: 12px;
+        line-height: 12px;
+    
+        .btn_icon {
+            height: 14px;
+            width: 14px;
+            margin-right: 4px;
+        }
+    }
+    
+    .large {
+        height: fit-content;
+        border-radius: 8px;
+        padding: 12px 26px;
+        font-size: 14px;
+        line-height: 14px;
+    
+        .btn_icon {
+            height: 18px;
+            width: 18px;
+            margin-right: 4px;
+        }
+    }
+    
+    .all_width {
+        height: fit-content;
+        border-radius: 8px;
+        padding: 10px 10px;
+        width: 100%;
+        font-size: 14px;
+        line-height: 14px;
+    
+        .btn_icon {
+            height: 18px;
+            width: 18px;
+            margin-right: 4px;
+        }
+    }
+}

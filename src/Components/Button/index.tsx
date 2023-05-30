@@ -3,25 +3,23 @@ import Icon from "../Icon";
 import styles from './index.module.scss';
 
 interface IButton {
-    handler: () => void;
-    onClick: (e: any) => void;
-    value: string;
-    color: string;
-    size: string;
-    iconName: string;
-    uppercase: string;
+    onClick?: (e: any) => void;
+    value?: string;
+    color?: string;
+    size?: string;
+    iconName?: string;
+    uppercase?: string;
 }
 
 const Button = (props: IButton) => {
 
-    const { handler, value, color, size, iconName, uppercase, onClick,  } = props;
+    const { value = '', color = '', size = '', iconName = '', uppercase = '', onClick = () => { } } = props;
 
 
 
     return (
         <button
             onClick={onClick}
-            onChange={handler}
             className={`${styles.wrapper} ${styles[color]} ${styles[size]} ${styles[uppercase]}`}
 
         >

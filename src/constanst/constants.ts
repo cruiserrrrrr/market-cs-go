@@ -4,3 +4,5 @@ export const USERLIST = "/userList/";
 export const ALL_ITEMS_RENDER = "/allItemsOnSell";
 export const ALL_ITEMS_MOCK = "/allUsersItemsOnSell";
 export const FAQ_RENDER = "/faqData";
+export const BALANCEDATA_RENDER = "/balanceData";
+export const ADD_TG_DATA = "/addTGData"

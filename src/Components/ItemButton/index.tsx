@@ -3,8 +3,8 @@ import Icon from "../Icon";
 import styles from "./index.module.scss";
 
 interface IItemButton{
-    value: string;
-    onClick: () => void;
+    value?: string;
+    onClick?: (e) => void;
 }
 
 const ItemButton = (props: IItemButton) => {

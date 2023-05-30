@@ -11,6 +11,9 @@ import qs from 'qs';
 import Button from "../../Components/Button";
 import { getData } from "../../request/getData";
 import array from '../../api.json'
+import CustomInput from "../../Components/CustomInput/index";
+import { ALL_ITEMS_MOCK, ALL_ITEMS_RENDER, BASE_URL_MOCK, BASE_URL_RENDER } from "../../constanst/constants";
+
 
 const Main = () => {
 
@@ -24,14 +27,18 @@ const Main = () => {
     const [filtredData, setFiltredData] = useState([]);
     const [filterActive, setFilterActive] = useState(true);
     const [dataItems, setDataItems] = useState([]);
-    const [loadItems, setLoadItem] = useState(150);
+    const [itemsMock, setItemsMock] = useState([]);
+    const [loadItems, setLoadItem] = useState(200);
+    const [testSearch, setTestSearch] = useState('');
+
 
     useEffect(() => {
         setLoadItem(loadItems)
     }, [loadItems])
 
     const getDataItems = async () => {
-        getData(`https://cs-app-database.onrender.com/allItemsOnSell?_limit=${loadItems}`, setDataItems, setLoading)
+        getData(BASE_URL_RENDER + ALL_ITEMS_RENDER, setDataItems, setLoading);
+        // getData(BASE_URL_MOCK +  ALL_ITEMS_MOCK, setItemsMock, setLoading);
     }
 
     const loadmore = (event) => {
@@ -47,7 +54,6 @@ const Main = () => {
     useEffect(() => {
         setDataItems
     }, [])
-
 
     useEffect(() => {
         setFilters
@@ -70,6 +76,8 @@ const Main = () => {
         })
         navigate(`?${queryString}`)
     }
+    const filtredItemsMock = itemsMock.filter(item => item.itemType === 'sell')
+    // const allItems = dataItems.concat(filtredItemsMock);
 
     useEffect(() => {
         setFiltredData(dataItems)
@@ -93,6 +101,7 @@ const Main = () => {
         }
 
     }, [filters]);
+    
     const isFilterActive = () => setFilterActive(!filterActive);
 
     return (

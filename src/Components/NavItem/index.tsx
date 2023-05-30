@@ -5,15 +5,15 @@ import styles from "./index.module.scss";
 
 
 interface INavitem {
-    value: string;
-    to: string;
-    title: string;
-    onClick: () => void;
+    value?: string;
+    to?: string;
+    title?: string;
+    onClick?: () => void;
 }
 
 const NavItem = (props: INavitem) => {
 
-    const { value, to, title, onClick } = props;
+    const { value = '', to = '', title = '', onClick = () => { } } = props;
 
     const [onExpand, setOnExpand] = useState(true);
     const expand = () => setOnExpand(!onExpand);

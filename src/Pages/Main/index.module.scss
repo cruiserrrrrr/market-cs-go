@@ -190,14 +190,17 @@
             background: rgba($color: #000000, $alpha: .5);
             display: flex;
             max-width: 100vw;
-            min-height: 100vh;
+            height: auto;
             z-index: 6;
+            overflow: scroll;
+            overflow-x: hidden;
 
             .filter_mobile {
                 margin-left: auto;
                 width: fit-content;
                 padding: 0 20px;
-                height: 100%;
+                height: fit-content;
+                min-height: 100vh;
                 background: var(--background-color-items);
 
                 .filter_mobile_container {

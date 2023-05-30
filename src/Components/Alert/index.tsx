@@ -2,15 +2,14 @@ import React from "react";
 import styles from './index.module.scss';
 
 interface IAlert {
-    value: string;
-    type: string;
-    isActive: boolean;
-    onClick: () => void;
+    value?: string;
+    type?: string;
+    onClick?: () => void;
 }
 
 const Alert = (props: IAlert) => {
 
-    const { value, type, isActive, onClick } = props;
+    const { value ='', type='', onClick = () => {} } = props;
 
 
     return (

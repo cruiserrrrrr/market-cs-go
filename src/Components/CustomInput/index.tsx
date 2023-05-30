@@ -2,22 +2,22 @@ import React from "react";
 import styles from './index.module.scss';
 
 interface ICustomInput {
-    placeholder: string;
-    type: string;
-    onChange: (event) => void;
-    value: any;
+    placeholder?: string;
+    type?: string;
+    onChange?: (event) => void;
+    value?: any;
 }
 
 const CustomInput = (props: ICustomInput) => {
 
-    const { placeholder, type, onChange, value } = props;
+    const { placeholder ='', type ='', onChange, value } = props;
 
     return <input
         className={styles.custom_input}
         type={type}
         placeholder={placeholder}
         onChange={onChange}
-        value={value}
+        defaultValue={value}
     />
 
 }

@@ -4,13 +4,13 @@ import styles from "./index.module.scss";
 
 interface IModal {
     children: any;
-    activeModal: boolean;
-    setActiveModal: any;
+    activeModal?: boolean;
+    setActiveModal?: any;
 }
 
 const Modal = (props: IModal) => {
 
-    const { children, activeModal, setActiveModal } = props;
+    const { children, activeModal, setActiveModal = () => {} } = props;
 
     return (
         <div className={activeModal ? styles.modal_wrapper : styles.modal_wrapper_active} onClick={setActiveModal}>

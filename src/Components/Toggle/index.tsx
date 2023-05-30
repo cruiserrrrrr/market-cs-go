@@ -2,8 +2,8 @@ import React from "react";
 import styles from './index.module.scss';
 
 interface IToggle {
-    checked: boolean,
-    onToggled: () => void,
+    checked?: boolean,
+    onToggled?: () => void,
 }
 
 const Toggle = (props: IToggle) => {

@@ -4,17 +4,17 @@ import Button from "../Button";
 import styles from './index.module.scss';
 
 interface IMarketItem {
-    name: string;
-    id: string;
-    img: string;
-    wearAbbreviated: string;
-    price: number;
-    rarity: any;
-    buttons: JSX.Element;
+    name?: string;
+    id?: string;
+    img?: string;
+    wearAbbreviated?: string;
+    price?: number;
+    rarity?: any;
+    buttons?: JSX.Element;
 }
 
 const Marketitem = (props: IMarketItem) => {
-    const { name, img, wearAbbreviated, price, id, buttons, rarity} = props;
+    const { name = '', img = '', wearAbbreviated = '', price = 0, id = '', buttons, rarity = '' } = props;
 
     return (
         <div className={`${styles.item_wrapper}`}>

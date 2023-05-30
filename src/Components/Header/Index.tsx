@@ -62,7 +62,7 @@ const Header = () => {
                 <div className={styles.right_side}>
                     {isAuth ?
                         <>
-                            <ButtonLink to="/balance" value={String(userBalance.toFixed(2)) + "$"} color="purple" size="medium" iconName="plus"/>
+                            <ButtonLink to="/balance" value={Number(userBalance).toFixed(2) + "$"} color="purple" size="medium" iconName="plus"/>
                             <ButtonLink to="/usercab" iconName="usericon" color="purple" size="circle_medium" />
                         </>
                         :
@@ -77,7 +77,7 @@ const Header = () => {
                         <div className={styles.nav}>
                             {isAuth ?
                                 <>
-                                    <ButtonLink to="/balance" value={String(userBalance.toFixed(2))} color="purple" size="medium" />
+                                    <ButtonLink to="/balance" value={Number(userBalance).toFixed(2)} color="purple" size="medium" iconName="plus"/>
                                     <ButtonLink to="/usercab" iconName="usericon" color="purple" size="circle_medium" />
                                 </>
                                 :

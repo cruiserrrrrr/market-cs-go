@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import styles from './index.module.scss';
 
 interface IInventoryItem {
-    name: string;
-    img: string;
-    wearAbbreviated: string;
-    price: number;
+    name?: string;
+    img?: string;
+    wearAbbreviated?: string;
+    price?: number;
     buttons: JSX.Element;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 const InventoryItem = (props: IInventoryItem) => {
 
-    const {onClick, name, img, wearAbbreviated, price, buttons } = props;
+    const { onClick = () => { }, name = '', img = '', wearAbbreviated = '', price = 0, buttons } = props;
 
-    const [isActive, setIsActive] = useState(true);
-    const onActive = () => setIsActive(!isActive);
+    // const [isActive, setIsActive] = useState(true);
+    // const onActive = () => setIsActive(!isActive);
 
     return (
-        <div className={isActive ? styles.item_wrapper : styles.item_wrapper__active} onClick={onActive}>
+        <div className={styles.item_wrapper}>
             <div className={`${styles.container}`} onClick={onClick}>
                 <div className={styles.dropdown_wrapper}>
                     <div className={styles.dropdown}>

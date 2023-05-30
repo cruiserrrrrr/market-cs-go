@@ -9,74 +9,119 @@ import LoadingComponent from "../../Components/LoadingComponent/index";
 import axios from "axios";
 import Modal from "../../Components/Modal/index";
 import ButtonLink from "../../Components/ButtonLink";
-import { deleteData, editData, postData, getUserData } from "../../request/getData";
+import { deleteData, editData, postData, getUserData, getData } from "../../request/getData";
 import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { setUser } from '../../store/slices/userSlice'
+import { ALL_ITEMS_MOCK, BASE_URL_MOCK, USERLIST, BASE_URL_RENDER, ALL_ITEMS_RENDER } from "../../constanst/constants";
+import Alert from "../../Components/Alert/index";
 
 
 interface IItem {
-    name: string;
-    id: string;
-    img: string;
-    type: string;
-    wearAbbreviated: string;
-    wearFull: string;
-    price: number;
-    amount: number;
-    rarity: any;
-    weaponId: number;
-    category: string;
-    buttons: JSX.Element;
-    appearanceHistory: string;
-    patternDescription: string;
-    linkInGAme: string;
-    sellerEmail: string
+    name?: string;
+    id?: string;
+    img?: string;
+    type?: string;
+    wearAbbreviated?: string;
+    wearFull?: string;
+    price?: number;
+    amount?: number;
+    rarity?: any;
+    weaponId?: number;
+    category?: string;
+    buttons?: JSX.Element;
+    appearanceHistory?: string;
+    patternDescription?: string;
+    linkInGAme?: string;
+    sellerEmail?: string
 }
 
 const ItemPage = () => {
 
-    document.title = "CS:GO MARKET";
+    const loadingItem = {
+        name: "Loading...",
+        id: "Loading...",
+        img: "Loading...",
+        type: "Loading...",
+        wearAbbreviated: "Loading...",
+        wearFull: "Loading...",
+        price: 0,
+        amount: 0,
+        rarity: "Loading...",
+        weaponId: 0,
+        category: "Loading...",
+        appearanceHistory: "Loading...",
+        patternDescription: "Loading...",
+        linkInGAme: "Loading...",
+        sellerEmail: "Loading...",
+    }
 
     const { id } = useParams();
     const { email, userBalance, telegramToken, tgNoticeStatus, token, isAuth } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [statusBuy, setStatusBuy] = useState(0);
+    const [postLoading, setPostLoading] = useState(false);
     const [onActiveModal, setOnActiveModal] = useState(true);
-    const [marketItem, setMamketItem] = useState<IItem>();
-    const [dataFireBase, setDataFireBase] = useState([]);
-    const [data, setData] = useState(dataFireBase);
+    const [marketItem, setMamketItem] = useState<IItem>(loadingItem);
+    const [renderData, setRenderData] = useState([]);
+    const [mockData, setMockData] = useState([]);
+    const [data, setData] = useState(renderData);
     const [users, setUsers] = useState([]);
+    const [toastShow, setToastShow] = useState(false);
+    const [toastType, setToastType] = useState('');
+    const [toastValue, setToastValue] = useState('');
+
 
     const dispatch = useDispatch();
     const location = useLocation();
-    const [sportKeyLocation, setSportKeyLocation] = useState(location.pathname);
+    const [keyLocation, setKeyLocation] = useState(location.pathname);
     const navigate = useNavigate();
 
-    const getData = async () => {
+    const getAllData = async () => {
         try {
-            const getItemData = await axios.get('https://cs-app-database.onrender.com/allItemsOnSell')
+            await axios.get('https://cs-app-database.onrender.com/allItemsOnSell')
                 .then(res => {
-                    setDataFireBase(res.data)
-                    res.data.find(item => {
-                        if (item.id === id) {
-                            setMamketItem(item)
-                        }
-                    })
+                    setRenderData(res.data)
+                    // res.data.find(item => {
+                    //     if (item.id === id) {
+                    //         setMamketItem(item)
+                    //     }
+                    // })
                 })
+            // https://634eda1fdf22c2af7b44a30d.mockapi.io/allUsersItemsOnSell
+            getData("https://634eda1fdf22c2af7b44a30d.mockapi.io/allUsersItemsOnSell", setMockData, setLoading);
+            renderData.concat(mockData)
             setLoading(true);
         } catch (error) {
             console.log(error)
         }
     }
+    // useEffect(() => {
+    // setAllItems(renderData.concat(mockData))
+    // const allItems = renderData.concat(mockData);
+    // allItems.find(item => {
+    //     if (item.id === id) {
+    //         setMamketItem(item)
+    //     }
+    // })
+    // }, []);
 
     useEffect(() => {
-        getData()
-    }, [sportKeyLocation])
+        getAllData()
+    }, [keyLocation]);
+    console.log(mockData, 'mockdata')
+    console.log(renderData, 'asdasd')
 
     useEffect(() => {
-        setData(dataFireBase)
-    }, [dataFireBase])
+        const filtredMock = mockData.filter(item => item.typeItem === "sell")
+        const allItems = renderData.concat(filtredMock)
+        setData(allItems)
+        allItems.find(item => {
+            if (item.id === id) {
+                setMamketItem(item)
+            }
+        })
+        console.log(allItems,'allitemsUseEffec')
+    }, [renderData]);
 
     useEffect(() => {
         setMamketItem
@@ -88,6 +133,7 @@ const ItemPage = () => {
     useEffect(() => {
         getUsers()
     }, [])
+
     const userInfo = users.find(item => item.email === email)
 
     const buyItem = (item) => {
@@ -99,34 +145,50 @@ const ItemPage = () => {
         message += `<b>By price: </b>${marketItem.price}$\n`;
         message += `<b>Thanks!</b>`;
 
+
+        const toastSuccessType = 'success';
+        const toastErrorType = 'error';
+        const toastNotAuth = 'To purchase, you must register.';
+        const toastOutBalance = 'You are out of balance.';
+        const toastSuccessBuyItem = `Successful Purchase ${item.name}`;
         if (isAuth === false) {
-            alert("For this you need to log in.")
-        }else if(userBalance < item.price){
-            alert("You don't have enough money to buy an item.")
-        }else {
+            setToastValue(toastNotAuth);
+            setToastType(toastErrorType);
+            setToastShow(true);
+        } else if (userBalance < item.price) {
+            setToastValue(toastOutBalance);
+            setToastType(toastErrorType);
+            setToastShow(true);
+        } else {
             try {
                 // send messege from tg
-                if (tgNoticeStatus) {
+                if (tgNoticeStatus === true) {
                     postData(URL, {
                         chat_id: CHAT_ID,
                         parse_mode: 'html',
                         text: message
-                    })
+                    }, setPostLoading)
+                }
+                // Replenishment of the seller's balance
+                if (item.sellerEmail > '') {
+                    const userSeller = users.find(userSeller => userSeller.email === item.sellerEmail)
+                    userSeller.userBalance = userSeller.userBalance + item.price;
+                    editData(BASE_URL_MOCK + USERLIST, `${userSeller.id}`, userSeller, setPostLoading)
                 }
                 // delete item in all list
-                deleteData(`https://cs-app-database.onrender.com/allItemsOnSell/`, item.id);
+                deleteData(BASE_URL_RENDER + ALL_ITEMS_RENDER + '/', item.id, setPostLoading);
                 // send item from inventory
                 item.sellerEmail = email;
                 item.typeItem = "inventory";
                 item.id = Math.floor(Math.random() * 1000000);
-                postData('https://634eda1fdf22c2af7b44a30d.mockapi.io/allUsersItemsOnSell', item);
+                postData(BASE_URL_MOCK + ALL_ITEMS_MOCK, item, setPostLoading);
                 // edit balance
-                editData('https://634eda1fdf22c2af7b44a30d.mockapi.io/userList/', userInfo.id, {
+                editData(BASE_URL_MOCK + USERLIST, userInfo.id, {
                     id: id,
                     email: email,
                     userBalance: userBalance - item.price,
                     telegramToken: telegramToken
-                })
+                }, setPostLoading)
                 dispatch(setUser({
                     userBalance: userBalance - item.price,
                     email: email,
@@ -135,8 +197,10 @@ const ItemPage = () => {
                     telegramToken: telegramToken,
                     tgNoticeStatus: tgNoticeStatus
                 }))
-                alert(`You buy ${item.name}`)
-                navigate('/usercab')
+                setToastValue(toastSuccessBuyItem);
+                setToastType(toastSuccessType);
+                setToastShow(true);
+                navigate('/usercab');
             } catch (error) {
                 console.log(error);
             }
@@ -146,27 +210,22 @@ const ItemPage = () => {
     const similarItems = data.filter(item => item.name === marketItem.name);
 
     useEffect(() => {
-        setSportKeyLocation(location.pathname)
+        setKeyLocation(location.pathname)
     }, [location.pathname]);
+
+    document.title = "CS:GO MARKET " + marketItem.name;
 
     return (
         <div className={styles.wrapper}>
-            {loading ?
+            {loading && marketItem.name != undefined ?
                 <div className={styles.container}>
                     <div className={styles.image}>
                         <div className={styles.img_wrapper}>
                             <div className={styles.img_container}>
-                                <img src={marketItem?.img} alt="" />
+                                <img src={marketItem.img} alt="" />
                             </div>
                         </div>
                         <div className={styles.image_buttons}>
-                            <Button value="Add to cart"
-                                onClick={() => console.log('add to cart')}
-                                color="purple"
-                                size="medium"
-                                iconName="cart"
-                                uppercase="none"
-                            />
                             <ButtonLink
                                 value="View in game"
                                 to={marketItem?.linkInGAme}
@@ -180,86 +239,85 @@ const ItemPage = () => {
                     <div className={styles.description}>
                         <div className={styles.info}>
                             <div className={styles.name_description}>
-                                <p className={styles.type}>{marketItem?.type}</p>
-                                <p className={styles.name}>{marketItem?.name}</p>
+                                <p className={styles.type}>{marketItem.type}</p>
+                                <p className={styles.name}>{marketItem.name}</p>
                             </div>
                             <div className={styles.feature}>
-                                <CategoryItem value={marketItem?.rarity} itemRarity={marketItem?.rarity} />
-                                <CategoryItem value={marketItem?.type} itemRarity="none" />
+                                <CategoryItem value={marketItem.rarity} itemRarity={marketItem.rarity} />
+                                <CategoryItem value={marketItem.type} itemRarity="none" />
                             </div>
                             <div className={styles.category}>
                                 <div className={styles.category_item}>
                                     <p className={styles.subtitle}>Category</p>
-                                    <p className={styles.title}>{marketItem?.category}</p>
+                                    <p className={styles.title}>{marketItem.category}</p>
                                 </div>
                                 <div className={styles.category_item}>
                                     <p className={styles.subtitle}>Wear</p>
-                                    <p className={styles.title}>{marketItem?.wearAbbreviated} - {marketItem?.wearFull}</p>
+                                    <p className={styles.title}>{marketItem.wearAbbreviated} - {marketItem.wearFull}</p>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.buy_zone}>
-                            {marketItem?.sellerEmail === email ?
-                                <div className={styles.buy_zone__warning}>
-                                    <p className={styles.warning}>This is your item!</p>
-                                </div>
-                                :
-                                <div className={styles.buy_zone}>
-                                    <div className={styles.info}>
-                                        <div className={styles.info_container}>
-                                            <p className={styles.price}>
-                                                {marketItem?.price}$
-                                            </p>
-                                            <div className={styles.quantity}>
-                                                <p>Available Quantity — <span>{marketItem?.amount}</span></p>
-                                            </div>
+                            <div className={styles.buy_zone}>
+                                <div className={styles.info}>
+                                    <div className={styles.info_container}>
+                                        <p className={styles.price}>
+                                            {marketItem.price}$
+                                        </p>
+                                        <div className={styles.quantity}>
+                                            <p>Available Quantity — <span>{marketItem.amount}</span></p>
                                         </div>
                                     </div>
-                                    <div className={styles.button_wrapper}>
-                                        <Button
-                                            value="Buy"
-                                            onClick={() => buyItem(marketItem)}
-                                            color="purple"
-                                            size="all_width"
-                                            iconName="fire"
-                                            uppercase="none"
-                                        />
-                                        <Button
-                                            value="Buy by limit"
-                                            color="blue"
-                                            size="all_width"
-                                            iconName="limit"
-                                            uppercase="none"
-                                            onClick={() => setOnActiveModal(false)}
-                                        />
-                                    </div>
-                                    <Modal activeModal={onActiveModal} setActiveModal={() => setOnActiveModal(true)}>
-                                        <p>This feature is currently under development.</p>
-                                    </Modal>
                                 </div>
-                            }
+                                {
+                                    marketItem.sellerEmail === email ?
+                                        <div className={styles.buy_zone__warning}>
+                                            <p className={styles.warning}>It's your item, you can't buy it.</p>
+                                        </div>
+                                        :
+                                        <div className={styles.button_wrapper}>
+                                            <Button
+                                                value="Buy"
+                                                onClick={() => buyItem(marketItem)}
+                                                color="purple"
+                                                size="all_width"
+                                                iconName="fire"
+                                                uppercase="none"
+                                            />
+                                            <Button
+                                                value="Buy by limit"
+                                                color="blue"
+                                                size="all_width"
+                                                iconName="limit"
+                                                uppercase="none"
+                                                onClick={() => setOnActiveModal(false)}
+                                            />
+                                        </div>
+                                }
+                                <Modal activeModal={onActiveModal} setActiveModal={() => setOnActiveModal(true)}>
+                                    <p>This feature is currently under development.</p>
+                                </Modal>
+                            </div>
                         </div>
                         <div className={styles.history}>
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Appearance history</p>
                                 <p className={styles.item_description}>
-                                    {marketItem?.appearanceHistory}
+                                    {marketItem.appearanceHistory}
                                 </p>
                             </div>
                             <div className={styles.history_item}>
                                 <p className={styles.title}>Pattern description</p>
                                 <p className={styles.item_description}>
-                                    {marketItem?.patternDescription}
+                                    {marketItem.patternDescription}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div className={styles.similar_items}>
                         <div className={styles.similar_container}>
-                            {similarItems.map((item) => {
-                                return <Marketitem
-                                    // itemsData={data}
-                                    buttons={<ItemButton value="Add to cart" />}
+                            {similarItems.map((item) => (
+                                <Marketitem
                                     key={item.id}
                                     id={item.id}
                                     name={item.name}
@@ -268,12 +326,21 @@ const ItemPage = () => {
                                     price={item.price}
                                     rarity={item.rarity}
                                 />
-                            })}
+                            ))}
                         </div>
                     </div>
                 </div>
                 :
                 <LoadingComponent />
+            }
+            {toastShow ?
+                <Alert
+                    type={toastType}
+                    value={toastValue}
+                    onClick={() => setToastShow(!toastShow)}
+                />
+                :
+                null
             }
         </div>
     )

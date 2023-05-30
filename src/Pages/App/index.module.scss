@@ -1,20 +1,42 @@
 :root {
     --background-c-m: #131417;
     --background-color-items: #181a1e;
-
     --text-color-m: #FFFFFF;
     --text-color-m-h: #a3a3a3;
-    --text-color-s: #7000E0;
 
+    // Ligth
+    // --background-c-m: #cfcfd3;
+    // --background-color-items: #93959e;
+    // --text-color-m: #000000;
+    // --text-color-m-h: #a3a3a3;
+
+    --text-color-s: #7000E0;
     --color-purple: #6D6DE4;
     --color-purple-h: #4c4cdd;
     --text-shadow-purple: 0px 0px 5px rgb(113, 113, 255), 0px 0px 5px rgb(113, 113, 255);
-    // --color-purple: #ee1ccb;
-    // --color-purple-h: #a51890;
     --color-red: #bf4664;
     --color-red-h: #86374b;
     --color-grey-not-active: #404040;
+    
+    // dark
+    --market-item-contraband: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(58, 54, 28) 100%);
+    --market-item-covert: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(67, 25, 19) 100%);
+    --market-item-classified: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(79, 30, 83) 100%);
+    --market-item-restricted: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(47, 30, 83) 100%);
+    --market-item-mill_spec-grade: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(23, 41, 83) 100%);
+    --market-item-industrial-grade: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(19, 37, 53) 100%);
+    --market-item-consumer-grade: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(44, 47, 53) 100%);
+
+    // light
+    // --market-item-contraband: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(131, 120, 60) 100%);
+    // --market-item-covert: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(122, 82, 76) 100%);
+    // --market-item-classified: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(134, 95, 138) 100%);
+    // --market-item-restricted: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(111, 96, 143) 100%);
+    // --market-item-mill_spec-grade: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(80, 95, 131) 100%);
+    // --market-item-industrial-grade: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(74, 95, 114) 100%);
+    // --market-item-consumer-grade: linear-gradient(180deg, rgb(24, 26, 30) 0%, rgb(84, 87, 94) 100%);
 }
+
 
 *,
 ::after,
@@ -44,9 +66,11 @@
 *::selection {
     background-color: rgba(109, 109, 228, .5);
 }
-body{
+
+body {
     background: var(--background-c-m);
 }
+
 .app {
     display: flex;
     flex-direction: column;

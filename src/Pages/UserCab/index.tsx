@@ -13,10 +13,9 @@ import { editData, getData, getUserData } from "../../request/getData";
 import InfoLoading from "../../Components/InfoLoading";
 import CustomInput from "../../Components/CustomInput/index";
 import Toggle from "../../Components/Toggle/index";
-import axios from "axios";
-import { BASE_URL_MOCK, USERLIST } from "../../constanst/constants";
 import Modal from "../../Components/Modal/index";
-
+import { BASE_URL_MOCK, USERLIST, BASE_URL_RENDER, ADD_TG_DATA } from "../../constanst/constants";
+import { setUser } from '../../store/slices/userSlice';
 
 interface IUserCab {
 
@@ -34,33 +33,42 @@ const UserCab = (props: IUserCab) => {
 
     document.title = "Profile";
 
-    const { isAuth, email, userBalance, telegramToken } = useAuth();
+    const { isAuth, email, userBalance, telegramToken, id, token } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuth === false) {
+            navigate('/login')
+        }
+    }, [isAuth])
+
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<IUser>();
+    const [postLoading, setPostLoading] = useState(false);
+    const [userInfo, setUserInfo] = useState<IUser>();
     const [activeSidebar, setActiveSidebar] = useState(true);
     const [windowWidth, setWindowWidth] = useState(Number)
     const [users, setUsers] = useState([]);
     const [userTelegramToken, setUserTelegramToken] = useState('');
     const [chkBox, setChkBox] = useState(Boolean);
-    const [infoTgModal, setInfoTgModal] = useState(true)
+    const [infoTgModal, setInfoTgModal] = useState(true);
+    const [tgDataLoading, setTgDataLoading] = useState(true)
     const [tgData, setTgData] = useState([]);
 
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const isActiveSidebar = () => setActiveSidebar(!activeSidebar)
-    const navigate = useNavigate();
 
     const activeModal = () => setInfoTgModal(!infoTgModal)
 
     const getUsers = async () => {
-        getUserData('https://634eda1fdf22c2af7b44a30d.mockapi.io/userList', setUsers, setLoading)
+        getUserData(BASE_URL_MOCK + USERLIST, setUsers, setLoading)
     }
 
     const getTGData = async () => {
-        getData("https://cs-app-database.onrender.com/addTGData", setTgData, setLoading)
+        getData(BASE_URL_RENDER + ADD_TG_DATA, setTgData, setTgDataLoading)
     }
 
     const logout = () => {
-        dispath(removeUser());
+        dispatch(removeUser());
         navigate('/login');
     }
 
@@ -72,7 +80,7 @@ const UserCab = (props: IUserCab) => {
     useEffect(() => {
         users.find((item) => {
             if (item.email === email) {
-                setUser(item)
+                setUserInfo(item)
                 setChkBox(!!item.tgNoticeStatus)
             }
         })
@@ -80,7 +88,7 @@ const UserCab = (props: IUserCab) => {
     }, [users])
 
     useEffect(() => {
-        setUser
+        setUserInfo
     }, [])
     useEffect(() => {
         const windowSize = window.innerWidth;
@@ -89,40 +97,57 @@ const UserCab = (props: IUserCab) => {
 
     const addTelegramm = async (e, userToken) => {
         e.preventDefault();
-        editData('https://634eda1fdf22c2af7b44a30d.mockapi.io/userList/', user.id, {
+        editData(BASE_URL_MOCK + USERLIST, userInfo.id, {
             email: email,
-            userBalance: user.userBalance,
+            userBalance: userInfo.userBalance,
             telegramToken: userToken
-        })
+        }, setPostLoading)
     }
     const falseUserData = (e) => {
         e.preventDefault();
         alert('You have not met the conditions.')
     }
 
+    const onTgNotice = () => {
+        editData(BASE_URL_MOCK + USERLIST, userInfo.id, {
+            email: email,
+            userBalance: userInfo.userBalance,
+            telegramToken: userInfo?.telegramToken,
+            tgNoticeStatus: true
+        }, setPostLoading);
+        dispatch(setUser({
+            userBalance: userBalance,
+            email: email,
+            id: id,
+            token: token,
+            telegramToken: telegramToken,
+            tgNoticeStatus: true
+        }))
+    }
+    const offTgNotice = () => {
+        editData(BASE_URL_MOCK + USERLIST, userInfo.id, {
+            email: email,
+            userBalance: userInfo.userBalance,
+            telegramToken: userInfo?.telegramToken,
+            tgNoticeStatus: false
+        }, setPostLoading);
+        dispatch(setUser({
+            userBalance: userBalance,
+            email: email,
+            id: id,
+            token: token,
+            telegramToken: telegramToken,
+            tgNoticeStatus: false
+        }))
+    }
     const toggledTg = async () => {
         setChkBox(!chkBox)
-        user.tgNoticeStatus ?
-            editData('https://634eda1fdf22c2af7b44a30d.mockapi.io/userList/', user.id, {
-                email: email,
-                userBalance: user.userBalance,
-                telegramToken: user?.telegramToken,
-                tgNoticeStatus: false
-            })
+        userInfo.tgNoticeStatus ?
+            offTgNotice()
             :
-            editData('https://634eda1fdf22c2af7b44a30d.mockapi.io/userList/', user.id, {
-                email: email,
-                userBalance: user.userBalance,
-                telegramToken: user?.telegramToken,
-                tgNoticeStatus: true
-            })
+            onTgNotice()
     }
 
-    useEffect(() => {
-        if (isAuth === false) {
-            navigate('/login')
-        }
-    }, [isAuth])
     return (
         <div className={styles.usercab_wrapper}>
             <div className={styles.container}>
@@ -138,7 +163,7 @@ const UserCab = (props: IUserCab) => {
                                     :
                                     <>
                                         <p className={styles.username}>{email}</p>
-                                        <p>Balance: {userBalance.toFixed(2)}$</p>
+                                        <p>Balance: {Number(userBalance).toFixed(2)}$</p>
                                         {!!telegramToken ?
                                             <div className={styles.any_info}>
                                                 <p className={styles.tg}>Notice TG:</p>
@@ -177,9 +202,9 @@ const UserCab = (props: IUserCab) => {
                             </div>
                             <ul className={styles.tabs_buttons}>
                                 <NavItem to='/usercab/' value="Inventory" title="Inventory" />
-                                <NavItem to='operationsHistory' value="OperationsHistory" title="OperationsHistory" />
-                                <NavItem to='purchaseRequests' value="PurchaseRequests" title="PurchaseRequests" />
-                                <NavItem to='itemsForSale' value="ItemsForSale" title="ItemsForSale" />
+                                <NavItem to='operationsHistory' value="Operations History" title="OperationsHistory" />
+                                <NavItem to='purchaseRequests' value="Purchase Requests" title="PurchaseRequests" />
+                                {/* <NavItem to='itemsForSale' value="ItemsForSale" title="ItemsForSale" /> */}
                             </ul>
                             {windowWidth < 610 ?
                                 <div className={activeSidebar ? styles.sidebar_control__active : styles.sidebar_control}>
@@ -198,30 +223,30 @@ const UserCab = (props: IUserCab) => {
                 }
             </div>
             <Modal activeModal={infoTgModal} setActiveModal={setInfoTgModal}>
-                <div className={styles.tg_info}>
-                    <h2 className={styles.title}>How to add your telegram chat id?</h2>
-                    <div className={styles.content}>
-                        {
-                            tgData.map((tgItem) => (
-                                <div className={styles.item} key={tgItem.title}>
-                                    <div className={styles.item_info}>
-                                        <p>{tgItem.title}{tgItem.link.length != 0 ? <a href={tgItem.link}> open bot.</a> : <></>}</p>
-                                        {/* {tgItem.link.length != 0 ?
-                                            <a href={tgItem.link}>open bot.</a>
-                                            :
-                                            <></>
-                                        } */}
-                                    </div>
-                                    <img
-                                        className={styles.item_img}
-                                        src={tgItem.img}
-                                        alt="search bot"
-                                    />
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
+                {
+                    tgDataLoading ?
+                        <div className={styles.tg_info}>
+                            <h2 className={styles.title}>How to add your telegram chat id?</h2>
+                            <div className={styles.content}>
+                                {
+                                    tgData.map((tgItem) => (
+                                        <div className={styles.item} key={tgItem.title}>
+                                            <div className={styles.item_info}>
+                                                <p>{tgItem.title}{tgItem.link.length != 0 ? <a href={tgItem.link}> open bot.</a> : <></>}</p>
+                                            </div>
+                                            <img
+                                                className={styles.item_img}
+                                                src={tgItem.img}
+                                                alt="search bot"
+                                            />
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                        :
+                        <LoadingComponent />
+                }
             </Modal>
         </div>
     )

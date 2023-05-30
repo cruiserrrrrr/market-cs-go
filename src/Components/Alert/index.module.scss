@@ -1,7 +1,7 @@
 .toast_wrapper {
     position: fixed;
     display: block;
-    top: 20px;
+    top: 76px;
     right: 20px;
     padding: 8px 20px;
     border-radius: 8px;
@@ -12,12 +12,12 @@
 
     p {
         font-size: 18px;
-        color: var(--white-color);
+        color: var(--text-color-m);
     }
 }
 
 .success {
-    background-color: var(--color-green);
+    background-color: var(--color-purple);
     transition: .25s;
     -webkit-transition: .25s;
     -moz-transition: .25s;
@@ -36,10 +36,10 @@
 
 .success:hover {
     cursor: pointer;
-    background-color: var(--color-green-hover);
+    background-color: var(---color-purple-h);
 }
 
 .error:hover {
     cursor: pointer;
-    background-color: var(--color-red-hover);
+    background-color: var(--color-red-h);
 }

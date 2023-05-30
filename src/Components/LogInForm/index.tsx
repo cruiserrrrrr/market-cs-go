@@ -11,8 +11,8 @@ import Button from "../Button";
 import { useAuth } from "../../hooks/useAuth";
 import { getData, getUserData } from "../../request/getData";
 import { BASE_URL_MOCK, USERLIST } from "../../constanst/constants";
-import axios from "axios";
-
+import InfoLoading from "../InfoLoading";
+import Alert from "../Alert";
 
 
 const LogInForm = () => {
@@ -21,58 +21,77 @@ const LogInForm = () => {
     const [nameUserLogIn, setNameUserLogIn] = useState('');
     const [passwordUserLogIn, setPasswordUserLogIn] = useState('');
     const [usersData, setUsersData] = useState([]);
-    const [userData, setUserData] = useState(Object)
+    const [userData, setUserData] = useState(Object);
     const [loading, setLoading] = useState(false);
-
+    const [loginLoaing, setLoginLoading] = useState(false);
+    const [toastShow, setToastShow] = useState(false);
+    const [toastType, setToastType] = useState('');
+    const [toastValue, setToastValue] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isAuth } = useAuth();
 
     useEffect(() => {
-        getUserData('https://634eda1fdf22c2af7b44a30d.mockapi.io/userList', setUsersData, setLoading)
+        getUserData(BASE_URL_MOCK + USERLIST, setUsersData, setLoading)
     }, [])
 
     useEffect(() => {
         usersData.find((item) => {
             if (item.email === nameUserLogIn) {
                 setUserData(item)
-                setLoading(false)
             }
         })
     }, [nameUserLogIn])
     const logIn = (e, email, password) => {
         e.preventDefault();
+        const toastSuccessType = 'success';
+        const toastErrorType = 'error';
+        const toastSuccessValue = 'Successful login.';
+        const toastErrorValue = 'Error in the entered data.';
         const auth = getAuth();
-        setLoading(false)
-
-        try {
-            usersData.find((item) => {
-                if (item.email === email) {
-                    setUserData(item)
-                    setLoading(false)
-                }
-            })
-            signInWithEmailAndPassword(auth, email, password)
-                .then(({ user }) => {
-                    dispatch(setUser({
-                        email: user.email,
-                        id: user.uid,
-                        token: user.accessToken,
-                        telegramToken: userData.telegramToken,
-                        userBalance: userData.userBalance,
-                        tgNoticeStatus: userData.tgNoticeStatus
-                    }))
-                    navigate("/usercab");
+        if (nameUserLogIn.length === 6 || passwordUserLogIn.length < 6) {
+            // alert('You have not met the conditions.')
+            setToastValue(toastErrorValue)
+            setToastType(toastErrorType)
+            setToastShow(!toastShow)
+        } else {
+            try {
+                usersData.find((item) => {
+                    if (item.email === email) {
+                        setUserData(item)
+                    }
                 })
-            setLoading(true)
-        } catch (error) {
-            alert(error)
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(({ user }) => {
+                        dispatch(setUser({
+                            email: user.email,
+                            id: user.uid,
+                            token: user.accessToken,
+                            telegramToken: userData.telegramToken,
+                            userBalance: userData.userBalance,
+                            tgNoticeStatus: userData.tgNoticeStatus
+                        }))
+                        navigate("/usercab");
+                        setLoginLoading(true);
+                        setToastValue(toastSuccessValue)
+                        setToastType(toastSuccessType)
+                        setToastShow(!toastShow)
+                    })
+                    .catch(error => {
+                        setToastValue(toastErrorValue)
+                        setToastType(toastErrorType)
+                        setToastShow(!toastShow)
+                    })
+
+            } catch (error) {
+                setToastValue(toastErrorValue)
+                setToastType(toastErrorType)
+                setToastShow(!toastShow)
+            }
         }
+        setLoginLoading(false)
     }
-    const falseUserData = (e) => {
-        e.preventDefault();
-        alert('You have not met the conditions.')
-    }
+
 
     useEffect(() => {
         if (isAuth) {
@@ -99,18 +118,12 @@ const LogInForm = () => {
                     />
                     <div className={styles.messege}>
                         {
-                            nameUserLogIn.length === 6 || passwordUserLogIn.length < 6 ?
-                                <Button
-                                    value="Log In"
-                                    color="not_active"
-                                    size="medium"
-                                    onClick={(e) => falseUserData(e)}
-                                    iconName="login"
-                                />
+                            loginLoaing ?
+                                <InfoLoading />
                                 :
                                 <Button
                                     value="Log In"
-                                    color="purple"
+                                    color={nameUserLogIn.length === 6 || passwordUserLogIn.length < 6 ? "not_active" : "purple"}
                                     size="medium"
                                     onClick={(e) => logIn(e, nameUserLogIn, passwordUserLogIn)}
                                     iconName="login"
@@ -129,6 +142,16 @@ const LogInForm = () => {
                     </div>
                 </form>
             </div>
+            {
+                toastShow ?
+                    <Alert
+                        type={toastType}
+                        value={toastValue}
+                        onClick={() => setToastShow(!toastShow)}
+                    />
+                    :
+                    null
+            }
         </div>
     )
 }

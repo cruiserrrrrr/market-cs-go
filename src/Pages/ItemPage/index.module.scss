@@ -5,6 +5,7 @@
     display: flex;
     gap: 20px;
     flex: 1;
+
     .container {
         width: 100%;
         display: grid;
@@ -220,6 +221,7 @@
                 -o-border-radius: 10px;
 
                 .warning {
+                    text-align: center;
                     font-size: 28px;
                     color: var(--text-color-m);
                 }
@@ -255,9 +257,6 @@
             border-left: 1px solid var(--color-purple);
             padding: 0 20px 0 20px;
             grid-area: similar_items;
-            overflow: scroll;
-            overflow-x: hidden;
-            max-height: 90vh;
 
             .similar_container {
                 display: grid;
@@ -294,19 +293,17 @@
                 "image image image description description description description description description description"
                 "image image image description description description description description description description"
                 "image image image description description description description description description description"
-                "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
-                "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
-                "image image image similar_items similar_items similar_items similar_items similar_items similar_items similar_items";
+                "similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
+                "similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items"
+                "similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items similar_items";
 
 
             .similar_items {
                 border: none;
                 padding: 0 0;
-                margin: 20px 20px;
+                margin: 20px 0;
                 grid-area: similar_items;
-                overflow: scroll;
-                overflow-x: hidden;
-                max-height: 44vh;
+
 
                 .similar_container {
                     gap: 4px;
@@ -544,9 +541,6 @@
                 border: none;
                 padding: 0 0;
                 margin: 20px 20px;
-                overflow: scroll;
-                overflow-x: hidden;
-                max-height: 44vh;
 
                 .similar_container {
                     gap: 4px;
@@ -704,7 +698,7 @@
 
                             .price {
                                 color: var(--text-color-m);
-                                font-size: 34px;
+                                font-size: 26px;
                                 font-weight: 600;
                             }
 
@@ -785,9 +779,6 @@
                 border: none;
                 padding: 0 0;
                 margin: 20px 20px;
-                overflow: scroll;
-                overflow-x: hidden;
-                max-height: 44vh;
 
                 .similar_container {
                     gap: 4px;

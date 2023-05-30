@@ -3,13 +3,13 @@ import Icon from "../Icon";
 import styles from "./index.module.scss";
 
 interface IDropDownFilter {
-    children: any;
-    title: string;
+    children?: any;
+    title?: string;
 }
 
 const DropDownFilter = (props: IDropDownFilter) => {
 
-    const { children, title } = props;
+    const { children, title = '' } = props;
 
     const [dropDownActive, setDropDownActive] = useState(true);
     const onActive = () => setDropDownActive(!dropDownActive);
@@ -17,7 +17,7 @@ const DropDownFilter = (props: IDropDownFilter) => {
         <div className={styles.dropdown_wrapper} >
             <div className={styles.header} onClick={onActive}>
                 <p>{title}</p>
-                <Icon name="triangle" className={dropDownActive ? styles.icon : styles.icon_active}/>
+                <Icon name="triangle" className={dropDownActive ? styles.icon : styles.icon_active} />
             </div>
             <div className={dropDownActive ? styles.container : styles.container_active}>
                 {children}
